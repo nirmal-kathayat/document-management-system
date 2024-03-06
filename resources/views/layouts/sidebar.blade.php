@@ -12,7 +12,7 @@
       </div>
       <a href="{{route('admin.dashboard')}}" class="nav-item {{ request()->is('admin/dashboard') ? ' active' : '' }}">
         <div class="nav-item-label-1">
-          Dashboard
+          <h4> Dashboard</h4>
         </div>
       </a>
     </div>
@@ -24,7 +24,7 @@
       </div>
       <a href="#">
         <div class="nav-item-label-2">
-          Upload Passport
+          <h4>Upload Passport</h4>
         </div>
       </a>
     </div>
@@ -36,7 +36,7 @@
       </div>
       <a href="#">
         <div class="nav-item-label-3">
-          Add Applicant
+          <h4>Add Applicant</h4>
         </div>
       </a>
     </div>
@@ -48,7 +48,7 @@
       </div>
       <a href="#">
         <div class="nav-item-label-4">
-          View Applicants
+          <h4>View Applicants</h4>
         </div>
       </a>
     </div>
@@ -60,7 +60,7 @@
       </div>
       <a href="#">
         <div class="nav-item-label-5">
-          Add Category
+          <h4>Add Category</h4>
         </div>
       </a>
     </div>
@@ -72,7 +72,7 @@
       </div>
       <a href="#">
         <div class="nav-item-label-6">
-          Login History
+          <h4>Login History</h4>
         </div>
       </a>
     </div>
@@ -83,9 +83,9 @@
       <div class="nav-item-7">
         <img src="{{ asset('images/categoryLogin.svg') }}" style="width: 25px; height: 30px;" alt="logo">
       </div>
-      <a href="#">
+      <a href="{{route('logout')}}">
         <div class="nav-item-label-7">
-          Logout
+         <h4> Logout</h4>
         </div>
       </a>
     </div>

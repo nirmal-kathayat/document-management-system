@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Admin Dashboard</title>
   <!-- Favicon icon -->
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
   <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
   @stack('style')
@@ -19,7 +19,6 @@
     @include('layouts.sidebar')
     @yield('content')
   </div>
-
 
 </body>
 
