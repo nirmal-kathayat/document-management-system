@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/login.css') }}">
   <title>Admin</title>
 </head>
 
@@ -24,10 +24,10 @@
             <input type="text" class="form-input-1" name="username" id="username">
           </div>
           @error('username')
-            <span class="validation-error">
-              {{$message}}
-            </span>
-            @enderror
+          <span class="validation-error">
+            {{$message}}
+          </span>
+          @enderror
 
           <div class="pass-input">
             <label for="password">Password</label>
@@ -35,10 +35,10 @@
           </div>
 
           @error('password')
-            <span class="validation-error">
-              {{$message}}
-            </span>
-            @enderror
+          <span class="validation-error">
+            {{$message}}
+          </span>
+          @enderror
 
           <div class="btn-input">
             <button class="btn-submit" type="submit">LOGIN</button>

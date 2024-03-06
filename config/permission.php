@@ -7,7 +7,8 @@ return[
 	],
 "allow" =>[
 	"login",
-	"logout"
+	"logout",
+	'admin.dashboard'
 ],
 
 	'guard' => 'admin',
