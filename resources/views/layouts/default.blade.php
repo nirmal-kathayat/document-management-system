@@ -17,9 +17,33 @@
 <body>
   <div class="main-wrapper flex">
     @include('layouts.sidebar')
-    @yield('content')
+    <div class="main-content">
+      @include('layouts.header')
+      @yield('content')
+    </div>
   </div>
 
 </body>
+
+<!-- Header dropdown js -->
+<script>
+  function toggleDropdown() {
+    var dropdownContent = document.getElementById("dropdownContent");
+    dropdownContent.classList.toggle("show");
+  }
+
+  // Close the dropdown if the user clicks outside of it
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropdown-icon')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      for (var i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+</script>
 
 </html>

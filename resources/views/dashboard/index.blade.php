@@ -1,32 +1,7 @@
 @extends('layouts.default')
 @section('content')
-@endsection
 
-<!-- heading part -->
-<div class="heading-wrapper">
-  <div class="profile-wrap">
-    <h1>Dashboard</h1>
-  </div>
 
-  <div class="user-info">
-    <h1>
-      <p>Hi</p>Uday,
-    </h1>
-    <div class="user-image">
-      <img src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg" style="height: 40px; width: 40px;" alt="user-photo">
-    </div>
-
-    <div class="dropdown-menu">
-      <select class="profile-menu" id="">
-          <option value="profile"></option>
-          <option value="profile">My Profile</option>
-          <option value="profile">Add users</option>
-          <option value="profile">Logout</option>
-      </select>
-
-    </div>
-  </div>
-</div>
 
 <!-- icons box -->
 <section class="icon-boxes">
@@ -166,3 +141,4 @@
 </table>
   </div>
 </section>
+@endsection

@@ -123,9 +123,89 @@
 
 /* Dashboard */
 /* heading style */
+
+/* Styling for the dropdown content */
+/* CSS to hide dropdown content by default and display it when it's open */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+ margin: 2px -131px;
+}
+
+.dropdown .dropdown-icon{
+  font-size: 20px;
+  cursor: pointer;
+  margin: 5px 5px;
+}
+
+.dropdown-content .profile-link{
+  border-bottom: 1px solid #01ACF1;
+  background-color: #01ACF1;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  color: #ffff;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.dropdown-content .users-link{
+  border-bottom: 1px solid #01ACF1;
+  background-color: #D9D9D9;
+  color: #555658;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.dropdown-content .logout-link{
+  background-color: #D9D9D9;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  color: #555658;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.show {
+  display: block;
+}
+
+
+
+
 .heading-wrapper{
   margin-left: 14.4rem;  
   border-bottom: 1px solid #B4B6C5;
+}
+
+.top-dropdown-menu{
+  position: absolute;
+    top: 100%;
+    z-index: 1000;
+    display: none;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    right: 30px;
+    box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.1);
+
+}
+.top-dropdown-menu ul li{
+    padding:7px 10px;
 }
 
 .head-line{
@@ -145,7 +225,7 @@
 }
 
 .user-image img{
-  border-radius: 50px;
+  border-radius: 50%;
 }
 
 .user-info h1{
@@ -156,7 +236,7 @@
 }
 
 .user-image{
- margin-top: -40px;
+ margin-top: -21px;
 }
 
 h1 p{
@@ -334,21 +414,36 @@ select{
 
 /* listing table */
 .listing-table{
-  width: 64.7%;
+  width: 65%;
   margin-top: -39.5rem;
   margin-left: 325px;
   border: none;
 }
+
+option{
+  font-size: 15px;
+}
+
+
 table {
   border-collapse: collapse;
   width: 100%;
 }
 
-td, th {
+ th {
   text-align: left;
   padding: 8px;
-  color: #555658;
-  font-size: 13.4px;
+  color: #2B3A4B;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+td{
+  text-align: left;
+  padding: 10px;
+  color: #000000;
+  font-weight: bold;
+  font-size: 10.8px;
 }
 
 tr:nth-child(even) {
@@ -376,5 +471,8 @@ h3 p{
     margin-top: -38px;
     font-size: 25px;
 }
+
+/* profile details */
+
 
 
