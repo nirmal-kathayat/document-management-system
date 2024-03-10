@@ -1,7 +1,7 @@
 <!-- heading part -->
 <div class="heading-wrapper">
   <div class="profile-wrap">
-    <h1>Dashboard</h1>
+    <h1>@yield('title')</h1>
   </div>
 
   <div class="user-info">
