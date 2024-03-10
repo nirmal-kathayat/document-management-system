@@ -138,6 +138,7 @@
   font-size: 20px;
   cursor: pointer;
   margin: 5px 5px;
+  color: #01ACF1;
 }
 
 .dropdown-content .profile-link{
@@ -187,7 +188,7 @@
 }
 
 .top-dropdown-menu{
-  position: absolute;
+    position: absolute;
     top: 100%;
     z-index: 1000;
     display: none;
@@ -211,6 +212,7 @@
 .head-line{
   width: 50%;
 }
+
 
 .profile-wrap h1{
   margin-top: 20px;
@@ -402,7 +404,7 @@ margin-right: 10px;
   margin-top: 10px;
 }
 
-select{
+ select{
   border: none;
   outline: none;
   font-size: 22px;
@@ -473,6 +475,242 @@ h3 p{
 }
 
 /* profile details */
+*{
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.img-uploads img{
+  border-radius: 50%;
+}
+label{
+  font-weight: bold;
+  font-size: 14px;
+}
+.password-toggle-icon{
+  margin-left: 208px;
+  margin-top: -20px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.img-uploads{
+  display: flex;
+  flex-direction: column;
+  width: 230px;
+  margin-top: 54px;
+  margin-left: 15px;
+}
+
+.img-submit{
+  padding-top: 15px;
+  margin-left: -11px;
+}
+
+.img-uploads .btn-img{
+  width: 220px;
+  height: 28px;
+  background-color: #02ABF0;
+  border: 1px solid #02ABF0;
+  border-radius: 4px;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.upload-container{
+  margin-left: 20rem;
+}
+
+.form-wraps{
+  display: flex;
+  flex-direction: column;
+  margin-top: -16rem;
+  margin-left: 300px;
+}
+
+.name{
+  display: flex;
+  flex-direction: column;
+}
+
+.name .name-input{
+  width: 500px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1px solid #D9D9D9;
+  background-color: #D9D9D9;
+  margin-top: 5px;
+  /* padding: 5px 5px; */
+}
+
+.email-address{
+  display: flex;
+  flex-direction: column;
+  padding-top: 18px;
+}
+
+.email-address .email-input{
+  width: 500px;
+  height: 28px;
+  border: 1px solid #D9D9D9;
+  background-color: #D9D9D9;
+  border-radius: 4px;
+  margin-top: 5px;
+  
+}
+.numbers{
+  display: flex;
+  padding-top: 18px;
+}
+
+.numbers .ph-num{
+  display: flex;
+  flex-direction: column;
+}
+
+.numbers .ph-num .number-input{
+  width: 235px;
+  height: 28px;
+  border: 1px solid #D9D9D9;
+  background-color: #D9D9D9;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.numbers .mob-num{
+  display: flex;
+  flex-direction: column;
+  margin-left: 22px;
+}
+
+.numbers .mob-num .number-input-1{
+  width: 240px;
+  height: 28px;
+  border: 1px solid #D9D9D9;
+  background-color: #D9D9D9;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.designation{
+  display: flex;
+  flex-direction: column;
+  padding-top: 18px;
+}
+
+.designation .designation-input{
+  width: 499px;
+  height: 28px;
+  border: 1px solid #D9D9D9;
+  background-color: #D9D9D9;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+label[for=""]:after {
+  content: "*";
+  color: red; 
+}
+
+label[for=""]:not([for="ph-number"])::after {
+  content: "*";
+  color: red; 
+}
+
+.birth-date{
+  display: flex;
+  flex-direction: column;
+  padding-top: 18px;
+}
+
+.birth-date .birth-input{
+  width: 497px;
+  height: 28px;
+  border: 1px solid #D9D9D9;
+  background-color: #D9D9D9;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.password-wrapper{
+  display: flex;
+  padding-top: 18px;
+}
+
+.password-wrapper .password{
+  display: flex;
+  flex-direction: column;
+}
+
+.password-wrapper .password .pass-input{
+  width: 235px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1px solid #D9D9D9;
+  background-color: #D9D9D9;
+  margin-top: 5px;
+}
+
+.password-wrapper .confirm-pass{
+  display: flex;
+  flex-direction: column;
+  margin-left: 25px;
+}
+
+.password-wrapper .confirm-pass .pass-input-1{
+  width: 235px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1px solid #D9D9D9;
+  background-color: #D9D9D9;
+  margin-top: 5px;
+}
+
+.role{
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+.role .role-dropdown{
+  width: 498px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1px solid #D9D9D9;
+  background-color: #D9D9D9;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #000000;
+}
+
+.btn-wrapper{
+  display: flex;
+  padding-top: 18px;
+}
+
+.add-btn .add{
+  width: 230px;
+  height: 28px;
+  border-radius: 4px;
+  background-color: #02ABF0;
+  border: 1px solid #02ABF0;
+  color: #FFFFFF;
+  cursor: pointer;
+ 
+}
+
+.update-btn .update{
+  width: 228px;
+  height: 28px;
+  margin-left: 40px;
+  border-radius: 4px;
+  background-color: #02ABF0;
+  border: 1px solid #02ABF0;
+  color: #FFFFFF; 
+  cursor: pointer;
+}
+
 
 
 

@@ -2,7 +2,6 @@
 @section('content')
 
 
-
 <!-- icons box -->
 <section class="icon-boxes">
   <div class="icon-container">
@@ -44,7 +43,7 @@
       <img src="https://img.freepik.com/premium-photo/chef-preparing-food-kitchen-restaurant_777271-3987.jpg" style="width: 180px; height: 180px" alt="chef-image">
 
       <div class="select">
-        <select name="dropdown" id="">
+        <select class name="dropdown" id="">
           <option value="cook">cooks</option>
           <option value="cook">cooks</option>
           <option value="cook">cooks</option>

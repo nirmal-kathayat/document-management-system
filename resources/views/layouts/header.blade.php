@@ -15,7 +15,7 @@
     <div class="dropdown">
       <span class="dropdown-icon" onclick="toggleDropdown()">&#9662;</span>
       <div class="dropdown-content" id="dropdownContent">
-        <a href="" class="profile-link">My Profile</a>
+        <a href="{{route('admin.profile.create')}}" class="profile-link">My Profile</a>
         <a href="" class="users-link">All Users</a>
         <a href="" class="users-link">Add Users</a>
         <a href="" class="logout-link">Logout</a>
