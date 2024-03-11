@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 *{
-  margin: 0;
-  padding: 0;
   font-family: "Poppins", sans-serif;
 }
 
@@ -41,6 +39,12 @@
   margin-left: 12px;
 }
 
+/* .nav-item__1.active,
+.nav-item__1:hover{
+  background-color: #EBEEF2;
+  border-radius: 45px;
+  color: #02ABF0;
+} */
 
 .upload-pass{
   display: flex;
@@ -64,6 +68,7 @@
   color: #545D69;
   margin-top: 4px;
   margin-left: 15px;
+  /* display: flex; */
 }
 
 .view-applicant{
@@ -720,6 +725,610 @@ label[for=""]:not([for="ph-number"])::after {
   color: #FFFFFF; 
   cursor: pointer;
 }
+
+/* add applicants */
+.applicants{
+  margin-left: 14.4rem;
+}
+
+.applicants .select-dropdowns{
+  display: flex;
+  justify-content: center;
+  padding-top: 25px;
+  margin-left: -2rem;
+}
+.select-dropdowns .continent-dropdown{
+  display: flex;
+  flex-direction: column;
+}
+
+.continent-dropdown .continents{
+  height: 30px;
+  width: 245px;
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  color: #000000;
+  font-size: 12.8px;
+  background-color: #D9D9D9;
+}
+
+.select-dropdowns .country-dropdown{
+  display: flex;
+  flex-direction: column;
+}
+
+.country-dropdown .country{
+  height: 30px;
+  width: 245px;
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  color: #000000;
+  font-size: 12.8px;
+  background-color: #D9D9D9;
+}
+
+.select-dropdowns .job-position-dropdown{
+  display: flex;
+  flex-direction: column;
+}
+
+.job-position-dropdown .job-position{
+  height: 30px;
+  width: 280px;
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  color: #000000;
+  font-size: 12.8px;
+  background-color: #D9D9D9;
+}
+
+.job-position-dropdown{
+  margin-left: 6rem;
+}
+
+.country-dropdown{
+  margin-left: 6rem;
+}
+
+/* passport details */
+.passport-container{
+  padding-top: 30px;
+  height: 335px;
+  width: 612px;
+  margin-top: 20px;
+  border: 1px solid #D9D9D9;
+  background-color:#D9D9D9;
+  margin-left: 20px;
+}
+
+.form-inputs .input-wrapper{
+  display: flex;
+  /* justify-content: space-evenly; */
+  padding-top: 20px;
+}
+
+.form-details h1{
+  margin-top: -30px;
+  border: 1px solid #02ABF0;
+  background-color: #02ABF0;
+  height: 30px;
+  width: 190px;
+  font-size: 18px;
+  text-align: center;
+  color: #ffff;
+  border-bottom-right-radius: 15px;
+}
+/* pass number */
+.pass-number input{
+  width: 198px;
+  height: 30px;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+  outline: none;
+  margin-left: 9px;
+}
+.pass-number{
+  margin-left: 26px;
+}
+/* gender */
+.gender-input input{
+  width: 60px;
+  height: 30px;
+  margin-left: 25px;
+  border-radius: 4px;
+  border: 1px solid #ffff;
+  outline: none;
+}
+.asterisk{
+  color: red;
+}
+
+.gender-input{
+  margin-left: 108px;
+}
+
+/* suraname */
+.surname-input{
+  margin-left: 24px;
+  padding-top: 20px;
+
+}
+.surname-input input{
+  margin-left: 38px;
+  width: 426px;
+  height:30px ;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+}
+
+/* given name */
+.name-input{
+  margin-left: 23px;
+  padding-top: 20px;
+}
+
+.name-input input{
+  margin-left: 18px;
+  width: 426px;
+  height:30px ;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+}
+
+/* nationality */
+.nationality-input input{
+  margin-left: 25px;
+  width: 426px;
+  height:30px ;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+}
+
+.nationality-input{
+  margin-left: 24px;
+  padding-top: 20px;
+}
+
+/* date-birth-wrapper */
+
+.date-birth-wrapper{
+  display: flex;
+  padding: 20px;
+}
+.birth_date{
+  margin-left: 5px;
+}
+
+ .birth_date input{
+  width: 147px;
+  height: 30px;
+  background-color: #ffff;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+  outline: none;
+  margin-left: 16px;
+}
+
+.birth_place{
+  margin-left: 24px;
+}
+
+.birth_place input{
+  width: 147px;
+  height: 30px;
+  background-color: #ffff;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+  outline: none;
+  margin-left: 8px;
+}
+
+/* issue-expiry-wrapper */
+.issue-expiry-wrapper{
+  display: flex;
+  /* padding: 10px; */
+}
+
+.issue-date input{
+  width: 147px;
+  height: 30px;
+  background-color: #ffff;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+  outline: none;
+  margin-left: 12px;
+}
+.issue-date{
+  margin-left: 26px;
+}
+
+.expiry-date input{
+  width: 147px;
+  height: 30px;
+  background-color: #ffff;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+  outline: none;
+  margin-left: 4px;
+}
+
+.expiry-date{
+  margin-left: 23.3px;
+}
+
+/* image uploads */
+.image-upload-wrapper{
+  width: 300px;
+  margin-left: 44rem;
+  margin-top: -22.9rem;
+}
+
+.image-wrapper{
+  background-color: #D9D9D9;
+  border: 1px solid #D9D9D9;
+  width: 200px;
+  margin-left: 35px;
+}
+
+.btn-upload{
+  padding-top: 18px;
+  margin-left: 62px;
+}
+.btn-upload .upload-btn{
+  background-color: #01ACF1;
+  border: 1px solid #01ACF1;
+  border-radius: 10px;
+  text-align: center;
+  width: 140px;
+  height: 30px;
+  cursor: pointer;
+  color: #ffff;
+}
+
+.input-wraps{
+  display: flex;
+  padding-top: 20px;
+  margin-left: -21px;
+}
+
+.input-wraps input{
+  height: 30px;
+  margin-left: 14px;
+  background-color: #D9D9D9;
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  outline: none;
+  width: 185px;
+  margin-top: -5px;
+}
+
+.input-contact{
+  display: flex;
+  padding-top: 20px;
+  margin-left: -21px;
+}
+
+.input-contact input{
+  height: 30px;
+  margin-left: 17px;
+  background-color: #D9D9D9;
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  outline: none;
+  width: 185px;
+  margin-top: -4px;
+}
+
+/* personal details */
+.personal-details{
+  margin-left: 14.4rem;
+  padding-top: 15px;
+}
+.input-wrapper-details{
+  display: flex;
+  padding: 10px;
+  /* flex-direction: column; */
+}
+
+/* pass number */
+.home-number input{
+  width: 178px;
+  height: 30px;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+  outline: none;
+  margin-left: 1px;
+  margin-top: 10px;
+}
+.pass-number{
+  margin-left: 26px;
+}
+
+.age-input input{
+  width: 60px;
+  height: 30px;
+  margin-left: -2px;
+  border-radius: 4px;
+  border: 1px solid #ffff;
+  outline: none;
+  margin-top: 10px;
+}
+.age-input{
+  display: flex;
+  flex-direction: column;
+  margin-left: 18px;
+}
+
+.cell-number-input input{
+  width: 178px;
+  height: 30px;
+  margin-left: 2px;
+  border-radius: 4px;
+  border: 1px solid #ffff;
+  outline: none;
+  margin-top: 10px;
+}
+.cell-number-input{
+  display: flex;
+  flex-direction: column;
+  margin-left: 45px;
+}
+
+
+.home-number{
+  display: flex;
+  flex-direction: column;
+  margin-left: 70px;
+}
+.height-input{
+  margin-left: 20px;
+}
+
+.height-input input{
+  width: 60px;
+  height: 30px;
+  margin-left: 6px;
+  border-radius: 4px;
+  border: 1px solid #ffff;
+  outline: none;
+  margin-top: 10px;
+}
+.weight-input{
+  margin-left: 20px;
+}
+
+.weight-input input{
+  width: 60px;
+  height: 30px;
+  margin-left: 5px;
+  border-radius: 4px;
+  border: 1px solid #ffff;
+  outline: none;
+  margin-top: 10px;
+}
+
+.personal-detail-container{
+  padding-top: 30px;
+  height: 445px;
+  width: 612px;
+  margin-top: 20px;
+  border: 1px solid #D9D9D9;
+  background-color:#D9D9D9;
+  margin-left: 20px;
+}
+
+.fathername-input{
+  margin-left: 24px;
+  padding-top: 20px;
+
+}
+.fathername-input input{
+  margin-left: 8px;
+  width: 418px;
+  height:30px ;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+  outline: none;
+}
+.address-input h5{
+  margin-top: 16px;
+  margin-left: 24px;
+  margin-bottom: -13px;
+}
+
+.permanent-address-input{
+  margin-left: 24px;
+  padding-top: 20px;
+
+}
+.permanent-address-input input{
+  margin-left: 31px;
+  width: 417px;
+  height:30px ;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+  outline: none;
+}
+
+.temporary-address-input{
+  margin-left: 24px;
+  padding-top: 20px;
+
+}
+.temporary-address-input input{
+  margin-left: 31px;
+  width: 417px;
+  height:30px ;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+  outline: none;
+}
+
+.email-input{
+  margin-left: 24px;
+  padding-top: 20px;
+
+}
+.email-input input{
+  margin-left: 71px;
+  width: 417px;
+  height:30px ;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+  outline: none;
+}
+
+.mothername-input{
+  margin-left: 24px;
+  padding-top: 20px;
+
+}
+.mothername-input input{
+  margin-left: 3px;
+  width: 418px;
+  height:30px ;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+  outline: none;
+}
+.marital-input{
+  margin-left: 14px;
+}
+.marital-input .marital-select{
+  width: 128px;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+  height: 30px;
+  color: #000000;
+  margin-left: 11px;
+}
+
+/* family Details */
+.family-details{
+  margin-left: 14.4rem;
+}
+
+.occupation-input{
+  margin-left: 40px;
+  display: flex;
+  padding-top: 20px;
+}
+
+.occupation-input input{
+  width: 215px;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+  height: 30px;
+  margin-left: 11px;
+  margin-top: -6px;
+}
+.family-age-input{
+  margin-left: 14px;
+  padding-top: 20px;
+  display: flex;
+}
+
+.family-age-input input{
+  margin-left: 84px;
+  height:30px ;
+  width: 60px;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+  outline: none;
+  margin-top: -6px;
+}
+.text-input{
+  padding-top: 20px;
+  margin-left: 24px;
+}
+
+.text-input input{
+  margin-top: 8.5px;
+  outline: none;
+  width: 529px;
+  border: 1px solid #ffff;
+  border-radius: 4px;
+  height: 30px;
+}
+
+.family-detail-container{
+  padding-top: 30px;
+  height: 294px;
+  width: 612px;
+  margin-top: 20px;
+  border: 1px solid #D9D9D9;
+  background-color:#D9D9D9;
+  margin-left: 20px;
+}
+
+/* button */
+.next-button{
+  margin-left: 52rem;
+  margin-top: -25px;
+}
+
+.next-button .btn-next{
+  background-color: #01ACF1;
+  border: 1px solid #01ACF1;
+  border-radius: 10px;
+  height: 40px;
+  width: 120px;
+  color: #ffff;
+ font-size: 20px;
+ cursor: pointer;
+}
+
+.next-button button img{
+ margin: -2px 1px;
+}
+
+.child-input{
+  margin-left: 14px;
+}
+
+.child-input input{
+  width: 60px;
+  height: 30px;
+  margin-left: 6px;
+  border-radius: 4px;
+  border: 1px solid #ffff;
+  outline: none;
+  margin-top: 10px;
+}
+
+.child-age-input{
+  margin-left: 40px;
+}
+
+.child-age-input input{
+  width: 73px;
+  height: 30px;
+  margin-left: 22px;
+  border-radius: 4px;
+  border: 1px solid #ffff;
+  outline: none;
+  margin-top: 10px;
+}
+
+.gender-category{
+  margin-left: 40px;
+}
+
+.gender-category input{
+  width: 72px;
+  height: 30px;
+  margin-left: 22px;
+  border-radius: 4px;
+  border: 1px solid #ffff;
+  outline: none;
+  margin-top: 10px;
+}
+
+
+
+
+
+
 
 
 

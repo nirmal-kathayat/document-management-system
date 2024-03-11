@@ -34,7 +34,8 @@
       <div class="nav-item-3">
         <img src="{{ asset('images/userApplicant.svg') }}" class="icon-1" style="width: 25px; height: 30px;" alt="logo">
       </div>
-      <a href="#">
+
+      <a href="{{route('admin.addApplicant.create')}}" class="nav-item__1 {{ request()->is('admin/addApplicant/create') ? ' active' : '' }}">
         <div class="nav-item-label-3">
           <h4>Add Applicant</h4>
         </div>

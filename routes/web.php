@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddApplicantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\AuthController;
@@ -25,5 +26,10 @@ Route::group(['prefix' => 'admin',], function () {
     // profile
     Route::group(['prefix'=>'profile'],function(){
         Route::get('/create',[ProfileController::class,'create'])->name('admin.profile.create');
+    });
+
+    // Add Applicant
+    Route::group(['prefix'=>'addApplicant'],function(){
+        Route::get('/create',[AddApplicantController::class,'create'])->name('admin.addApplicant.create');
     });
 });
