@@ -71,22 +71,58 @@
       <div class="nav-item-6">
         <img src="{{ asset('images/categoryLogin.svg') }}" style="width: 25px; height: 30px;" alt="logo">
       </div>
-      <a href="#">
+      <a href="{{route('admin.continent')}}" class="nav-item__1 {{ request()->is('admin/continent') ? ' active' : '' }}">
         <div class="nav-item-label-6">
-          <h4>Login History</h4>
+          <h4>Add Continent</h4>
         </div>
       </a>
     </div>
 
-    <hr class="line-wrap">
+    <div class="login-history">
+      <div class="nav-item-6">
+        <img src="{{ asset('images/categoryLogin.svg') }}" style="width: 25px; height: 30px;" alt="logo">
+      </div>
+      <a href="{{route('admin.country')}}" class="nav-item__1 {{ request()->is('admin/country') ? ' active' : '' }}">
+        <div class="nav-item-label-6">
+          <h4>Add Country</h4>
+        </div>
+      </a>
+    </div>
 
+    <div class="login-history">
+      <div class="nav-item-6">
+        <img src="{{ asset('images/categoryLogin.svg') }}" style="width: 25px; height: 30px;" alt="logo">
+      </div>
+      <a href="{{route('admin.jobPosition')}}" class="nav-item__1 {{ request()->is('admin/jobPosition') ? ' active' : '' }}">
+        <div class="nav-item-label-6">
+          <h4>Job Position</h4>
+        </div>
+      </a>
+    </div>
+
+    <div class="login-history">
+      <div class="nav-item-6">
+        <img src="{{ asset('images/categoryLogin.svg') }}" style="width: 25px; height: 30px;" alt="logo">
+      </div>
+      <a href="{{route('admin.demand')}}" class="nav-item__1 {{ request()->is('admin/demand') ? ' active' : '' }}">
+        <div class="nav-item-label-6">
+          <h4>Add Demand</h4>
+        </div>
+      </a>
+    </div>
+
+
+
+
+
+    <hr class="line-wrap">
     <div class="logout-wrapper">
       <div class="nav-item-7">
         <img src="{{ asset('images/categoryLogin.svg') }}" style="width: 25px; height: 30px;" alt="logo">
       </div>
-      <a href="{{route('logout')}}">
+      <a href="">
         <div class="nav-item-label-7">
-         <h4> Logout</h4>
+          <h4> Logout</h4>
         </div>
       </a>
     </div>

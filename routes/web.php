@@ -4,8 +4,13 @@ use App\Http\Controllers\AddApplicantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContinentController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DemandController;
+use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\ProfileController;
+
 
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/', [AuthController::class, 'loginProcess'])->name('loginProcess');
@@ -31,5 +36,46 @@ Route::group(['prefix' => 'admin',], function () {
     // Add Applicant
     Route::group(['prefix'=>'addApplicant'],function(){
         Route::get('/create',[AddApplicantController::class,'create'])->name('admin.addApplicant.create');
+    });
+
+    // continent
+    Route::group(['prefix'=>'continent'],function(){
+        Route::get('/',[ContinentController::class,'index'])->name('admin.continent');
+        Route::get('/create',[ContinentController::class,'create'])->name('admin.continent.create');
+        Route::post('/create',[ContinentController::class,'store'])->name('admin.continent.store');
+        Route::get('edit/{id}',[ContinentController::class,'edit'])->name('admin.continent.edit');
+        Route::put('edit/{id}',[ContinentController::class,'update'])->name('admin.continent.update');
+        Route::delete('delete/{id}',[ContinentController::class,'delete'])->name('admin.continent.delete');
+    });
+
+    // country
+    Route::group(['prefix'=>'country'],function(){
+        Route::get('/',[CountryController::class,'index'])->name('admin.country');
+        Route::get('/create',[CountryController::class,'create'])->name('admin.country.create');
+        Route::post('/create',[CountryController::class,'store'])->name('admin.country.store');
+        Route::get('edit/{id}',[CountryController::class,'edit'])->name('admin.country.edit');
+        Route::put('edit/{id}',[CountryController::class,'update'])->name('admin.country.update');
+        Route::delete('delete/{id}',[CountryController::class,'delete'])->name('admin.country.delete');
+    });
+
+    // job position
+    Route::group(['prefix'=>'jobPosition'],function(){
+        Route::get('/',[JobPositionController::class,'index'])->name('admin.jobPosition');
+        Route::get('/create',[JobPositionController::class,'create'])->name('admin.jobPosition.create');
+        Route::post('/create',[JobPositionController::class,'store'])->name('admin.jobPosition.store');
+        Route::get('edit/{id}',[JobPositionController::class,'edit'])->name('admin.jobPosition.edit');
+        Route::put('edit/{id}',[JobPositionController::class,'update'])->name('admin.jobPosition.update');
+        Route::delete('delete/{id}',[JobPositionController::class,'delete'])->name('admin.jobPosition.delete');
+       
+    });
+
+    // demand
+    Route::group(['prefix'=>'demand'],function(){
+        Route::get('/',[DemandController::class,'index'])->name('admin.demand');
+        Route::get('/create',[DemandController::class,'create'])->name('admin.demand.create');
+        Route::post('/create',[DemandController::class,'store'])->name('admin.demand.store');
+        Route::get('edit/{id}',[DemandController::class,'edit'])->name('admin.demand.edit');
+        Route::put('edit/{id}',[DemandController::class,'update'])->name('admin.demand.update');
+        Route::delete('delete/{id}',[DemandController::class,'delete'])->name('admin.demand.delete');
     });
 });

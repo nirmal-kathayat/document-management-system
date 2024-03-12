@@ -1,4 +1,5 @@
 <!-- heading part -->
+
 <div class="heading-wrapper">
   <div class="profile-wrap">
     <h1>@yield('title')</h1>
@@ -18,7 +19,7 @@
         <a href="{{route('admin.profile.create')}}" class="profile-link">My Profile</a>
         <a href="" class="users-link">All Users</a>
         <a href="" class="users-link">Add Users</a>
-        <a href="" class="logout-link">Logout</a>
+        <a href="{{route('logout')}}" class="logout-link">Logout</a>
       </div>
     </div>
   </div>
