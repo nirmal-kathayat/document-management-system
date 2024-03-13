@@ -19,6 +19,22 @@
                    <li>
                        <a href="#"><i class="fa fa-eye"></i>View Applicants</a>
                   </li>
+
+                  <li>
+                       <a href="{{route('admin.continent.create')}}"><i class="fa fa-eye"></i>Add Continent</a>
+                  </li>
+
+                  <li>
+                       <a href="{{route('admin.country.create')}}"><i class="fa fa-eye"></i>Add Country</a>
+                  </li>
+
+                  <li>
+                       <a href="{{route('admin.demand.create')}}"><i class="fa fa-eye"></i>Add Demand</a>
+                  </li>
+
+                  <li>
+                       <a href="{{route('admin.jobPosition.create')}}"><i class="fa fa-eye"></i>Add Job Position</a>
+                  </li>
               </ul>
           </nav>
       </div>

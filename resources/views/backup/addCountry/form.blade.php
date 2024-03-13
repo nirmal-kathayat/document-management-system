@@ -1,45 +1,49 @@
 @extends('layouts.default')
 @section('title','Job Application')
 @section('content')
-<form action="{{route('admin.country.store')}}" method="post">
-  @csrf
-  <div class="application-form-wrapper">
-    <div class="application-select-option">
-      <div class="form-group column">
-        <label>Select Continents:</label>
-        <select name="continent_id" class="select-grey-bg">
-          <option value="" disabled selected>Select Continents
-          </option>
+<div class="inner-section-wrapper grey-bg upload-block">
+  <form action="{{route('admin.country.store')}}" method="post">
+    @csrf
+    <div class="flex-row justify-space-between">
+      <div class="form-group">
+        <div class="form-wrapper upload-passport-input-items">
+          <div class="form-group group-column">
+            <label>Select Continents:</label>
+            <select name="continent_id" class="select-grey-bg">
+              <option value="" disabled selected>Select Continents
+              </option>
 
-          @foreach ($continentsList as $list => $continentList)
-          <option value="{{ $list }}" {{ isset($editData) && $editData->continent_id == $list ? 'selected' : '' }}>
-            {{ $continentList }}
-          </option>
-          @endforeach
-        </select>
+              @foreach ($continentsList as $list => $continentList)
+              <option value="{{ $list }}" {{ isset($editData) && $editData->continent_id == $list ? 'selected' : '' }}>
+                {{ $continentList }}
+              </option>
+              @endforeach
+            </select>
 
-        @error('continent_id')
-        <span class="error-message">
-          {{$message}}
-        </span>
-        @enderror
-      </div>
+            @error('continent_id')
+            <span class="validation-error">
+              {{$message}}
+            </span>
+            @enderror
+          </div>
 
-      <div class="country-wrap">
-        <label for="">Country Title:</label>
-        <input type="text" name="title" value="{{isset($editData) ? $editData->title: ''}}">
+          <div class="form-group group-column">
+            <label for="">Country Title:</label>
+            <input type="text" name="title" value="{{isset($editData) ? $editData->title: ''}}">
 
-        @error('title')
-        <span class="error-message">
-          {{$message}}
-        </span>
-        @enderror
+            @error('title')
+            <span class="validation-error">
+              {{$message}}
+            </span>
+            @enderror
+          </div>
+          <div class="button-wrap">
+            <button type="submit" id="submit-button">{{isset($editData) ? 'Update' : 'Add'}} country </button>
+          </div>
+        </div>
       </div>
 
     </div>
-    <div class="btn-wrap">
-      <button type="submit" id="submit-button" class="add-country">{{isset($editData) ? 'Update' : 'Add'}} continent </button>
-    </div>
-  </div>
-</form>
+  </form>
+</div>
 @endsection

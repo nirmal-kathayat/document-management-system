@@ -18,7 +18,7 @@ class JobPositionController extends Controller
     {
         try{
             $jobPositions = $this->jobPositionRepository->getAllJobs();
-            return view('jobPositions.index')->with(['jobPositions'=>$jobPositions]);
+            return view('backup.jobPositions.index')->with(['jobPositions'=>$jobPositions]);
 
         }catch(\Exception $e)
         {
@@ -28,7 +28,7 @@ class JobPositionController extends Controller
     public function create()
     {
       try{
-        return view('jobPositions.form');
+        return view('backup.jobPositions.form');
       }catch(\Exception $e)
       {
         return redirect()->back()->with(['error' => 'An error occurred while fetching jobPosition data.']);
@@ -51,7 +51,7 @@ class JobPositionController extends Controller
     {
         try{
             $editData = $this->jobPositionRepository->findJobs($id);
-            return view('jobPositions.form')->with(['editData'=>$editData]);
+            return view('backup.jobPositions.form')->with(['editData'=>$editData]);
 
         }catch(\Exception $e)
         {
