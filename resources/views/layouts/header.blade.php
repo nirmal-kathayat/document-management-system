@@ -1,26 +1,26 @@
-<!-- heading part -->
-
-<div class="heading-wrapper">
-  <div class="profile-wrap">
-    <h1>@yield('title')</h1>
-  </div>
-
-  <div class="user-info">
-    <h1>
-      <p>Hi</p>Uday,
-    </h1>
-    <div class="user-image">
-      <img src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg" style="height: 36px; width: 37px;" alt="user-photo">
+<div class="header-wrapper">
+    <div class="container">
+        <div class="flex-row justify-space-between align-center">
+            <div class="header-section-title">
+                <h1>@yield('title')</h1>
+                
+            </div>
+            <div class="header-profile-wrapper">
+                <h2><span>Hi, </span><span>{{auth()->guard('admin')->user()->name}}</span></h2>
+                <div class="profile-wrapper">
+                    <img src="{{asset('images/defaultuser.png')}}">
+                    <i class="fa fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
     </div>
+    <div class="profile-dropdown">
+        <ul>
+          <li><a href="#">My Profile</a></li>
+          <li><a href="#">All User</a></li>
+          <li><a href="#">Add User</a></li>
+          <li><a href="{{route('logout')}}">Logout</a></li>
 
-    <div class="dropdown">
-      <span class="dropdown-icon" onclick="toggleDropdown()">&#9662;</span>
-      <div class="dropdown-content" id="dropdownContent">
-        <a href="{{route('admin.profile.create')}}" class="profile-link">My Profile</a>
-        <a href="" class="users-link">All Users</a>
-        <a href="" class="users-link">Add Users</a>
-        <a href="{{route('logout')}}" class="logout-link">Logout</a>
-      </div>
+        </ul>
     </div>
-  </div>
 </div>

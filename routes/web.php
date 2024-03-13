@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AddApplicantController;
+use App\Http\Controllers\ApplicantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\AuthController;
@@ -34,8 +34,10 @@ Route::group(['prefix' => 'admin',], function () {
     });
 
     // Add Applicant
-    Route::group(['prefix'=>'addApplicant'],function(){
-        Route::get('/create',[AddApplicantController::class,'create'])->name('admin.addApplicant.create');
+    Route::group(['prefix'=>'applicant'],function(){
+        Route::get('/',[ApplicantController::class,'index'])->name('admin.applicant');
+        Route::get('upload',[ApplicantController::class,'upload'])->name('admin.applicant.upload');
+
     });
 
     // continent

@@ -22,8 +22,8 @@
                   <form method="post" action="{{route('loginProcess')}}">
                       @csrf
                       <div class="form-group group-row align-center">
-                          <label style="width:30%;color:var(--textPrimary);font-weight:400">Username</label>
-                          <input type="text" name="username" class="grey-bg">
+                          <label style="width:30%">Username</label>
+                          <input type="text" name="username" class="grey-input-bg">
                       </div>
                         @error('username')
                             <p class="validation-error">
@@ -31,8 +31,8 @@
                             </p>
                         @enderror
                       <div class="form-group group-row align-center">
-                          <label style="width:30%;color:var(--textPrimary);font-weight: 400">Password</label>
-                          <input type="password" name="password" class="grey-bg">
+                          <label style="width:30%">Password</label>
+                          <input type="password" name="password" class="grey-input-bg">
                       </div>
                        @error('password')
                         <p class="validation-error">
