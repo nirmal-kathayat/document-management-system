@@ -18,7 +18,7 @@ class ContinentController extends Controller
     {
         try {
             $continents = $this->continentRepository->getAllContinents();
-            return view('addContinents.index')->with(['continents' => $continents]);
+            return view('continent.index')->with(['continents' => $continents]);
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => 'An error occurred while fetching continent data.']);
         }
@@ -26,7 +26,7 @@ class ContinentController extends Controller
     public function create()
     {
         try {
-            return view('addContinents.form');
+            return view('continent.form');
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => 'An error occurred while fetching continent data.']);
         }
@@ -47,7 +47,7 @@ class ContinentController extends Controller
     {
         try {
             $editData = $this->continentRepository->findContinent($id);
-            return view('addContinents.form')->with(['editData' => $editData]);
+            return view('continent.form')->with(['editData' => $editData]);
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => 'An error occurred while fetching continent data.']);
         }

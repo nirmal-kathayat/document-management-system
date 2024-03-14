@@ -28,10 +28,7 @@ Route::group(['prefix' => 'admin',], function () {
         Route::get('delete/{id}', [PermissionController::class, 'delete'])->name('admin.permission.delete');
     });
 
-    // profile
-    Route::group(['prefix'=>'profile'],function(){
-        Route::get('/create',[ProfileController::class,'create'])->name('admin.profile.create');
-    });
+   
 
     // Add Applicant
     Route::group(['prefix'=>'applicant'],function(){

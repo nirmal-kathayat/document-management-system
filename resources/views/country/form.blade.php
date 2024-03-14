@@ -1,11 +1,13 @@
 @extends('layouts.default')
 @section('title','Job Application')
 @section('content')
-<form action="{{route('admin.country.store')}}" method="post">
-  @csrf
-  <div class="application-form-wrapper">
-    <div class="application-select-option">
-      <div class="form-group column">
+<div class="inner-section-wrapper grey-bg upload-block">
+  <form action="{{route('admin.country.store')}}" method="post">
+    @csrf
+
+
+    <div class="form-wrapper">
+      <div class="form-group group-column">
         <label>Select Continents:</label>
         <select name="continent_id" class="select-grey-bg">
           <option value="" disabled selected>Select Continents
@@ -19,27 +21,27 @@
         </select>
 
         @error('continent_id')
-        <span class="error-message">
+        <span class="validation-error">
           {{$message}}
         </span>
         @enderror
       </div>
 
-      <div class="country-wrap">
+      <div class="form-group group-column">
         <label for="">Country Title:</label>
         <input type="text" name="title" value="{{isset($editData) ? $editData->title: ''}}">
 
         @error('title')
-        <span class="error-message">
+        <span class="validation-error">
           {{$message}}
         </span>
         @enderror
       </div>
+      <div class="form-input group-column button-wrap">
+        <button type="submit" id="submit-button">{{isset($editData) ? 'Update' : 'Add'}} country </button>
+      </div>
+    </div>
 
-    </div>
-    <div class="btn-wrap">
-      <button type="submit" id="submit-button" class="add-country">{{isset($editData) ? 'Update' : 'Add'}} continent </button>
-    </div>
-  </div>
-</form>
+  </form>
+</div>
 @endsection
