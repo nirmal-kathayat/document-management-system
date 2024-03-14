@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\PassportController;
 use App\Http\Controllers\ApplicantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PermissionController;
@@ -33,8 +33,12 @@ Route::group(['prefix' => 'admin',], function () {
     // Add Applicant
     Route::group(['prefix'=>'applicant'],function(){
         Route::get('/',[ApplicantController::class,'index'])->name('admin.applicant');
-        Route::get('upload',[ApplicantController::class,'upload'])->name('admin.applicant.upload');
+        Route::get('/create',[ApplicantController::class,'create'])->name('admin.applicant.create');
+    });
 
+    Route::group(['prefix' =>'passport'],function(){
+        Route::get('/create',[PassportController::class,'create'])->name('admin.passport.create');
+        Route::post('/create',[PassportController::class,'store'])->name('admin.passport.store');
     });
 
     // continent

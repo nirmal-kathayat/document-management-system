@@ -10,11 +10,9 @@ class ApplicantController extends Controller
 
     }
 
-    public function upload(){
-    	try {
-    		return view('applicant.upload');
-    	} catch (Exception $e) {
-    		return redirect()->back()->with(['message' => $e->getMesage(),'type' => 'error']);
-    	}
+    public function create(){
+    	return view('applicant.form');
     }
+
+  
 }
