@@ -35,11 +35,11 @@
   font-size: 16px;
   color:var(--textPrimary);
 }
-.sidebar-nav-wrapper nav ul li a:hover{
+.sidebar-nav-wrapper nav ul li a:hover,.sidebar-nav-wrapper nav ul li a.active{
   background:#f5f5f5;
   border-radius: 30px;
 }
-.sidebar-nav-wrapper nav ul li a:hover i,.sidebar-nav-wrapper nav ul li a:hover{
+.sidebar-nav-wrapper nav ul li a:hover i,.sidebar-nav-wrapper nav ul li a:hover,.sidebar-nav-wrapper nav ul li a.active,.sidebar-nav-wrapper nav ul li a.active i{
   color:var(--primary);
 }
 
@@ -136,8 +136,69 @@
 .upload-passport-input-items{
   padding-right:100px;
 }
+
 .upload-passport-img-wrapper{
   height:300px;
   margin-top:15px;
   padding:15px;
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.upload-passport-info i {
+  color:#ddd;
+  font-size:80px;
+}
+.upload-passport-info p{
+  font-size: 16px;
+  color:#ddd;
+  text-align: center;
+  padding:10px 0px;
+}
+
+.dragged-over{
+  background:#fafafa;
+}
+.uploaded-img img {
+    width: 100%;
+    height: 300px;
+}
+
+.progress-loader-wrapper{
+  position:fixed;
+  width: 100%;
+  height:100%;
+  background:rgba(0,0,0,0.5);
+  top:0px;
+  left:0px;
+  display: none;
+}
+.progress-loader-info{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height:100vh;
+}
+
+.progress-loader-info h3{
+  font-size: 24px;
+  color:var(--white);
+  font-weight: 800;
+}
+
+.progress-bar{
+  width: 50%;
+  height:20px;
+  background: #fafafa;
+  border-radius:20px;
+  margin-top:20px;
+  transition: 0.5s;
+}
+.progress-bg{
+   height:20px;
+   border-radius:20px;
+    transition: 0.5s;
 }
