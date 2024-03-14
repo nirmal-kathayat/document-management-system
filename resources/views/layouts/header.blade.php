@@ -20,7 +20,6 @@
           <li><a href="#">All User</a></li>
           <li><a href="#">Add User</a></li>
           <li><a href="{{route('logout')}}">Logout</a></li>
-
         </ul>
     </div>
 </div>

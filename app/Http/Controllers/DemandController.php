@@ -19,7 +19,7 @@ class DemandController extends Controller
   {
     try {
       $demands = $this->demandRepository->getAllDemands();
-      return view('addDemand.index')->with(['demands'=>$demands]);
+      return view('demand.index')->with(['demands'=>$demands]);
     } catch (\Exception $e) {
 
       return redirect()->back()->with(['error' => 'An error occurred while fetching  data.']);
@@ -29,7 +29,7 @@ class DemandController extends Controller
   {
     try {
       $experiences = $this->demandRepository->getAllExperiences();
-      return view('addDemand.form')->with(['experiences'=>$experiences]);
+      return view('demand.form')->with(['experiences'=>$experiences]);
     } catch (\Exception $e) {
       return redirect()->back()->with(['error' => 'An error occurred while fetching  data.']);
     }
@@ -51,7 +51,7 @@ class DemandController extends Controller
     try{
       $experiences = $this->demandRepository->getAllExperiences();
       $editData = $this->demandRepository->findDemand($id);
-      return view('addDemand.form')->with(['editData'=>$editData,'experiences'=>$experiences]);
+      return view('demand.form')->with(['editData'=>$editData,'experiences'=>$experiences]);
 
     }catch(\Exception $e)
     {

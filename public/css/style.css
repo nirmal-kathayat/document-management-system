@@ -141,3 +141,128 @@
   margin-top:15px;
   padding:15px;
 }
+
+.button-wrap button{
+  background-color: #01ACF1;
+  border: none;
+  border-radius: 4px;
+  height: 30px;
+  width: 20%;
+  color: #ffff;
+  cursor: pointer;
+}
+
+.form-group .form-radio{
+  height: 15.8px;
+}
+
+.btns-wrap{
+  display: flex;
+  justify-content: end;
+  
+}
+.btns-wrap .demand-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #01ACF1;
+  border: none;
+  border-radius: 4px;
+  height: 30px;
+  padding: 0 12px;
+  color: #ffff;
+  cursor: pointer;
+}
+
+/* table */
+.table-wrap{
+  padding-top: 10px;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th{
+  padding: 16px 10px;
+  border: none;
+  background-color: #ffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.table td{
+  padding: 8px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+
+.table tr:nth-child(even) {
+  background-color:#f4f4f4;
+}
+/* Style for action buttons */
+.action-buttons {
+  display: flex;
+
+}
+
+.edit-btn a{
+  padding: 8px 10px;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #01ACF1;
+  font-weight: 400;
+}
+
+.delete-btn button{
+  padding: 5px 10px;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #01ACF1;
+  margin-left: 10px;
+  font-size: 13px;
+}
+
+
+.flex-end {
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+  align-self: flex-end;
+  width: 15%;
+}
+
+.flex-end button{
+  height: 32px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #01ACF1;
+  color: #fff;
+}
+
+
+.create-link{
+  display: flex;
+  justify-content: end;
+}
+
+.create-link a{
+  border-radius: 4px;
+  background-color: #01ACF1;
+  padding: 10px 10px;
+  color: #ffff;
+  margin-left: 10px;
+}
+
+.demand-form label{
+  width: 17%;
+}

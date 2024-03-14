@@ -1,15 +1,16 @@
 @extends('layouts.default')
 @section('title','Job Application')
 @section('content')
-<form action="{{ isset($editData) ? route('admin.continent.update', $editData->id) : route('admin.continent.store') }}" method="post">
-  @csrf
-  @if(isset($editData))
+<div class="inner-section-wrapper grey-bg upload-block">
+  <form action="{{ isset($editData) ? route('admin.continent.update', $editData->id) : route('admin.continent.store') }}" method="post">
+    @csrf
+    @if(isset($editData))
     @method('PUT')
-  @endif
-  <div class="application-form-wrapper">
-    <div class="application-select-option">
-      <div class="form-group column">
-        <label>Select Continent</label>
+    @endif
+
+    <div class="form-wrapper">
+      <div class="form-group group-column">
+        <label>Select Continent:</label>
         <select name="title" class="select-grey-bg">
           <option value="" disabled selected>Select continent
           </option>
@@ -20,16 +21,16 @@
         </select>
 
         @error('title')
-        <span class="error-message">
+        <span class="validation-error">
           {{$message}}
         </span>
         @enderror
-
-        <div class="button-wrap">
-          <button type="submit" id="submit-button" class="btn-add">{{isset($editData) ? 'Update' : 'Add'}} continent </button>
-        </div>
       </div>
+      <div class="form-group group-column button-wrap">
+          <button type="submit" id="submit-button">{{isset($editData) ? 'Update' : 'Add'}} continent </button>
+        </div>
     </div>
-  </div>
-</form>
+
+  </form>
+</div>
 @endsection

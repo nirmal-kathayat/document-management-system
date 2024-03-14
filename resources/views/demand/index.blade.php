@@ -7,7 +7,7 @@
   </div>
 
   <div class="table-wrap">
-    <table style="width: 97.2%;" class="table table-bordered data-table">
+    <table  class="table table-bordered data-table">
       <tr>
         <th>SN No.</th>
         <th>Date</th>
@@ -31,14 +31,14 @@
         <td>
           <div class="action-buttons">
             <div class="edit-btn">
-              <a href="{{route('admin.demand.edit',['id'=>$demand->id])}}">Edit</a>
+              <a href="{{route('admin.demand.edit',['id'=>$demand->id])}}"><i class="fa fas fa-edit"></i></a>
             </div>
 
             <div class="delete-btn">
               <form action="{{route('admin.demand.delete',['id'=>$demand->id])}}" method="post">
                 @csrf
                 @method('DELETE')
-                <button type="submit">Delete</button>
+                <button type="submit"><i class="fa fas fa-trash"></i></button>
               </form>
             </div>
           </div>
