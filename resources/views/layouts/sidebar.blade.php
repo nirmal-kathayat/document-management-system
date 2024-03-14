@@ -14,10 +14,10 @@
                   </li>
 
                   <li>
-                       <a href="#"><i class="fa fa-user"></i>Add Applicant</a>
+                       <a href="{{route('admin.applicant.create')}}" class="{{ request()->is('admin/applicant/create') ? 'active' : '' }}"><i class="fa fa-user"></i>Add Applicant</a>
                   </li>
                    <li>
-                       <a href="#"><i class="fa fa-eye"></i>View Applicants</a>
+                       <a  href="{{route('admin.applicant')}}" class="{{ request()->is('admin/applicant') ? 'active' : '' }}"><i class="fa fa-user"></i>View Applicants</a>
                   </li>
 
                   <li>

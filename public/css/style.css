@@ -291,26 +291,6 @@
 }
 
 
-.flex-end {
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left: 10px;
-  align-self: flex-end;
-  width: 15%;
-}
-
-.flex-end button{
-  height: 32px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #01ACF1;
-  color: #fff;
-}
-
-
 .create-link{
   display: flex;
   justify-content: end;
