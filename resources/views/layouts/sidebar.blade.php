@@ -21,19 +21,19 @@
                   </li>
 
                   <li>
-                       <a href="{{route('admin.continent.create')}}"><i class="fa fa-eye"></i>Add Continent</a>
+                       <a href="{{route('admin.continent')}}"><i class="fa fa-eye"></i>Add Continent</a>
                   </li>
 
                   <li>
-                       <a href="{{route('admin.country.create')}}"><i class="fa fa-eye"></i>Add Country</a>
+                       <a href="{{route('admin.country')}}"><i class="fa fa-eye"></i>Add Country</a>
                   </li>
 
                   <li>
-                       <a href="{{route('admin.demand.create')}}"><i class="fa fa-eye"></i>Add Demand</a>
+                       <a href="{{route('admin.demand')}}"><i class="fa fa-eye"></i>Add Demand</a>
                   </li>
 
                   <li>
-                       <a href="{{route('admin.jobPosition.create')}}"><i class="fa fa-eye"></i>Add Job Position</a>
+                       <a href="{{route('admin.jobPosition')}}"><i class="fa fa-eye"></i>Add Job Position</a>
                   </li>
               </ul>
           </nav>
