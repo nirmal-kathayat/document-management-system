@@ -147,7 +147,7 @@
   border: none;
   border-radius: 4px;
   height: 30px;
-  width: 100%;
+  width: 20%;
   color: #ffff;
   cursor: pointer;
 }
@@ -230,6 +230,26 @@
 }
 
 
+.flex-end {
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+  align-self: flex-end;
+  width: 15%;
+}
+
+.flex-end button{
+  height: 32px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #01ACF1;
+  color: #fff;
+}
+
+
 .create-link{
   display: flex;
   justify-content: end;
@@ -241,4 +261,8 @@
   padding: 10px 10px;
   color: #ffff;
   margin-left: 10px;
+}
+
+.demand-form label{
+  width: 17%;
 }

@@ -39,7 +39,7 @@
             @enderror
           </div>
 
-          <div class="button-wrap">
+          <div class="form-input group-column button-wrap">
             <button type="submit" id="submit-button">{{isset($editData) ? 'Update' : 'Add'}} Job Position</button>
           </div>
         </div>

@@ -79,7 +79,7 @@ span{
 
 .group-row{
 	flex-direction:row;
-	column-gap: 10px;
+	column-gap: 0px;
 }
 .group-column{
 	flex-direction: column;

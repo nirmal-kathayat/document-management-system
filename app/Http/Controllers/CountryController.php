@@ -21,7 +21,7 @@ class CountryController extends Controller
     {
       try{
             $countries = $this->countryRepository->getAllCountries();
-            return view('backup.addCountry.index')->with(['countries'=>$countries]);
+            return view('country.index')->with(['countries'=>$countries]);
       }catch(\Exception $e)
       {
         return redirect()->back()->with(['error' => 'An error occurred while fetching country data.']);
@@ -31,7 +31,7 @@ class CountryController extends Controller
     {
         try{
             $continentsList = $this->continentRepository->getContinentForSelect();
-            return view('backup.addCountry.form')->with(['continentsList'=>$continentsList]);
+            return view('country.form')->with(['continentsList'=>$continentsList]);
 
         }catch(\Exception $e)
         {
@@ -58,7 +58,7 @@ class CountryController extends Controller
         try{
             $editData = $this->countryRepository->findCountry($id);
             $continentsList = $this->continentRepository->getContinentForSelect();
-            return view('backup.addcountry.form')->with(['editData'=>$editData, 'continentsList'=>$continentsList]);
+            return view('country.form')->with(['editData'=>$editData, 'continentsList'=>$continentsList]);
 
         }catch(\Exception $e){
             return redirect()->back()->with(['error' => 'An error occurred while fetching country data.']);
