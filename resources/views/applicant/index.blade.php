@@ -1,5 +1,5 @@
 @extends('layouts.default')
-@section('title','Job Application')
+@section('title','Applicants')
 @section('content')
 	<div class="inner-section-wrapper applicant-block">
 		
