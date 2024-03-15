@@ -30,11 +30,10 @@
                   </li>
 
                   <li>
-                       <a href="{{route('admin.demand')}}"><i class="fa fa-eye"></i>Add Demand</a>
+                       <a href="{{route('admin.demand.create')}}" class="{{ request()->is('admin/demand/create') ? 'active' : '' }}"><i class="fa fa-eye"></i>Add Demand</a>
                   </li>
-
-                  <li>
-                       <a href="{{route('admin.jobPosition')}}"><i class="fa fa-eye"></i>Add Job Position</a>
+                   <li>
+                       <a href="{{route('admin.demand')}}" class="{{ request()->is('admin/demand') ? 'active' : '' }}"><i class="fa fa-eye"></i>View Demand</a>
                   </li>
               </ul>
           </nav>
