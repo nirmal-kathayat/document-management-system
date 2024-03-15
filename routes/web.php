@@ -41,16 +41,6 @@ Route::group(['prefix' => 'admin',], function () {
         Route::post('/create',[PassportController::class,'store'])->name('admin.passport.store');
     });
 
-    // continent
-    Route::group(['prefix'=>'continent'],function(){
-        Route::get('/',[ContinentController::class,'index'])->name('admin.continent');
-        Route::get('/create',[ContinentController::class,'create'])->name('admin.continent.create');
-        Route::post('/create',[ContinentController::class,'store'])->name('admin.continent.store');
-        Route::get('edit/{id}',[ContinentController::class,'edit'])->name('admin.continent.edit');
-        Route::put('edit/{id}',[ContinentController::class,'update'])->name('admin.continent.update');
-        Route::delete('delete/{id}',[ContinentController::class,'delete'])->name('admin.continent.delete');
-    });
-
     // country
     Route::group(['prefix'=>'country'],function(){
         Route::get('/',[CountryController::class,'index'])->name('admin.country');
@@ -58,7 +48,7 @@ Route::group(['prefix' => 'admin',], function () {
         Route::post('/create',[CountryController::class,'store'])->name('admin.country.store');
         Route::get('edit/{id}',[CountryController::class,'edit'])->name('admin.country.edit');
         Route::put('edit/{id}',[CountryController::class,'update'])->name('admin.country.update');
-        Route::delete('delete/{id}',[CountryController::class,'delete'])->name('admin.country.delete');
+        Route::get('delete/{id}',[CountryController::class,'delete'])->name('admin.country.delete');
     });
 
     // job position

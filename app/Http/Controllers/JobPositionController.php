@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\JobPositionRequest;
 use App\Repository\JobPositionRepository;
+use DataTables;
 use Illuminate\Http\Request;
 
 class JobPositionController extends Controller
@@ -17,13 +18,17 @@ class JobPositionController extends Controller
     public function index()
     {
         try{
-            $jobPositions = $this->jobPositionRepository->getAllJobs();
-            return view('jobPositions.index')->with(['jobPositions'=>$jobPositions]);
-
-        }catch(\Exception $e)
-        {
-            return redirect()->back()->with(['error' => 'An error occurred while fetching jobPosition data.']);
-        }
+            if(request()->ajax()){
+                $data = $this->jobPositionRepository->getAllJobs();
+                return DataTables::of($data)
+                    ->addIndexColumn()
+                    ->rawColumns([])
+                    ->make(true);
+            }
+            return view('jobPositions.index');
+      }catch(\Exception $e){
+        return redirect()->back()->with(['message' => 'An error occurred while fetching country data.','type' =>'error']);
+      }
     }
     public function create()
     {

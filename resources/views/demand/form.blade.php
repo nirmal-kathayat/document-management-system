@@ -55,8 +55,8 @@
         <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
       </div>
 
-      <div class="form-group group-column flex-end">
-        <button type="submit" class="demand-btn" id="submit-button">{{isset($editData) ? 'Update' : 'Add'}} Demand </button>
+      <div class="form-group flex-end">
+        <button type="submit" class="primary-btn" id="submit-button">{{isset($editData) ? 'Update' : 'Add'}} Demand </button>
       </div>
     </div>
   </form>

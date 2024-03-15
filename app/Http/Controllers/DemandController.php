@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Demandrequest;
 use App\Repository\DemandRepository;
-
+use DataTables;
 use Illuminate\Http\Request;
 
 class DemandController extends Controller
@@ -17,13 +17,18 @@ class DemandController extends Controller
 
   public function index()
   {
-    try {
-      $demands = $this->demandRepository->getAllDemands();
-      return view('demand.index')->with(['demands'=>$demands]);
-    } catch (\Exception $e) {
-
-      return redirect()->back()->with(['error' => 'An error occurred while fetching  data.']);
-    }
+    try{
+      if(request()->ajax()){
+          $data = $this->demandRepository->getAllDemands();
+          return DataTables::of($data)
+              ->addIndexColumn()
+              ->rawColumns([])
+              ->make(true);
+      }
+      return view('demand.index');
+}catch(\Exception $e){
+  return redirect()->back()->with(['message' => 'An error occurred while fetching demand data.','type' =>'error']);
+}
   }
   public function create()
   {

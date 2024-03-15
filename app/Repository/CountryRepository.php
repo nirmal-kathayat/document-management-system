@@ -1,54 +1,60 @@
 <?php
+
 namespace App\Repository;
+
 use App\Models\Country;
 
-class CountryRepository{
-  private $country;
-  public function __construct(Country $country)
+class CountryRepository
+{
+  private $query;
+  public function __construct(Country $query)
   {
-    $this->country = $country;
+    $this->query = $query;
   }
 
   public function getAllCountries()
   {
     return Country::leftJoin('continents', 'continents.id', '=', 'countries.continent_id')
-    ->select('countries.*', 'continents.title as continent_title')
-    ->get();
+      ->select('countries.*', 'continents.title as continent_title')
+      ->get();
+  }
+
+  public function dataTable($params = [])
+  {
+    return $this->query
+      ->query()
+      ->leftJoin('continents', 'continents.id', '=', 'countries.continent_id')
+      ->select('countries.id', 'countries.title', 'continents.title as continent_title', 'countries.created_at')
+      ->orderBy('countries.created_at', 'desc');
   }
 
   public function storeCountries(array $data)
   {
-    // dd($data);
     $data = [
-      'continent_id'=>$data['continent_id'],
-      'title'=>$data['title']
+      'continent_id' => $data['continent_id'],
+      'title' => $data['title']
     ];
 
-    return $this->country->create($data);
+    return $this->query->create($data);
   }
 
   public function findCountry($id)
   {
-    $country =  $this->country;
-    if (!is_array($id)) {
-      return $country->findOrFail($id);
-    } else {
-      return $country->whereIn('id', $id)->get();
-    }
+    return  $this->query->findOrFail($id);
   }
 
   public function updateCountry(array $data, int $id)
   {
     $data = [
-      'continent_id'=>$data['continent_id'],
-      'title'=>$data['title']
+      'continent_id' => $data['continent_id'],
+      'title' => $data['title']
     ];
 
-    return $this->country->where('id',$id)->update($data);
+    return $this->query->where('id', $id)->update($data);
   }
 
   public function deleteCountry($id)
   {
-    return $this->country->where('id',$id)->delete($id);
+    return $this->query->where('id', $id)->delete($id);
   }
 }
