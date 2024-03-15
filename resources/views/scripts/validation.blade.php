@@ -11,7 +11,6 @@
 		validationControl.on('change',function(){
 			$(this).removeAttr('style')
 			$(this).parent().find('.validation-error').remove()
-
 		})
 	}
 	this.submitEventListener=function(wrapper){

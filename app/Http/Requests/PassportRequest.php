@@ -34,7 +34,7 @@ class PassportRequest extends FormRequest
             'gender' => 'required',
             'citizen_no' => 'nullable',
             'passport_no' => 'required|unique:passports,passport_no,'.$this->id,
-            'image' => 'required'
+            'image' =>isset($this->id) ? 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048': 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
 }

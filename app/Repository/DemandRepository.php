@@ -6,10 +6,10 @@ use App\Models\Experience;
 
 class DemandRepository
 {
-  private $demand;
-  public function __construct(Demand $demand)
+  private $query;
+  public function __construct(Demand$query)
   {
-    $this->demand = $demand;
+    $this->query =$query;
   }
 
   public function getAllExperiences()
@@ -22,24 +22,22 @@ class DemandRepository
     return Demand::all();
   }
 
-  public function storeDemands(array $data)
+  public function get($params=[]){
+    $query = $this->query;
+    if(isset($params['country_id'])){
+      $query = $query->where('country_id',$params['country_id']);
+    }
+    return $query->orderBy('title','asc')->get();
+  }
+  public function store(array $data)
   {
 
-    $data = [
-      'date'=>$data['date'],
-      'demand_name'=>$data['demand_name'],
-      'salary'=>$data['salary'],
-      'experience'=>$data['experience'],
-      'country'=>$data['country'],
-      'comment'=>$data['comment']
-    ];
-
-    return $this->demand->create($data);
+    return $this->query->create($data);
   }
 
-  public function findDemand($id)
+  public function find($id)
   {
-    $demand =  $this->demand;
+    $demand =  $this->query;
     if (!is_array($id)) {
       return $demand->findOrFail($id);
     } else {
@@ -47,21 +45,13 @@ class DemandRepository
     }
   }
 
-  public function updateDemand(array $data,int $id)
+  public function update(array $data,int $id)
   {
-    $data = [
-      'date'=>$data['date'],
-      'demand_name'=>$data['demand_name'],
-      'salary'=>$data['salary'],
-      'experience'=>$data['experience'],
-      'country'=>$data['country'],
-      'comment'=>$data['comment']
-    ];
-    return $this->demand->where('id',$id)->update($data);
+    return $this->query->where('id',$id)->update($data);
   }
 
-  public function deleteDemand($id)
+  public function delete($id)
   {
-    return $this->demand->where('id',$id)->delete($id);
+    return $this->query->where('id',$id)->delete($id);
   }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CountryRequest extends FormRequest
+class ApplicantRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,11 @@ class CountryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'continent_id'=>'required',
-            'title'=>'required|unique:countries,title,'.$this->id,
+            'continent_id' => 'required',
+            'country_id' => 'required',
+            'position' => 'required',
+            'contact_no' =>'required',
+            'referred_by' => 'nullable'
         ];
     }
 }

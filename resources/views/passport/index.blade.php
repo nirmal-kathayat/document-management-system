@@ -1,18 +1,22 @@
 @extends('layouts.default')
-@section('title','Country')
+@section('title','Uploaded Passport')
 @section('content')
 <div class="inner-section-wrappe">
   <div class="create-link">
-    <a href="{{route('admin.country.create')}}">Add country</a>
+    <a href="{{route('admin.passport.create')}}">Upload Passport</a>
   </div>
 
   <div class="data-table-wrapper">
-    <table id="country-table" class="table">
+    <table id="passport-table" class="table">
         <thead>
             <tr>
                 <th>S.No</th>
-                <th>Title</th>
-                <th>Continent</th>
+                <th>Given Name</th>
+                <th>Surname</th>
+                <th>Passport No</th>
+                <th>Birth Place</th>
+                <th>Gender</th>
+                <th>Upload On</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -30,12 +34,12 @@
   <script type="text/javascript" src="{{asset('vendor/datatable/jquery.dataTables.min.js')}}"></script>
   <script src="{{asset('vendor/datatable/dataTables.bootstrap.min.js')}}"></script>
   <script type="text/javascript">
-     const dataTable = $('#country-table').DataTable({
+     const dataTable = $('#passport-table').DataTable({
         processing:true,
         serveSide:true,
         responsive:true,
         ajax:{
-          url:"{{route('admin.country')}}",
+          url:"{{route('admin.passport')}}",
 
         },
         columns:[
@@ -48,15 +52,39 @@
             }
           },
           {
-            data:'title',
-            name:'title',
+            data:'first_name',
+            name:'first_name',
             orderable:false,
           },
           {
-            data:'continent_title',
-            name:'continent_title',
+            data:'last_name',
+            name:'last_name',
             orderable:false,
-            searchable:false
+          },
+          {
+            data:'passport_no',
+            name:'passport_no',
+            orderable:false,
+          },
+          {
+            data:'district',
+            name:'district',
+            orderable:false,
+          },
+          {
+            data:'gender',
+            name:'gender',
+            orderable:false,
+          },
+          {
+            data:'created_at',
+            name:'created_at',
+            orderable:false,
+            render:function(data,type,full,meta){
+              const date = new Date(full.created_at); 
+              const options = { day: 'numeric', month: 'short', year: 'numeric' };
+              return  date.toLocaleDateString('en-GB', options);
+            }
           },
           {
             data: 'action',
@@ -65,16 +93,12 @@
             searchable: false,
             render:function(data,type,full,meta){
               var editUrl =
-                "{{ route('admin.country.edit', ['id' => ':id']) }}"
+                "{{ route('admin.passport.edit', ['id' => ':id']) }}"
                 .replace(':id', full.id);
-                var deleteUrl =
-                "{{ route('admin.country.delete', ['id' => ':id']) }}"
               var editButton =
-                '<a class="primary-btn" href="' + editUrl + '"><i class="fa fa-pencil"></i></a>';
-              var deleteButton =
-                  `<a class="danger-btn" href=${deleteUrl}><i class="fa fa-trash"></i></a>`;
+                '<a title="Edit" class="primary-btn" href="' + editUrl + '"><i class="fa fa-pencil"></i></a>';
               var actionButtons =
-                 `<div style='display:flex;column-gap:10px'> ${editButton} ${deleteButton}</div>`;
+                 `<div style='display:flex;column-gap:10px'> ${editButton}</div>`;
               return actionButtons
             }
           }
