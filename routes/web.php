@@ -1,14 +1,12 @@
 <?php
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PassportController;
 use App\Http\Controllers\ApplicantController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ContinentController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DemandController;
-use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\ProfileController;
 
 
@@ -53,17 +51,6 @@ Route::group(['prefix' => 'admin',], function () {
         Route::get('edit/{id}',[CountryController::class,'edit'])->name('admin.country.edit');
         Route::put('edit/{id}',[CountryController::class,'update'])->name('admin.country.update');
         Route::get('delete/{id}',[CountryController::class,'delete'])->name('admin.country.delete');
-    });
-
-    // job position
-    Route::group(['prefix'=>'jobPosition'],function(){
-        Route::get('/',[JobPositionController::class,'index'])->name('admin.jobPosition');
-        Route::get('/create',[JobPositionController::class,'create'])->name('admin.jobPosition.create');
-        Route::post('/create',[JobPositionController::class,'store'])->name('admin.jobPosition.store');
-        Route::get('edit/{id}',[JobPositionController::class,'edit'])->name('admin.jobPosition.edit');
-        Route::put('edit/{id}',[JobPositionController::class,'update'])->name('admin.jobPosition.update');
-        Route::delete('delete/{id}',[JobPositionController::class,'delete'])->name('admin.jobPosition.delete');
-       
     });
 
     // demand
