@@ -1,20 +1,35 @@
 @extends('layouts.default')
-@section('title','Upload Passport')
+@section('title',isset($passport) ? 'Update Upload Passport' : 'Upload Passport')
+@php
+	$url = isset($passport) ? route('admin.passport.edit',['id' => $passport->id]) : route('admin.passport.create');
+@endphp
 @section('content')
 <div class="inner-section-wrapper grey-bg upload-block">
-	<form action="{{route('admin.passport.create')}}" method="post" class="form-data" enctype="multipart/form-data">
+	<form action="{{$url}}" method="post" class="form-data" enctype="multipart/form-data">
 		@csrf
+		@if(isset($passport))
+			@method('PUT')
+		@endif
 		<div class="flex-row justify-space-between">
 			<div class="upload-passport-wrapper">
 				<div class="form-group group-column">
 					<label>Scan Passport & upload</label>
-					<input type="file" name="image" class="d-none validation-control" id="passport-file-input" data-validation="required" accept="image/*">
-
+					<input type="file" name="image" class="d-none validation-control" id="passport-file-input" data-validation="{{isset($passport) ? '' : 'required'}}" accept="image/*">
+					@error('image')
+						<p class="validation-error">{{$message}}</p>
+					@enderror
 				</div>
 				<label class="upload-passport-img-wrapper white-bg drop-zone" id="drop-zone" for="passport-file-input">
+					@if(isset($passport) && !empty($passport->image))
+					<div class="uploaded-img">
+						<img src="{{asset('uploaded/passports/'.$passport->image)}}">
+					</div>
+					@else
 					<div class="upload-passport-info">
 						<i class="fa fa-upload"></i>
 					</div>
+					@endif
+					
 				</label>
 			</div>
 			<div class="upload-password-form-wrapper ">
@@ -22,53 +37,53 @@
 					<div class="grid-row template-repeat-3 col-gap-30">
 						<div class="form-group group-column">
 							<label>Type</label>
-							<input type="text" name="type" class="bg-white validation-control" data-validation="required">
+							<input type="text" name="type" class="bg-white validation-control" data-validation="required" value="{{old('type',$passport->type ?? '')}}">
 						</div>
 						<div class="form-group group-column">
 							<label>Country Code</label>
-							<input type="text" name="country_code" class="bg-white validation-control" data-validation="required">
+							<input type="text" name="country_code" class="bg-white validation-control" data-validation="required" value="{{old('country_code',$passport->country_code ?? '')}}">
 						</div>
 						<div class="form-group group-column">
 							<label>Passport No</label>
-							<input type="text" name="passport_no" class="bg-white validation-control" data-validation="required">
+							<input type="text" name="passport_no" class="bg-white validation-control" data-validation="required" value="{{old('passport_no',$passport->passport_no ?? '')}}">
 							@error('passport_no')
-								<p class="validation-error">{{$message}}</p>
+							<p class="validation-error">{{$message}}</p>
 							@enderror
 						</div>
 					</div>
 					<div class="form-group group-column">
 						<label>Surname</label>
-						<input type="text" name="last_name" class="bg-white validation-control" data-validation="required">
+						<input type="text" name="last_name" class="bg-white validation-control" data-validation="required" value="{{old('last_name',$passport->last_name ?? '')}}">
 					</div>
 					<div class="form-group group-column">
 						<label>Given Name</label>
-						<input type="text" name="first_name" class="bg-white validation-control" data-validation="required">
+						<input type="text" name="first_name" class="bg-white validation-control" data-validation="required" value="{{old('first_name',$passport->first_name ?? '')}}">
 					</div>
 					<div class="form-group group-column">
 						<label>Nationality</label>
-						<input type="text" name="nationality" class="bg-white validation-control" data-validation="required">
+						<input type="text" name="nationality" class="bg-white validation-control" data-validation="required" value="{{old('nationality',$passport->nationality ?? '')}}">
 					</div>
 					<div class="grid-row template-repeat-3 col-gap-20">
 						<div class="form-group group-column">
 							<label>Dob</label>
-							<input type="date" name="dob" class="bg-white validation-control" data-validation="required">
+							<input type="date" name="dob" class="bg-white validation-control" data-validation="required" value="{{old('dob',$passport->dob ?? '')}}">
 						</div>
 						<div class="form-group group-column">
 							<label>Date of Issue</label>
-							<input type="date" name="issued_date" class="bg-white validation-control" data-validation="required">
+							<input type="date" name="issued_date" class="bg-white validation-control" data-validation="required" value="{{old('issued_date',$passport->issued_date ?? '')}}">
 						</div>
 						<div class="form-group group-column">
 							<label>Expiry Date</label>
-							<input type="date" name="expiry_date" class="bg-white validation-control" data-validation="required">
+							<input type="date" name="expiry_date" class="bg-white validation-control" data-validation="required" value="{{old('expiry_date',$passport->expiry_date ?? '')}}">
 						</div>
 					</div>
 					<div class="grid-row template-repeat-2 col-gap-20">
 						<div class="form-group group-column">
 							<label>Sex</label>
-							<select class="validation-control" data-validation="required" name="gender">
+							<select class="validation-control" data-validation="required" name="gender" >
 								<option value="">Select</option>
-								<option value="Male">Male</option>
-								<option value="Female">Female</option>
+								<option value="Male" {{isset($passport) ? $passport->gender == 'Male' ? 'selected' : '' : ''}}>Male</option>
+								<option value="Female" {{isset($passport) ? $passport->gender == 'Female' ? 'selected' : '' : ''}}>Female</option>
 							</select>
 						</div>
 						<div class="form-group group-column">
@@ -76,14 +91,14 @@
 							<select class="validation-control" data-validation="required" name="district">
 								<option value="">Select</option>
 								@foreach(getDistricts() as $district)
-								<option value="{{strtoupper($district)}}">{{$district}}</option>
+								<option value="{{strtoupper($district)}}" {{isset($passport) ? strtoupper($district) == $passport->district ? 'selected' : '' : ''}}>{{$district}}</option>
 								@endforeach
 							</select>
 						</div>
 						
 					</div>
 					<div class="form-group flex-end">
-						<button type="submit" class="primary-btn">Submit</button>
+						<button type="submit" class="primary-btn">{{isset($passport) ? 'Update' : 'Next'}}</button>
 					</div>
 				</div>
 			</div>
@@ -152,36 +167,35 @@
 						).then(({ data: { text } }) => {
 							const MRZData = new MRZ(text)
 							const result = MRZData.result
-							$('input[name=type]').val(result?.type)
+							$('input[name=type]').val(result?.type).trigger('input')
 
 							if(!!result?.district){
-								$('select[name=district]').val(result?.district)
+								$('select[name=district]').val(result?.district).trigger('change')
 							}
 							if(!!result?.surname){
-								$('input[name=last_name]').val(result?.surname)
+								$('input[name=last_name]').val(result?.surname).trigger('input')
 							}
 							if(!!result?.name){
-								$('input[name=first_name]').val(result?.name)
+								$('input[name=first_name]').val(result?.name).trigger('input')
 							}
 							if(!!result?.passport_no){
-								$('input[name=passport_no]').val(result?.passport_no)
+								$('input[name=passport_no]').val(result?.passport_no).trigger('input')
 							}
 							if(!!result?.dob){
-								$('input[name=dob]').val(result?.dob)
+								$('input[name=dob]').val(result?.dob).trigger('input')
 							}
 							if(!!result?.gender){
-								$('select[name=gender]').val(result?.gender)
-
+								$('select[name=gender]').val(result?.gender).trigger('change')
 							}
 							if(!!result?.expiry_date){
-								$('input[name=expiry_date]').val(result?.expiry_date)
+								$('input[name=expiry_date]').val(result?.expiry_date).trigger('input')
 							}
 
 							if(!!result?.issued_date){
-								$('input[name=issued_date]').val(result?.issued_date)
+								$('input[name=issued_date]').val(result?.issued_date).trigger('input')
 							}
-							$('input[name=country_code]').val(result?.country_code)
-							$('input[name=nationality]').val(result?.nationality)
+							$('input[name=country_code]').val(result?.country_code).trigger('input')
+							$('input[name=nationality]').val(result?.nationality).trigger('input')
 
 							$('.progress-loader-wrapper').fadeOut();
 							$('.progress-bg').css('width','0%');

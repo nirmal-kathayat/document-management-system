@@ -33,12 +33,16 @@ Route::group(['prefix' => 'admin',], function () {
     // Add Applicant
     Route::group(['prefix'=>'applicant'],function(){
         Route::get('/',[ApplicantController::class,'index'])->name('admin.applicant');
-        Route::get('/create',[ApplicantController::class,'create'])->name('admin.applicant.create');
+        Route::get('/create/{id?}',[ApplicantController::class,'create'])->name('admin.applicant.create');
     });
 
     Route::group(['prefix' =>'passport'],function(){
+        Route::get('/',[PassportController::class,'index'])->name('admin.passport');
         Route::get('/create',[PassportController::class,'create'])->name('admin.passport.create');
         Route::post('/create',[PassportController::class,'store'])->name('admin.passport.store');
+        Route::get('/edit/{id}',[PassportController::class,'edit'])->name('admin.passport.edit');
+        Route::put('/edit/{id}',[PassportController::class,'update'])->name('admin.passport.update');
+
     });
 
     // country
