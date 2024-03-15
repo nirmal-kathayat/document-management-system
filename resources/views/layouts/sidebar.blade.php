@@ -19,12 +19,13 @@
                    <li>
                        <a  href="{{route('admin.applicant')}}" class="{{ request()->is('admin/applicant') ? 'active' : '' }}"><i class="fa fa-user"></i>View Applicants</a>
                   </li>
-
                   <li>
-                       <a href="{{route('admin.continent')}}"><i class="fa fa-eye"></i>Add Continent</a>
+                       <a href="{{route('admin.country.create')}}" class="{{ request()->is('admin/country/create') ? 'active' : '' }}"><i class="fa fa-plus"></i>Add Country</a>
                   </li>
-
-                  <li>
+                    <li>
+                       <a href="{{route('admin.country')}}" class="{{ request()->is('admin/country') ? 'active' : '' }}"><i class="fa fa-eye"></i>View Country</a>
+                  </li>
+                   <li>
                        <a href="{{route('admin.country')}}"><i class="fa fa-eye"></i>Add Country</a>
                   </li>
 
