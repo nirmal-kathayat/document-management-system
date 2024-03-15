@@ -14,12 +14,16 @@ return new class extends Migration
         Schema::create('demands', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->string('demand_name');
+            $table->string('title');
             $table->decimal('salary');
-            $table->string('experience');
-            $table->string('country');
             $table->text('comment');
+            $table->unsignedBigInteger('experience_id');
+            $table->unsignedBigInteger('country_id');
             $table->timestamps();
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
+            $table->foreign('experience_id')->references('id')->on('experiences')->onDelete('cascade');
+            $table->index(['country_id','experience_id']);
+
         });
     }
 

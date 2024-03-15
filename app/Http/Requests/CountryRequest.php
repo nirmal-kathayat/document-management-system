@@ -23,7 +23,7 @@ class CountryRequest extends FormRequest
     {
         return [
             'continent_id'=>'required',
-            'title'=>'required'
+            'title'=>'required|unique:countries,title,'.$this->id,
         ];
     }
 }

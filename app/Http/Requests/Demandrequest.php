@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Demandrequest extends FormRequest
+class DemandRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,10 @@ class Demandrequest extends FormRequest
     {
         return [
             'date'=>'required',
-            'demand_name'=>'required',
+            'title'=>'required|unique:demands,title,'.$this->id,
             'salary'=>'required',
-            'experience'=>'required',
-            'country'=>'required',
+            'experience_id'=>'required',
+            'country_id'=>'required',
             'comment'=>'nullable'
         ];
     }

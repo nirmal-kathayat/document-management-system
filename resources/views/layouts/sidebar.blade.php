@@ -12,6 +12,9 @@
                   <li>
                       <a href="{{route('admin.passport.create')}}" class="{{ request()->is('admin/passport/create') ? 'active' : '' }}"><i class="fa fa-photo"></i>Upload Passport</a>
                   </li>
+                   <li>
+                      <a href="{{route('admin.passport')}}" class="{{ request()->is('admin/passport') ? 'active' : '' }}"><i class="fa fa-photo"></i>Uploaded Passport</a>
+                  </li>
 
                   <li>
                        <a href="{{route('admin.applicant.create')}}" class="{{ request()->is('admin/applicant/create') ? 'active' : '' }}"><i class="fa fa-user"></i>Add Applicant</a>
@@ -27,11 +30,10 @@
                   </li>
 
                   <li>
-                       <a href="{{route('admin.demand')}}"><i class="fa fa-eye"></i>Add Demand</a>
+                       <a href="{{route('admin.demand.create')}}" class="{{ request()->is('admin/demand/create') ? 'active' : '' }}"><i class="fa fa-eye"></i>Add Demand</a>
                   </li>
-
-                  <li>
-                       <a href="{{route('admin.jobPosition')}}"><i class="fa fa-eye"></i>Add Job Position</a>
+                   <li>
+                       <a href="{{route('admin.demand')}}" class="{{ request()->is('admin/demand') ? 'active' : '' }}"><i class="fa fa-eye"></i>View Demand</a>
                   </li>
               </ul>
           </nav>
