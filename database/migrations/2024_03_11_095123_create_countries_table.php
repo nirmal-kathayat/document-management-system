@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('continent_id');
-            $table->string('title');
+            $table->string('title')->unique();
             $table->timestamps();
-            $table->foreign('continent_id')->references('id')->on('continents');
+            $table->foreign('continent_id')->references('id')->on('continents')->onDelete('cascade');
         });
     }
 

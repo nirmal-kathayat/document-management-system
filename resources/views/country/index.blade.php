@@ -1,44 +1,84 @@
 @extends('layouts.default')
-@section('title','Job Application')
+@section('title','Country')
 @section('content')
-<div class="listing-continents">
+<div class="inner-section-wrappe">
   <div class="create-link">
-    <a href="{{route('admin.country.create')}}">Add more country</a>
+    <a href="{{route('admin.country.create')}}">Add country</a>
   </div>
 
-  <div class="table-wrap">
-    <table class="table table-bordered data-table">
-      <tr>
-        <th>SN No.</th>
-        <th>Continent</th>
-        <th>Country Title</th>
-        <th>Action</th>
-      </tr>
-
-      @foreach($countries as $country)
-      <tr>
-        <td>{{$country->id}}</td>
-        <td>{{$country->continent_title}}</td>
-        <td>{{$country->title}}</td>
-        <td>
-          <div class="action-buttons">
-            <div class="edit-btn">
-              <a href="{{route('admin.country.edit',['id'=>$country->id])}}"><i class="fa fas fa-edit"></i></a>
-            </div>
-
-            <div class="delete-btn">
-              <form action="{{route('admin.country.delete',['id'=>$country->id])}}" method="post">
-                @csrf
-                @method('DELETE')
-                <button type="submit"><i class="fa fa-trash"></i></button>
-              </form>
-            </div>
-          </div>
-        </td>
-      </tr>
-      @endforeach
+  <div class="data-table-wrapper">
+    <table id="country-table" class="table">
+        <thead>
+            <tr>
+                <td>S.No</td>
+                <td>Title</td>
+                <td>Continent</td>
+                <td>Action</td>
+            </tr>
+        </thead>
     </table>
   </div>
 </div>
 
 @endsection
+@push('style')
+ <link rel="stylesheet" type="text/css" href="{{asset('vendor/datatable/jquery.dataTables.min.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('vendor/datatable/dataTables.bootstrap.min.css')}}"
+  rel="stylesheet">
+@endpush
+@push('js')
+  <script type="text/javascript" src="{{asset('vendor/datatable/jquery.dataTables.min.js')}}"></script>
+  <script src="{{asset('vendor/datatable/dataTables.bootstrap.min.js')}}"></script>
+  <script type="text/javascript">
+     const dataTable = $('#country-table').DataTable({
+        processing:true,
+        serveSide:true,
+        responsive:true,
+        ajax:{
+          url:"{{route('admin.country')}}",
+
+        },
+        columns:[
+          {
+            data:'id',
+            name:'id',
+            searchable:false,
+            render:function(data,type,full,meta){
+              return full?.DT_RowIndex
+            }
+          },
+          {
+            data:'title',
+            name:'title',
+            orderable:false,
+          },
+          {
+            data:'continent_title',
+            name:'continent_title',
+            orderable:false,
+            searchable:false
+          },
+          {
+            data: 'action',
+            name: 'action',
+            orderable: false,
+            searchable: false,
+            render:function(data,type,full,meta){
+              var editUrl =
+                "{{ route('admin.country.edit', ['id' => ':id']) }}"
+                .replace(':id', full.id);
+                var deleteUrl =
+                "{{ route('admin.country.delete', ['id' => ':id']) }}"
+              var editButton =
+                '<a class="primary-btn" href="' + editUrl + '"><i class="fa fa-pencil"></i></a>';
+              var deleteButton =
+                  `<a class="danger-btn" href=${deleteUrl}><i class="fa fa-trash"></i></a>`;
+              var actionButtons =
+                 `<div style='display:flex;column-gap:10px'> ${editButton} ${deleteButton}</div>`;
+              return actionButtons
+            }
+          }
+        ]
+     })
+  </script>
+@endpush

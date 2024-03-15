@@ -1,47 +1,55 @@
 @extends('layouts.default')
-@section('title','Job Application')
+@section('title',isset($country) ? 'Update Country' : 'Add Country')
+@php
+  $url = isset($country) ? route('admin.country.update',['id' => $country->id]) : route('admin.country.store');
+@endphp
 @section('content')
-<div class="inner-section-wrapper grey-bg upload-block">
-  <form action="{{route('admin.country.store')}}" method="post">
+<div class="inner-section-wrapper grey-bg country-form">
+  <form action="{{$url}}" method="post" class="form-data">
     @csrf
-
-
+    @if(isset($country))
+      @method('PUT')
+    @endif
     <div class="form-wrapper">
-      <div class="form-group group-column">
-        <label>Select Continents:</label>
-        <select name="continent_id" class="select-grey-bg">
-          <option value="" disabled selected>Select Continents
+      <div class="form-group group-row align-center">
+        <label>Continents</label>
+        <select name="continent_id" class="select-grey-bg validation-control" data-validation="required" >
+          <option value="" selected>Select Continent
           </option>
 
-          @foreach ($continentsList as $list => $continentList)
-          <option value="{{ $list }}" {{ isset($editData) && $editData->continent_id == $list ? 'selected' : '' }}>
-            {{ $continentList }}
+          @foreach ($continents as $list => $continent)
+          <option value="{{ $list }}" {{ isset($country) && $country->continent_id == $list ? 'selected' : '' }}>
+            {{ $continent }}
           </option>
           @endforeach
         </select>
 
         @error('continent_id')
-        <span class="validation-error">
+        <p class="validation-error">
           {{$message}}
-        </span>
+        </p>
         @enderror
       </div>
 
-      <div class="form-group group-column">
-        <label for="">Country Title:</label>
-        <input type="text" name="title" value="{{isset($editData) ? $editData->title: ''}}">
+      <div class="form-group group-row align-center">
+        <label for="">Title</label>
+        <input type="text" name="title" value="{{isset($country) ? $country->title: ''}}" class="validation-control" data-validation="required">
 
         @error('title')
-        <span class="validation-error">
+        <p class="validation-error">
           {{$message}}
-        </span>
+        </p>
         @enderror
       </div>
-      <div class="form-input group-column button-wrap">
-        <button type="submit" id="submit-button">{{isset($editData) ? 'Update' : 'Add'}} country </button>
+      <div class="form-group flex-end">
+        <button type="submit" class="primary-btn">{{isset($country) ? 'Update' : 'Add'}} country </button>
       </div>
     </div>
 
   </form>
 </div>
 @endsection
+
+@push('js')
+  @include('scripts.validation')
+@endpush

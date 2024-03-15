@@ -236,33 +236,72 @@
 }
 
 /* table */
-.table-wrap{
-  padding-top: 10px;
+.data-table-wrapper{
+  margin-top:20px;
 }
-.table {
-  width: 100%;
-  border-collapse: collapse;
+.dataTables_length label,.dataTables_filter label{
+  color:var(--textPrimary);
+  font-size: 14px;
 }
-
-.table th{
-  padding: 16px 10px;
-  border: none;
-  background-color: #ffff;
-  text-align: left;
-  font-weight: bold;
+.dataTables_length select{
+  border:1px solid #ddd;
+  height:30px;
+  border-radius:4px;
 }
-
-.table td{
-  padding: 8px;
-  text-align: left;
-  font-weight: bold;
-  font-size: 13px;
+.dataTables_filter input{
+  height:30px;
+  border:1px solid #ddd;
+  border-radius: 4px;
+}
+table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:after{
+  display: none !important;
 }
 
-
-.table tr:nth-child(even) {
-  background-color:#f4f4f4;
+table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after{
+  display: none !important;
 }
+table.dataTable thead th, table.dataTable thead td{
+  border-bottom:1px solid #ddd !important;
+}
+table.dataTable.no-footer {
+    border-bottom: 0px !important;
+}
+.dataTables_info{
+  font-size:14px !important;
+  color:var(--textPrimary);
+}
+.table thead tr td{
+  font-size: 16px !important;
+  color:var(--black);
+  padding:10px 5px !important;
+  font-weight: 700;
+}
+.table tbody tr:nth-child(odd){
+  background:#fafafa  !important;
+}
+.table tbody tr td{
+  font-size: 14px !important;
+  color:var(--textPrimary);
+  padding:10px 5px !important;
+
+}
+
+ul.pagination li {
+    border: 1px solid #ddd !important;
+}
+
+ul.pagination li a{
+    color:var(--textPrimary) !important;
+
+}
+ul.pagination li:hover,ul.pagination li.active{
+  background: var(--primary) !important;
+}
+
+ul.pagination li:hover a,ul.pagination li.active a{
+  color:var(--white) !important;
+}
+/** table **/
 /* Style for action buttons */
 .action-buttons {
   display: flex;
@@ -306,4 +345,15 @@
 
 .demand-form label{
   width: 17%;
+}
+
+.country-form{
+  padding:25px 20px;;
+  border-radius: 20px;
+}
+.country-form .form-group{
+  column-gap:10px;
+}
+.country-form form label{
+  width:20%;
 }

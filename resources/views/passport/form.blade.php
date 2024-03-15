@@ -31,6 +31,9 @@
 						<div class="form-group group-column">
 							<label>Passport No</label>
 							<input type="text" name="passport_no" class="bg-white validation-control" data-validation="required">
+							@error('passport_no')
+								<p class="validation-error">{{$message}}</p>
+							@enderror
 						</div>
 					</div>
 					<div class="form-group group-column">
