@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('passport_id');
             $table->unsignedBigInteger('continent_id');
             $table->unsignedBigInteger('country_id');
-            $table->string('position');
+            $table->unsignedBigInteger('job_position_id');
             $table->string('contact_no');
             $table->string('referred_by')->nullable();
             $table->json('family_details')->nullable();
@@ -33,7 +33,8 @@ return new class extends Migration
             $table->foreign('passport_id')->references('id')->on('passports')->onDelete('cascade');
             $table->foreign('continent_id')->references('id')->on('continents');
             $table->foreign('country_id')->references('id')->on('countries');
-            $table->index(['passport_id','continent_id','country_id']);
+            $table->foreign('job_position_id')->references('id')->on('job_positions');
+            $table->index(['passport_id','continent_id','country_id','job_position_id'],'applicants_multi_index');
         });
     }
 
