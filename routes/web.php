@@ -32,7 +32,10 @@ Route::group(['prefix' => 'admin',], function () {
     // Add Applicant
     Route::group(['prefix'=>'applicant'],function(){
         Route::get('/',[ApplicantController::class,'index'])->name('admin.applicant');
-        Route::get('/create/{id?}',[ApplicantController::class,'create'])->name('admin.applicant.create');
+        Route::get('/create',[ApplicantController::class,'create'])->name('admin.applicant.create');
+        Route::post('/create',[ApplicantController::class,'store'])->name('admin.applicant.store');
+        Route::get('edit/{id}',[ApplicantController::class,'edit'])->name('admin.applicant.edit');
+        Route::put('edit/{id}',[ApplicantController::class,'update'])->name('admin.applicant.update');
     });
 
     Route::group(['prefix' =>'passport'],function(){
@@ -52,16 +55,17 @@ Route::group(['prefix' => 'admin',], function () {
         Route::get('edit/{id}',[CountryController::class,'edit'])->name('admin.country.edit');
         Route::put('edit/{id}',[CountryController::class,'update'])->name('admin.country.update');
         Route::get('delete/{id}',[CountryController::class,'delete'])->name('admin.country.delete');
+        Route::get('/fetch',[CountryController::class,'fetch'])->name('admin.country.fetch');
     });
 
     // job position
-    Route::group(['prefix'=>'jobPosition'],function(){
-        Route::get('/',[JobPositionController::class,'index'])->name('admin.jobPosition');
-        Route::get('/create',[JobPositionController::class,'create'])->name('admin.jobPosition.create');
-        Route::post('/create',[JobPositionController::class,'store'])->name('admin.jobPosition.store');
-        Route::get('edit/{id}',[JobPositionController::class,'edit'])->name('admin.jobPosition.edit');
-        Route::put('edit/{id}',[JobPositionController::class,'update'])->name('admin.jobPosition.update');
-        Route::delete('delete/{id}',[JobPositionController::class,'delete'])->name('admin.jobPosition.delete');
+    Route::group(['prefix'=>'position'],function(){
+        Route::get('/',[JobPositionController::class,'index'])->name('admin.position');
+        Route::get('/create',[JobPositionController::class,'create'])->name('admin.position.create');
+        Route::post('/create',[JobPositionController::class,'store'])->name('admin.position.store');
+        Route::get('edit/{id}',[JobPositionController::class,'edit'])->name('admin.position.edit');
+        Route::put('edit/{id}',[JobPositionController::class,'update'])->name('admin.position.update');
+        Route::get('delete/{id}',[JobPositionController::class,'delete'])->name('admin.position.delete');
        
     });
 
@@ -72,6 +76,6 @@ Route::group(['prefix' => 'admin',], function () {
         Route::post('/create',[DemandController::class,'store'])->name('admin.demand.store');
         Route::get('edit/{id}',[DemandController::class,'edit'])->name('admin.demand.edit');
         Route::put('edit/{id}',[DemandController::class,'update'])->name('admin.demand.update');
-        Route::delete('delete/{id}',[DemandController::class,'delete'])->name('admin.demand.delete');
+        Route::get('delete/{id}',[DemandController::class,'delete'])->name('admin.demand.delete');
     });
 });

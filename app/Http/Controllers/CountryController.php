@@ -8,10 +8,10 @@ use App\Repository\ContinentRepository;
 use DataTables;
 class CountryController extends Controller
 {
-    private $countryRepository,$continentRepository;
-    public function __construct(CountryRepository $countryRepository,ContinentRepository $continentRepository )
+    private $repo,$continentRepository;
+    public function __construct(CountryRepository $repo,ContinentRepository $continentRepository )
     {
-        $this->countryRepository = $countryRepository;
+        $this->repo = $repo;
         $this->continentRepository = $continentRepository;
     }
 
@@ -19,7 +19,7 @@ class CountryController extends Controller
     {
       try{
             if(request()->ajax()){
-                $data = $this->countryRepository->dataTable();
+                $data = $this->repo->dataTable();
                 return DataTables::of($data)
                     ->addIndexColumn()
                     ->rawColumns([])
@@ -33,7 +33,7 @@ class CountryController extends Controller
     public function create()
     {
         try{
-            $continents = $this->continentRepository->getContinentForSelect();
+            $continents = $this->continentRepository->get();
             return view('country.form')->with(['continents'=>$continents]);
 
         }catch(\Exception $e)
@@ -46,7 +46,7 @@ class CountryController extends Controller
     {
         
         try{
-            $this->countryRepository->storeCountries($request->validated());
+            $this->repo->store($request->validated());
             return redirect()->route('admin.country')->with(['message'=>'Country Created Successfully!','type'=>'success']);
         }catch(\Exception $e) {
             return redirect()->back()->with(['message' => 'An error occurred while fetching country data.','type' => 'error']);
@@ -56,7 +56,7 @@ class CountryController extends Controller
     public function edit($id)
     {
         try{
-            $country = $this->countryRepository->findCountry($id);
+            $country = $this->repo->find($id);
             $continents = $this->continentRepository->getContinentForSelect();
             return view('country.form')->with(['country'=>$country, 'continents'=>$continents]);
 
@@ -68,7 +68,7 @@ class CountryController extends Controller
     public function update(CountryRequest $request,$id)
     {
         try{
-            $this->countryRepository->updateCountry($request->validated(),$id);
+            $this->repo->update($request->validated(),$id);
             return redirect()->route('admin.country')->with(['message'=>'Country updated Successfully!','type'=>'success']);
 
         }catch(\Exception $e){
@@ -80,11 +80,22 @@ class CountryController extends Controller
     public function delete($id)
     {
         try{
-            $this->countryRepository->deleteCountry($id);
+            $this->repo->delete($id);
             return redirect()->back()->with(['message'=>'Country deleted Successfully!','type'=>'success']);
 
         }catch(\Exception $e){
             return redirect()->back()->with(['type' => 'An error occurred while fetching country data.','type' => 'error']);
+        }
+    }
+
+    public function fetch(){
+        try {
+            $data = $this->repo->get([
+                'continent_id' => $_GET['continent_id'] ?? null
+            ]);
+            return response()->json(['message' => 'Success','type' => 'success','data' => $data]);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Error while fetching','type' => 'error']);
         }
     }
 }

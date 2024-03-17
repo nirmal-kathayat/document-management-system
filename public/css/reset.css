@@ -33,6 +33,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	overflow-x: hidden;
 }
 ol, ul {
 	list-style: none;
@@ -80,7 +81,6 @@ span{
 
 .group-row{
 	flex-direction:row;
-	column-gap: 0px;
 }
 .group-column{
 	flex-direction: column;
@@ -110,7 +110,7 @@ span{
 
 }
 .form-group label{
-	font-size: 16px;
+	font-size: 14px;
 	color:var(--black);
 	font-weight: 700;
 }
@@ -129,8 +129,12 @@ span{
 	outline: none;
 	height:30px;
 	border-radius: 4px;
-}
+	font-size: 14px;
 
+}
+input[type=date]{
+	text-indent: 5px;
+}
 .validation-error{
 	font-size:12px;
 	color:red;
@@ -168,11 +172,19 @@ span{
 .col-gap-30{
 	column-gap:30px;
 }
-
+.row-gap-20{
+	row-gap:20px;
+}
+.row-gap-10{
+	row-gap:10px;
+}
+.row-gap-30{
+	row-gap:30px;
+}
 .form-wrapper{
 	display: flex;
 	flex-direction: column;
-	row-gap:20px;
+	row-gap:15px;
 }
 
 .d-none{
@@ -197,10 +209,23 @@ span{
 	border:0px;
 	padding:7px 15px;
 }
+.remove-field-btn,.remove-question-item-field-btn,.remove-question-field-btn{
+	background: var(--danger);
+	color:var(--white);
+	font-size: 14px;
+	font-weight: 600;
+	border-radius: 4px;
+	border:0px;
+	height:30px;
+	width:30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 .form-group select{
 	border-radius: 4px;
     outline: none;
-    text-indent: 10px;
+    text-indent: 5px;
     border: 0px;
     height: 30px;
     font-size: 14px;
@@ -234,4 +259,27 @@ span{
 ::-webkit-scrollbar-thumb
 {
 	background-color: #ddd;
+}
+
+.text-red{
+	font-size:12px;
+	color:var(--danger);
+}
+
+.step-form-wrapper .group-row label{
+	width:25%;
+
+}
+
+span.status-text.red {
+    font-size: 12px;
+    color: red;
+    font-weight: 600;
+    margin-top:5px;
+}
+span.status-text.green {
+    font-size: 12px;
+    color: green;
+    font-weight: 600;
+    margin-top:5px;
 }

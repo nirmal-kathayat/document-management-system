@@ -22,8 +22,10 @@ class JobPositionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
-            'description'=>'nullable'
+            'title' => 'required|unique:job_positions,title,'.$this->id,
+            'description'=>'nullable',
+            'duties' => 'nullable|array',
+            'job_questions' => 'nullable|array'
         ];
     }
 }

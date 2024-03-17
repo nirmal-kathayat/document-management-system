@@ -39,8 +39,8 @@ class PassportController extends Controller
 
 	public function store(PassportRequest $request){
 		try {
-			$this->repo->create($request->validated());
-			return redirect()->back()->with(['message' => 'Passport uploaded successfully','type' => 'success']);
+			$data = $this->repo->create($request->validated());
+			return redirect()->route('admin.applicant.create',['id' => $data->id])->with(['message' => 'Passport uploaded successfully','type' => 'success']);
 		} catch (Exception $e) {
 			return redirect()->back()->with(['message' => $e->getMesage(),'type' => 'error']);
 		}

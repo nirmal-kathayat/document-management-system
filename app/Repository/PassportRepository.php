@@ -11,6 +11,10 @@ class PassportRepository{
 	public function dataTable($params=[]){
 		return $this->query
 					->query()
+					->leftJoin('applicants', function($join) {
+				        $join->on('applicants.passport_id', '=', 'passports.id');
+				    })
+				    ->select('passports.*', \DB::raw('IF(applicants.passport_id IS NULL, false, true) AS isApplicant'),\DB::raw('IF(applicants.passport_id IS NULL, NULL, applicants.id) AS applicant_id'))
 					->orderBy('first_name','asc');
 	}
 
@@ -23,14 +27,16 @@ class PassportRepository{
 	}
 
 	public function update(array $data,int $id){
-		$passport = $this->find($id);
+		$query = $this->find($id);
 
-		if(isset($data['image']) && !empty($passport->image) && file_exists( public_path() . '/uploaded/passports/'.$passport->image)){
-			$file_path='uploaded/passports/'.$passport->image;
+		if(isset($data['image']) && !empty($query->image) && file_exists( public_path() . '/uploaded/passports/'.$query->image)){
+			$file_path='uploaded/passports/'.$query->image;
 	        unlink($file_path);
 		}
 		
-		return $passport->update($data);
+		$query->update($data);
+
+		return $query;
 	}
 
 

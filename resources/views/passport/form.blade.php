@@ -13,7 +13,7 @@
 		<div class="flex-row justify-space-between">
 			<div class="upload-passport-wrapper">
 				<div class="form-group group-column">
-					<label>Scan Passport & upload</label>
+					<label>Scan Passport & upload <span class="text-red">*</span></label>
 					<input type="file" name="image" class="d-none validation-control" id="passport-file-input" data-validation="{{isset($passport) ? '' : 'required'}}" accept="image/*">
 					@error('image')
 						<p class="validation-error">{{$message}}</p>
@@ -36,15 +36,15 @@
 				<div class="form-wrapper upload-passport-input-items">
 					<div class="grid-row template-repeat-3 col-gap-30">
 						<div class="form-group group-column">
-							<label>Type</label>
+							<label>Type <span class="text-red">*</span></label>
 							<input type="text" name="type" class="bg-white validation-control" data-validation="required" value="{{old('type',$passport->type ?? '')}}">
 						</div>
 						<div class="form-group group-column">
-							<label>Country Code</label>
+							<label>Country Code <span class="text-red">*</span></label>
 							<input type="text" name="country_code" class="bg-white validation-control" data-validation="required" value="{{old('country_code',$passport->country_code ?? '')}}">
 						</div>
 						<div class="form-group group-column">
-							<label>Passport No</label>
+							<label>Passport No <span class="text-red">*</span></label>
 							<input type="text" name="passport_no" class="bg-white validation-control" data-validation="required" value="{{old('passport_no',$passport->passport_no ?? '')}}">
 							@error('passport_no')
 							<p class="validation-error">{{$message}}</p>
@@ -52,42 +52,43 @@
 						</div>
 					</div>
 					<div class="form-group group-column">
-						<label>Surname</label>
+						<label>Surname <span class="text-red">*</span></label>
 						<input type="text" name="last_name" class="bg-white validation-control" data-validation="required" value="{{old('last_name',$passport->last_name ?? '')}}">
 					</div>
 					<div class="form-group group-column">
-						<label>Given Name</label>
+						<label>Given Name <span class="text-red">*</span></label>
 						<input type="text" name="first_name" class="bg-white validation-control" data-validation="required" value="{{old('first_name',$passport->first_name ?? '')}}">
 					</div>
 					<div class="form-group group-column">
-						<label>Nationality</label>
+						<label>Nationality <span class="text-red">*</span></label>
 						<input type="text" name="nationality" class="bg-white validation-control" data-validation="required" value="{{old('nationality',$passport->nationality ?? '')}}">
 					</div>
 					<div class="grid-row template-repeat-3 col-gap-20">
 						<div class="form-group group-column">
-							<label>Dob</label>
+							<label>DOB <span class="text-red">*</span></label>
 							<input type="date" name="dob" class="bg-white validation-control" data-validation="required" value="{{old('dob',$passport->dob ?? '')}}">
 						</div>
 						<div class="form-group group-column">
-							<label>Date of Issue</label>
+							<label>Issued Date <span class="text-red">*</span></label>
 							<input type="date" name="issued_date" class="bg-white validation-control" data-validation="required" value="{{old('issued_date',$passport->issued_date ?? '')}}">
 						</div>
 						<div class="form-group group-column">
-							<label>Expiry Date</label>
+							<label>Expiry Date <span class="text-red">*</span></label>
 							<input type="date" name="expiry_date" class="bg-white validation-control" data-validation="required" value="{{old('expiry_date',$passport->expiry_date ?? '')}}">
 						</div>
 					</div>
 					<div class="grid-row template-repeat-2 col-gap-20">
 						<div class="form-group group-column">
-							<label>Sex</label>
+							<label>Sex <span class="text-red">*</span></label>
 							<select class="validation-control" data-validation="required" name="gender" >
 								<option value="">Select</option>
-								<option value="Male" {{isset($passport) ? $passport->gender == 'Male' ? 'selected' : '' : ''}}>Male</option>
-								<option value="Female" {{isset($passport) ? $passport->gender == 'Female' ? 'selected' : '' : ''}}>Female</option>
+								@foreach(getGender() as $gender)
+									<option value="{{$gender}}" {{isset($passport) ? $gender == $passport->gender ? 'selected' : '' : ''}}>{{$gender}}</option>
+								@endforeach
 							</select>
 						</div>
 						<div class="form-group group-column">
-							<label>Place of Birth</label>
+							<label>Place of Birth <span class="text-red">*</span></label>
 							<select class="validation-control" data-validation="required" name="district">
 								<option value="">Select</option>
 								@foreach(getDistricts() as $district)
@@ -115,9 +116,6 @@
 	(function() {
 		function Initial() {
 			let _this = this;
-			this.formattingImgContent = function(text){
-
-			};
 			this.makeInputEmpty = function(){
 				$('select[name=district]').val("")
 				$('input[name=last_name]').val("")
