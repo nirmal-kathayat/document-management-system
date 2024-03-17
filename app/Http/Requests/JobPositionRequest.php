@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ContinentRequest extends FormRequest
+class JobPositionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,8 @@ class ContinentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'=>'required|unique:continents,title,'.$this->id',
+            'title' => 'required',
+            'description'=>'nullable'
         ];
     }
 }

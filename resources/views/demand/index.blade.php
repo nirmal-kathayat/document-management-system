@@ -55,8 +55,8 @@
         orderable: false,
       },
       {
-        data: 'demand_name',
-        name: 'demand_name',
+        data: 'title',
+        name: 'title',
         orderable: false,
         searchable: false
       },

@@ -4,11 +4,11 @@ namespace App\Repository;
 use App\Models\JobPosition;
 
 class JobPositionRepository{
-  private $jobPosition;
+  private $query;
 
-  public function __construct(JobPosition $jobPosition)
+  public function __construct(JobPosition $query)
   {
-    $this->jobPosition = $jobPosition;
+    $this->query = $query;
   }
 
   public function getAllJobs()
@@ -17,17 +17,14 @@ class JobPositionRepository{
   }
 
   public function storeJobPosition(array $data){
-    $data = [
-      'title'=>$data['title'],
-      'isDescription'=>$data['isDescription']
-    ];
+  
 
-    return $this->jobPosition->create($data);
+    return $this->query->create($data);
   }
 
   public function findJobs($id)
   {
-    $jobPosition =  $this->jobPosition;
+    $jobPosition =  $this->query;
     if (!is_array($id)) {
       return $jobPosition->findOrFail($id);
     } else {
@@ -37,16 +34,12 @@ class JobPositionRepository{
 
   public function updateJobs(array $data, int $id)
   {
-    $data = [
-      'title'=>$data['title'],
-      'isDescription'=>$data['isDescription']
-    ];
-
-    return $this->jobPosition->where(['id'=>$id])->update($data);
+  
+    return $this->query->where(['id'=>$id])->update($data);
   }
 
   public function deleteJobs($id)
   {
-    return $this->jobPosition->where('id',$id)->delete($id);
+    return $this->query->where('id',$id)->delete($id);
   }
 }

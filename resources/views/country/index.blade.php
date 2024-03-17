@@ -8,16 +8,6 @@
 
   <div class="data-table-wrapper">
     <table id="country-table" class="table">
-<<<<<<< HEAD
-      <thead>
-        <tr>
-          <td>S.No</td>
-          <td>Title</td>
-          <td>Continent</td>
-          <td>Action</td>
-        </tr>
-      </thead>
-=======
         <thead>
             <tr>
                 <th>S.No</th>
@@ -26,7 +16,6 @@
                 <th>Action</th>
             </tr>
         </thead>
->>>>>>> b222d5bbc6fcf2f08755ba2a13b61cbb0dc86edd
     </table>
   </div>
 </div>
