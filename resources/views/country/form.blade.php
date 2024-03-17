@@ -17,9 +17,9 @@
           <option value="" selected>Select Continent
           </option>
 
-          @foreach ($continents as $list => $continent)
-          <option value="{{ $list }}" {{ isset($country) && $country->continent_id == $list ? 'selected' : '' }}>
-            {{ $continent }}
+          @foreach ($continents as $continent)
+          <option value="{{ $continent->id }}" {{ isset($country) && $country->continent_id == $list ? 'selected' : '' }}>
+            {{ $continent->title }}
           </option>
           @endforeach
         </select>

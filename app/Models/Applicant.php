@@ -2,10 +2,38 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Applicant extends Model
 {
-    use HasFactory;
+   protected $guarded = [];
+
+    public function passportDetails()
+    {
+        return $this->belongsTo(Passport::class,'passport_id');
+    }
+
+    public function setFamilyDetailsAttribute($value){
+        $this->attributes['family_details'] json_encode($value);
+    }
+
+    public function getFamilyDetailsAttribute($value){
+    	return json_decode($value, true); 
+    }
+
+    public function setPersonalDetailsAttribute($value){
+      $this->attributes['personal_details'] = json_encode($value);
+    }
+
+    public function getPersonalDetailsAttribute($value){
+   		return json_decode($value, true); 
+    }
+
+    public function setExperiencesAttribute($value){
+      $this->attributes['experiences'] = json_encode($value);
+    }
+
+    public function getExperiencesAttribute($value){
+      return json_decode($value);
+    }
 }

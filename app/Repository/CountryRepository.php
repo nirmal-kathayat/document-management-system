@@ -11,7 +11,7 @@ class CountryRepository{
 
   public function get($params = []){
     $query = $this->query;
-    if(isset($params['continent_id'])){
+    if(isset($params['continent_id']) || !empty($params['continent_id'])){
       $query = $query->where('continent_id',$params['continent_id']);
     }
     $query =    $query
@@ -29,7 +29,7 @@ class CountryRepository{
                   ->orderBy('countries.title','asc');
   }
 
-  public function storeCountries(array $data)
+  public function store(array $data)
   {
     $data = [
       'continent_id'=>$data['continent_id'],
@@ -39,13 +39,13 @@ class CountryRepository{
     return $this->query->create($data);
   }
 
-  public function findCountry($id)
+  public function find($id)
   {
     return  $this->query->findOrFail($id);
     
   }
 
-  public function updateCountry(array $data, int $id)
+  public function update(array $data, int $id)
   {
     $data = [
       'continent_id'=>$data['continent_id'],
@@ -55,7 +55,7 @@ class CountryRepository{
     return $this->query->where('id',$id)->update($data);
   }
 
-  public function deleteCountry($id)
+  public function delete($id)
   {
     return $this->query->where('id',$id)->delete($id);
   }

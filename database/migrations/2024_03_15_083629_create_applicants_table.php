@@ -22,7 +22,6 @@ return new class extends Migration
             $table->json('family_details')->nullable();
             $table->json('personal_details')->nullable();
             $table->json('experiences')->nullable();
-            $table->json('other_employment_backgrounds')->nullable();
             $table->json('educations')->nullable();
             $table->json('attachments')->nullable();
             $table->json('on_job_checklist')->nullable();

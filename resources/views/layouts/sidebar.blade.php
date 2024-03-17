@@ -35,12 +35,12 @@
                    <li>
                        <a href="{{route('admin.demand')}}" class="{{ request()->is('admin/demand') ? 'active' : '' }}"><i class="fa fa-eye"></i>View Demand</a>
                   </li>
-                  <!--  <li>
-                       <a href="{{route('admin.jobPosition.create')}}" class="{{ request()->is('admin/jobPosition/create') ? 'active' : '' }}"><i class="fa fa-eye"></i>Add Position</a>
+                   <li>
+                       <a href="{{route('admin.position.create')}}" class="{{ request()->is('admin/position/create') ? 'active' : '' }}"><i class="fa fa-eye"></i>Add Position</a>
                   </li>
                    <li>
-                       <a href="{{route('admin.jobPosition')}}" class="{{ request()->is('admin/jobPosition') ? 'active' : '' }}"><i class="fa fa-eye"></i>View Position</a>
-                  </li> -->
+                       <a href="{{route('admin.position')}}" class="{{ request()->is('admin/position') ? 'active' : '' }}"><i class="fa fa-eye"></i>View Position</a>
+                  </li>
               </ul>
           </nav>
       </div>

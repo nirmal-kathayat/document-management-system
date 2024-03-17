@@ -22,7 +22,7 @@
 			let value=$(this).val()
 			if(validationAttrArr.includes('required') && value==''){
 				$(this).css('border','1px solid red')
-				$(this).parent().append('<p class="validation-error">This field is required</p>')
+				//$(this).parent().append('<p class="validation-error">This field is required</p>')
 				count ++
 			}
 			if(validationAttrArr.includes('confirm') && value){
@@ -31,7 +31,7 @@
 					if(confirmInput.val()){
 						if(value != confirmInput.val()){
 							$(this).css('border','1px solid red')
-							$(this).parent().append('<p class="validation-error">Password did not match</p>')
+							//$(this).parent().append('<p class="validation-error">Password did not match</p>')
 							count ++
 						}
 					}

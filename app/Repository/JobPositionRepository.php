@@ -11,34 +11,31 @@ class JobPositionRepository{
     $this->query = $query;
   }
 
-  public function getAllJobs()
-  {
-    return JobPosition::all();
+  public function dataTable(){
+      return $this->query->query()->orderBy('title','asc');
   }
 
-  public function storeJobPosition(array $data){
-  
+  public function get()
+  {
+    return $this->query->orderBy('title','asc')->get();
+  }
 
+  public function store(array $data){
     return $this->query->create($data);
   }
 
-  public function findJobs($id)
+  public function find($id)
   {
-    $jobPosition =  $this->query;
-    if (!is_array($id)) {
-      return $jobPosition->findOrFail($id);
-    } else {
-      return $jobPosition->whereIn('id', $id)->get();
-    }
+      return $this->query->findOrFail($id);
   }
 
-  public function updateJobs(array $data, int $id)
+  public function update(array $data, int $id)
   {
   
     return $this->query->where(['id'=>$id])->update($data);
   }
 
-  public function deleteJobs($id)
+  public function delete($id)
   {
     return $this->query->where('id',$id)->delete($id);
   }

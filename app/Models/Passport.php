@@ -8,7 +8,7 @@ class Passport extends Model
 {
     protected $guarded = [];
 
-     public function setImageAttribute($value){
+    public function setImageAttribute($value){
         $destination='uploaded/passports/';
         $imageName = time().'_'.$value->getClientOriginalName();  
         $value->move($destination,$imageName);

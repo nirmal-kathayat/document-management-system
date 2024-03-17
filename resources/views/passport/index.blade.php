@@ -83,7 +83,7 @@
             render:function(data,type,full,meta){
               const date = new Date(full.created_at); 
               const options = { day: 'numeric', month: 'short', year: 'numeric' };
-              return  date.toLocaleDateString('en-GB', options);
+              return  `${date.toLocaleDateString('en-GB', options)} <br/> <span class="status-text ${!!full?.isApplicant ? 'green' : 'red'}">${full?.isApplicant ? 'Applicant' : 'Not Applicant'}</span>`;
             }
           },
           {
@@ -95,10 +95,12 @@
               var editUrl =
                 "{{ route('admin.passport.edit', ['id' => ':id']) }}"
                 .replace(':id', full.id);
+              var addApplicantUrl =!!full.isApplicant ? `{{route('admin.applicant.edit',['id' =>':id'])}}`.replace(':id',full?.id)  : `{{route('admin.applicant.create')}}?passport_id=${full.id}`;
               var editButton =
                 '<a title="Edit" class="primary-btn" href="' + editUrl + '"><i class="fa fa-pencil"></i></a>';
+              var addAppButton = `<a title='${full?.isApplicant ? 'Update Applicant': "Add Applicant"}' class="primary-btn" href="${addApplicantUrl}"><i class='${!!full.isApplicant ? 'fa fa-user' : 'fa fa-user-plus'}'></i></a>`
               var actionButtons =
-                 `<div style='display:flex;column-gap:10px'> ${editButton}</div>`;
+                 `<div style='display:flex;column-gap:10px'> ${editButton} ${addAppButton}</div>`;
               return actionButtons
             }
           }
