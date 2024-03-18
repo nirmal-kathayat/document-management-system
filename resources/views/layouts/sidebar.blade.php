@@ -41,6 +41,12 @@
                    <li>
                        <a href="{{route('admin.position')}}" class="{{ request()->is('admin/position') ? 'active' : '' }}"><i class="fa fa-eye"></i>View Position</a>
                   </li>
+                  <li>
+                       <a href="{{route('admin.users.create')}}" class="{{ request()->is('admin/users/create') ? 'active' : '' }}"><i class="fa fa-eye"></i>Add Users</a>
+                  </li>
+                  <li>
+                       <a href="{{route('admin.users')}}" class="{{ request()->is('admin/users') ? 'active' : '' }}"><i class="fa fa-eye"></i>View Users</a>
+                  </li>
               </ul>
           </nav>
       </div>

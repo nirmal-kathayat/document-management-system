@@ -9,7 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DemandController;
 use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\UsersController;
 
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/', [AuthController::class, 'loginProcess'])->name('loginProcess');
@@ -77,5 +77,15 @@ Route::group(['prefix' => 'admin',], function () {
         Route::get('edit/{id}',[DemandController::class,'edit'])->name('admin.demand.edit');
         Route::put('edit/{id}',[DemandController::class,'update'])->name('admin.demand.update');
         Route::get('delete/{id}',[DemandController::class,'delete'])->name('admin.demand.delete');
+    });
+
+    // Users
+    Route::group(['prefix'=>'users'],function(){
+        Route::get('/',[UsersController::class,'index'])->name('admin.users');
+        Route::get('/create',[UsersController::class,'create'])->name('admin.users.create');
+        Route::post('/create',[UsersController::class,'store'])->name('admin.users.store');
+        Route::get('edit/{id}',[UsersController::class,'edit'])->name('admin.users.edit');
+        Route::put('edit/{id}',[UsersController::class,'update'])->name('admin.users.update');
+        Route::get('delete/{id}',[UsersController::class,'delete'])->name('admin.users.delete');
     });
 });
