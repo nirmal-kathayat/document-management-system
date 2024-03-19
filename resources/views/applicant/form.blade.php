@@ -1,9 +1,9 @@
 @extends('layouts.default')
 @php 
-	$step = $_GET['step'] ?? 'one';
-	$url = isset($applicant) ? route('admin.applicant.edit', ['id' => $applicant->id]) : 
-       (isset($passport) ? route('admin.applicant.create', ['passport_id' => $passport->id]) : 
-       route('admin.applicant.create'));
+$step = $_GET['step'] ?? 'one';
+$url = isset($applicant) ? route('admin.applicant.edit', ['id' => $applicant->id]) : 
+(isset($passport) ? route('admin.applicant.create', ['passport_id' => $passport->id]) : 
+route('admin.applicant.create'));
 @endphp
 @section('title','Job Application')
 @section('content')
@@ -11,21 +11,27 @@
 	<form action="{{$url}}" method="post" class="form-data" enctype="multipart/form-data">
 		@csrf
 		@if(isset($applicant))
-			@method('PUT')
+		@method('PUT')
 		@endif
 		<input type="hidden" name="step" value="{{$step}}">
 		<div class="form-wrapper">
 			@if($step =='one')
-				@include('applicant.components.step-one')
+			@include('applicant.components.step-one')
 			@elseif($step =='two')
-				@include('applicant.components.step-two')
+			@include('applicant.components.step-two')
 			@elseif($step =='three')
+			@include('applicant.components.step-three')
+			@elseif($step =='four')
+			@include('applicant.components.step-four')
 			@endif
 			<div class="form-group group-row flex-end col-gap-20">
 				@if($step!=='one')
-					<a class="back-btn" href="{{route('admin.applicant.edit',['id' => $applicant->id,'step' => $step=='two' ? 'one' :'two'])}}">Back</a>
+				<a class="back-btn" href="{{ route('admin.applicant.edit', [
+				'id' => $applicant->id,
+				'step' => $step == 'two' ? 'one' : ($step == 'three' ? 'two' : 'three')
+				]) }}">Back</a>
 				@endif
-				<button type="submit" class="primary-btn">Next</button>
+				<button type="submit" class="primary-btn">{{$step =='four' ? 'Finished' : 'Next'}}</button>
 			</div>
 		</div>
 	</form>
@@ -79,7 +85,7 @@
 
 			this.previewFileListener = function(files,target){
 				const file = files[0]
-				console.log(files)
+	
 				const reader = new FileReader();
 				target.find('.default-img').hide()
 				reader.onload = function(event) {
@@ -119,10 +125,89 @@
 				})
 			}
 
+			this.positionChangeListener = function(){
+				$(document).on('change','.position-select-wrapper',function(e){
+					const value = $(this).val()
+					var selectedDuties = $(this).find('option:selected').data('duties') || [];
+					const parent = $(this).parent().parent().parent()
+					parent.parent().find('.duties-add-on').remove()
+					if(!!selectedDuties?.length){
+						const subTitleWrapper = $('<div />',{
+							class:'form-section-sub-title duties-add-on',
+
+						})
+						const subTitle = $('<h5/>',{
+							text:'Duties'
+						})
+						subTitleWrapper.append(subTitle)
+						const wrapper = $('<div />',{
+							class:'form-wrapper',
+							style:'padding:0px 15px;'
+						})
+						const gridRow = $('<div />',{
+							class:'grid-row template-repeat-4 col-gap-20 duties-add-on row-gap-10'
+						})
+
+						selectedDuties?.forEach(item =>{
+							const group = $('<div />',{
+								class:'form-group group-row col-gap-10 align-center checkbox-wrapper'
+							})
+
+
+							const label = $('<label />',{
+								text:item
+							})
+
+							const checkbox = $('<input />',{
+								type:'checkbox',
+								name:`experiences[professionals][${parseInt(parent.parent().data('index'))}][duties][]`,
+								class:'duties-checkbox',
+								value:item
+							})
+
+							group.append(label)
+							group.append(checkbox)
+							gridRow.append(group)
+
+						})
+
+						wrapper.append(gridRow)
+
+						parent.after(wrapper)
+						parent.after(subTitleWrapper)
+					}
+
+				})
+			}
+
+			this.attachmentListener = function(){
+				const target = $('.attach-upload-input')
+				target.on('change',function(event){
+					const current = $(this)
+					const file = event.target.files[0]
+					const reader = new FileReader();
+					reader.onload = function(event) {
+						const imgWrapper = $('<div />',{
+							class:'attach-uploaded-img',
+						})
+						const img = $('<img />',{
+							src:event.target.result
+						})
+						current.parent().prev().html('')
+						imgWrapper.append(img)
+						current.parent().prev().append(imgWrapper)
+					};
+
+					reader.readAsDataURL(file);
+				})
+			}
+
 			this.init = function(){
 				_this.fetchCountryListener()
 				_this.fileChangeListener()
 				_this.maritalStatusListener()
+				_this.positionChangeListener()
+				_this.attachmentListener()
 				
 			}
 

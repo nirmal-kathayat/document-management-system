@@ -10,8 +10,8 @@ class Passport extends Model
 
     public function setImageAttribute($value){
         $destination='uploaded/passports/';
-        $imageName = time().'_'.$value->getClientOriginalName();  
+        $imageName = time().'.'.pathinfo($value->getClientOriginalName(), PATHINFO_EXTENSION); 
         $value->move($destination,$imageName);
-        $this->attributes['image'] =$imageName;
+        $this->attributes['image'] =$destination.$imageName;
     }
 }

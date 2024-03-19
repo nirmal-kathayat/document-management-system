@@ -120,3 +120,28 @@ if(!function_exists('getGender')){
         ];
     }
 }
+
+if(!function_exists('englishLevels')){
+    function englishLevels(){
+        return [
+            'Very Poor',
+            'Poor',
+            'OK',
+            'Good',
+            'Very Good'
+        ];
+    }
+}
+
+if(!function_exists('getPersonalQuestions')){
+    function getPersonalQuestions(){
+        return [
+            'work_on_sunday' => 'Are you willing to work on sundays?',
+            'any_disabilities' => 'Do you have any disabilities?',
+            'any_allergies' =>'Do you suffer from any allergies?',
+            'pets' => 'Are you comfortable with pets?',
+            'vegetarian' =>'Are you vegetarian?',
+            'like_cook' => "Is there any food you dont't like to cook?"
+        ]; 
+    }
+}
