@@ -41,10 +41,12 @@ class UserController extends Controller
     }
     public function store(UserRequest $request)
     {
+        // dd($request->all());
         try {
             $this->repo->store($request->validated());
-            return redirect()->route('admin.profile')->with(['message' => 'Users created successfully!', 'type' => 'success']);
+            return redirect()->route('admin.user')->with(['message' => 'Users created successfully!', 'type' => 'success']);
         } catch (Exception $e) {
+            dd($e->getMessage());
             return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
         }
     }
@@ -63,7 +65,7 @@ class UserController extends Controller
     {
         try {
             $this->repo->update($request->validated(), $id);
-            return redirect()->route('admin.profile')->with(['message' => 'Users updated successfully!', 'type' => 'success']);
+            return redirect()->route('admin.user')->with(['message' => 'Users updated successfully!', 'type' => 'success']);
         } catch (Exception $e) {
             return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
         }
