@@ -6,20 +6,49 @@ use App\Repository\Passportrepository;
 use App\Repository\ContinentRepository;
 use App\Repository\JobPositionRepository;
 use App\Repository\ExperienceRepository;
+use App\Repository\CountryRepository;
 use App\Http\Requests\ApplicantRequest;
+use DataTables;
+use Carbon\Carbon;
 class ApplicantController extends Controller
 {
-	private $repo,$passportRepo,$continentRepo,$positionRepo,$experienceRepo;
-	public function __construct(ApplicantRepository $repo,Passportrepository $passportRepo,ContinentRepository $continentRepo,JobPositionRepository $positionRepo,ExperienceRepository $experienceRepo){
+	private $repo,$passportRepo,$continentRepo,$positionRepo,$experienceRepo,$countryRepo;
+	public function __construct(ApplicantRepository $repo,Passportrepository $passportRepo,ContinentRepository $continentRepo,JobPositionRepository $positionRepo,ExperienceRepository $experienceRepo,CountryRepository $countryRepo){
 		$this->repo = $repo;
 		$this->passportRepo=$passportRepo;
 		$this->continentRepo=$continentRepo;
         $this->positionRepo = $positionRepo;
         $this->experienceRepo = $experienceRepo;
+        $this->countryRepo = $countryRepo;
 
-	}
+    }
     public function index(){
-    	return view('applicant.index');
+        try {
+            if(request()->ajax()){
+                $data = $this->repo->dataTable([
+                    'search' => $_GET['search'] ?? null,
+                    'gender' => $_GET['gender'] ?? null,
+                    'country' => $_GET['country'] ?? null,
+                    'position' => $_GET['position'] ?? null,
+                    'experience' => $_GET['experience'] ?? null,
+                    'age' => $_GET['age'] ?? null,
+                    'from_date' => $_GET['from_date'] ?? null,
+                    'to_date' => $_GET['to_date'] ?? null
+
+                ]);
+                return DataTables::of($data)
+                ->addIndexColumn()
+                ->rawColumns([])
+                ->make(true);
+            }
+            $data['positions'] = $this->positionRepo->get();
+            $data['experiences'] = $this->experienceRepo->get();
+            $data['countries'] = $this->countryRepo->get();
+            return view('applicant.index')->with($data);
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
+            
+        }
     }
 
     public function create(){

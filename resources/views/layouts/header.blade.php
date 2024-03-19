@@ -17,8 +17,8 @@
     <div class="profile-dropdown">
         <ul>
           <li><a href="#">My Profile</a></li>
-          <li><a href="#">All User</a></li>
-          <li><a href="#">Add User</a></li>
+          <li><a href="{{route('admin.user')}}">All User</a></li>
+          <li><a href="{{route('admin.user.create')}}">Add User</a></li>
           <li><a href="{{route('logout')}}">Logout</a></li>
         </ul>
     </div>

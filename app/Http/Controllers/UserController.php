@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileRequest;
-use App\Repository\ProfileRepository;
+use App\Http\Requests\UserRequest;
+use App\Repository\UserRepository;
 use Exception;
 use DataTables;
 use Illuminate\Http\Request;
 
-class ProfileController extends Controller
+class UserController extends Controller
 {
     private $repo;
-    public function __construct(ProfileRepository $repo)
+    public function __construct(UserRepository $repo)
     {
         $this->repo = $repo;
     }
@@ -39,14 +39,12 @@ class ProfileController extends Controller
             return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
         }
     }
-    public function store(ProfileRequest $request)
+    public function store(UserRequest $request)
     {
-        // dd($request->all());
         try {
             $this->repo->store($request->validated());
             return redirect()->route('admin.profile')->with(['message' => 'Users created successfully!', 'type' => 'success']);
         } catch (Exception $e) {
-            // dd($e->getMessage());
             return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
         }
     }
@@ -61,7 +59,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function update(ProfileRequest $request, $id)
+    public function update(UserRequest $request, $id)
     {
         try {
             $this->repo->update($request->validated(), $id);

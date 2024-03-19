@@ -36,17 +36,12 @@
                        <a href="{{route('admin.demand')}}" class="{{ request()->is('admin/demand') ? 'active' : '' }}"><i class="fa fa-eye"></i>View Demand</a>
                   </li>
                    <li>
-                       <a href="{{route('admin.position.create')}}" class="{{ request()->is('admin/position/create') ? 'active' : '' }}"><i class="fa fa-eye"></i>Add Position</a>
+                       <a href="{{route('admin.position.create')}}" class="{{ request()->is('admin/position/create') ? 'active' : '' }}"><i class="fa fa-graduation-cap"></i>Add Position</a>
                   </li>
                    <li>
-                       <a href="{{route('admin.position')}}" class="{{ request()->is('admin/position') ? 'active' : '' }}"><i class="fa fa-eye"></i>View Position</a>
+                       <a href="{{route('admin.position')}}" class="{{ request()->is('admin/position') ? 'active' : '' }}"><i class="fa fa-graduation-cap"></i>View Position</a>
                   </li>
-                  <li>
-                       <a href="{{route('admin.profile.create')}}" class="{{ request()->is('admin/users/create') ? 'active' : '' }}"><i class="fa fa-users"></i>Add Users</a>
-                  </li>
-                  <li>
-                       <a href="{{route('admin.profile')}}" class="{{ request()->is('admin/users') ? 'active' : '' }}"><i class="fa fa-users"></i>View Users</a>
-                  </li>
+                 
               </ul>
           </nav>
       </div>
