@@ -163,6 +163,9 @@ input[type=date]{
 .template-repeat-4{
 	grid-template-columns: repeat(4,1fr);
 }
+.template-repeat-5{
+	grid-template-columns: repeat(5,1fr);
+}
 .col-gap-20{
 	column-gap:20px;
 }

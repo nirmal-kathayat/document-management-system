@@ -1,3 +1,7 @@
+@php
+	use Carbon\Carbon;
+	$age = isset($passport) ? Carbon::createFromFormat('Y-m-d', $passport->dob)->diffInYears(Carbon::now()) : '';
+@endphp
 <div class="step-one">
 	<div class="grid-row template-repeat-3 col-gap-20">
 		<div class="form-group group-column">
@@ -108,7 +112,7 @@
 					<div class="grid-row template-repeat-3 col-gap-30 row-gap-20">
 						<div class="form-group group-column">
 							<label>Age <span class="text-red">*</span></label>
-							<input type="number" name="personal_details[age]" class="validation-control" data-validation="required" value="{{old('personal_details[age]',$applicant->personal_details['age'] ?? '')}}">
+							<input type="number" name="personal_details[age]" class="validation-control" data-validation="required" value="{{old('personal_details[age]',$applicant->personal_details['age'] ?? $age)}}">
 						</div>
 						<div class="form-group group-column">
 							<label>Home No</label>
@@ -206,12 +210,19 @@
 		<div class="right-form-wrapper">
 			<div class="form-wrapper">
 				<div class="grey-bg upload-img-preview">
+					@if(isset($applicant) && isset($applicant->attachments['profile_img']))
+						<div class="uploaded-img">
+							<img src="{{asset($applicant->attachments['profile_img'])}}">
+						</div>
+					@else
 					<div class="default-img">
 						<i class="fa fa-user"></i>
 					</div>
+					@endif
+					
 				</div>
 				<div class="form-group group-column">
-					<input type="file" name="attachments['profile_img']" class="d-none" accept="image/*"  id="profile-input">
+					<input type="file" name="attachments[profile_img]" class="d-none" accept="image/*"  id="profile-input">
 					<div class="flex-row justify-center">
 						<label for="profile-input" class="profile-btn">
 							Upload Photo

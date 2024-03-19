@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('country_code');
             $table->string('gender');
             $table->string('citizen_no')->nullable();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
         });

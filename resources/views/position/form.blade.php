@@ -23,13 +23,8 @@
       <label>Duties</label>
       <div class="form-group group-column" style="width:100%">
         <div class="grid-row template-repeat-3 col-gap-10 row-gap-10" id="duty-field-items">
-          @if(isset($position) && count($position->duties) <=0)
-          <div class="form-group group-column">
-            <input type="text" name="duties[]" placeholder="Title" data-validation="required" class="validation-control">
-          </div>
-          @endif
-          @if(isset($position))
-            @foreach($position->duties as $key=>$duty)
+          @if(isset($position) && !empty($position?->duties))
+            @foreach($position?->duties as $key=>$duty)
             <div class="form-group group-row">
               <input type="text" name="duties[]" value="{{$duty}}">
               @if($key >0)
@@ -38,10 +33,6 @@
               @endif
             </div>
             @endforeach
-            @else
-            <div class="form-group group-column row-gap-10">
-             <input type="text" name="duties[]" placeholder="Title" data-validation="required" class="validation-control">
-           </div>
            @endif
         </div>
         <div class="form-group">
@@ -53,7 +44,8 @@
        <label>Job Questions</label>
        <div class="form-group group-column row-gap-10" style="width:100%">
           <div class="question-field-items">
-            @foreach($position->job_questions as $key=>$question)
+            @if(isset($position) && !empty($position?->job_questions))
+            @foreach($position?->job_questions as $key=>$question)
               <div class="form-group group-column" data-index="{{$key}}">
                   <div class="form-group group-row col-gap-10">
                       <input type="text" name="job_questions[$key][title]" value="{{$question['title']}}" class="validation-control" data-validation="required" placeholder="Question Category">
@@ -72,10 +64,11 @@
                       @endforeach
                   </div>
                   <div class="form-group">
-                      <button type="button" class="primary-btn">Add Duty</button>
+                      <button type="button" class="primary-btn question-duty-btn">Add Duty</button>
                   </div>
               </div>
             @endforeach
+            @endif
           </div>
           <div class="form-group">
               <button title="Add Duties" class="primary-btn add-question-field" type="button" >Add Job Question</button>
@@ -96,7 +89,7 @@
   (function(){
     function Initial(){
       let _this = this
-      let counter = parseInt(`{{ isset($position) && count($position->job_questions) > 0 ? count($position->job_questions) : 0 }}`);
+      let counter = parseInt(`{{ isset($position) && !empty($position->job_questions) && count($position->job_questions) > 0 ? count($position->job_questions) : 0 }}`);
       this.dutiesFieldListener =function(){
         const btn = $('.add-duty-field')
         const target = $('#duty-field-items')
@@ -166,7 +159,7 @@
 
           })
           const addDutyBtn = $('<button />',{
-            class:'primary-btn',
+            class:'primary-btn question-duty-btn',
             type:'button',
             text:'Add Duty'
           })
@@ -178,7 +171,12 @@
           group.append(addDutyFieldWrapper)
           target.append(group)
           counter = counter + 1
-          addDutyBtn.on('click',function(){
+          
+
+        })
+
+        $(document).on('click','.question-duty-btn',function(){
+
              const index = $(this).parent().parent().data('index')
               const dutyItem = $('<div />',{
                 class:"form-group group-row col-gap-10"
@@ -200,11 +198,9 @@
               removeBtn.append(removeIcon)
              dutyItem.append(input)
              dutyItem.append(removeBtn)
-             grid.append(dutyItem)
+             $(this).parent().prev().append(dutyItem)
 
           })
-
-        })
          $(document).on("click",'.remove-question-item-field-btn',function(){
             $(this).parent().remove()
 

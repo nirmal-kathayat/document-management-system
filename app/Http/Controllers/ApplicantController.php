@@ -9,12 +9,12 @@ use App\Repository\ExperienceRepository;
 use App\Http\Requests\ApplicantRequest;
 class ApplicantController extends Controller
 {
-	private $repo,$passportRepo,$continentRepo,$jobPositionRepo,$experienceRepo;
-	public function __construct(ApplicantRepository $repo,Passportrepository $passportRepo,ContinentRepository $continentRepo,JobPositionRepository $jobPositionRepo,ExperienceRepository $experienceRepo){
+	private $repo,$passportRepo,$continentRepo,$positionRepo,$experienceRepo;
+	public function __construct(ApplicantRepository $repo,Passportrepository $passportRepo,ContinentRepository $continentRepo,JobPositionRepository $positionRepo,ExperienceRepository $experienceRepo){
 		$this->repo = $repo;
 		$this->passportRepo=$passportRepo;
 		$this->continentRepo=$continentRepo;
-        $this->jobPositionRepo = $jobPositionRepo;
+        $this->positionRepo = $positionRepo;
         $this->experienceRepo = $experienceRepo;
 
 	}
@@ -29,10 +29,11 @@ class ApplicantController extends Controller
             $data = [];
             if($step == 'one'){
                 $data['continents'] = $this->continentRepo->get();
-                $data['positions'] = $this->jobPositionRepo->get();
+                $data['positions'] = $this->positionRepo->get();
             }
             if($step ==='two'){
                 $data['experiences'] = $this->experienceRepo->get();
+                $data['positions'] = $this->positionRepo->get();
             }
             if(!empty($passportId)){
                 $data['passport']  =  $this->passportRepo->find($passportId);
@@ -63,12 +64,20 @@ class ApplicantController extends Controller
             $data['applicant'] = $this->repo->find($id);
             if($step == 'one'){
                 $data['continents'] = $this->continentRepo->get();
-                $data['positions'] = $this->jobPositionRepo->get();
+                $data['positions'] = $this->positionRepo->get();
                 $data['passport']  =  $this->passportRepo->find($data['applicant']->passport_id);
 
             }
-            if($step ==='two'){
+            if($step =='two'){
                 $data['experiences'] = $this->experienceRepo->get();
+                $data['positions'] = $this->positionRepo->get();
+            }
+            if($step=='three'){
+                $data['selectedPosition'] = $this->positionRepo->find($data['applicant']->job_position_id);
+            }
+            if($step=='four'){
+                $data['passport']  =  $this->passportRepo->find($data['applicant']->passport_id);
+                
             }
             return view('applicant.form')->with($data);
         } catch (Exception $e) {
@@ -80,7 +89,7 @@ class ApplicantController extends Controller
 
     public function update(ApplicantRequest $request,$id){
         try {
-            $step = $_GET['step'] ?? 'one';
+            $step =$request->step;
             $data= $this->repo->update($request->validated(),$id);
             if($step == 'one'){
                 return redirect()->route('admin.applicant.edit',['id' => $data->id,'step' => 'two'])->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
@@ -88,7 +97,6 @@ class ApplicantController extends Controller
             }else if($step =='two'){
                 return redirect()->route('admin.applicant.edit',['id' => $data->id,'step' => 'three'])->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
             }else if($step =='three'){
-
                 return redirect()->route('admin.applicant.edit',['id' => $data->id,'step' => 'four'])->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
             }
             else{

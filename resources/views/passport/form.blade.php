@@ -22,7 +22,7 @@
 				<label class="upload-passport-img-wrapper white-bg drop-zone" id="drop-zone" for="passport-file-input">
 					@if(isset($passport) && !empty($passport->image))
 					<div class="uploaded-img">
-						<img src="{{asset('uploaded/passports/'.$passport->image)}}">
+						<img src="{{asset($passport->image)}}">
 					</div>
 					@else
 					<div class="upload-passport-info">

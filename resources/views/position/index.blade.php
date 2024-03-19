@@ -59,7 +59,7 @@
             orderable:false,
             searchable:false,
             render:function(data,type,full,meta){
-              return full.duties.toString()
+              return !!full.duties ?  full.duties.toString() : ''
             }
           },
           {
