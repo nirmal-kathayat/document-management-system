@@ -1,7 +1,7 @@
 @extends('layouts.default')
 @section('title','All Users')
 @php
-$url = isset($user) ? route('admin.users.edit',['id' => $user->id]) : route('admin.users.create');
+$url = isset($user) ? route('admin.profile.edit',['id' => $user->id]) : route('admin.profile.create');
 @endphp
 @section('content')
 <div class="inner-section-wrapper grey-bg upload-block">

@@ -2,7 +2,7 @@
 namespace App\Repository;
 use App\Models\Admins;
 
-class UsersRepository{
+class ProfileRepository{
   private $query;
   public function __construct(Admins $query)
   {

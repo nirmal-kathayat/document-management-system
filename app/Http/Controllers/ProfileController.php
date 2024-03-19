@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UsersRequest;
-use App\Repository\UsersRepository;
+use App\Http\Requests\ProfileRequest;
+use App\Repository\ProfileRepository;
 use Exception;
 use DataTables;
 use Illuminate\Http\Request;
 
-class UsersController extends Controller
+class ProfileController extends Controller
 {
     private $repo;
-    public function __construct(UsersRepository $repo)
+    public function __construct(ProfileRepository $repo)
     {
         $this->repo = $repo;
     }
@@ -39,12 +39,12 @@ class UsersController extends Controller
             return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
         }
     }
-    public function store(UsersRequest $request)
+    public function store(ProfileRequest $request)
     {
         // dd($request->all());
         try {
             $this->repo->store($request->validated());
-            return redirect()->route('admin.users')->with(['message' => 'Users created successfully!', 'type' => 'success']);
+            return redirect()->route('admin.profile')->with(['message' => 'Users created successfully!', 'type' => 'success']);
         } catch (Exception $e) {
             // dd($e->getMessage());
             return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
@@ -61,11 +61,11 @@ class UsersController extends Controller
         }
     }
 
-    public function update(UsersRequest $request, $id)
+    public function update(ProfileRequest $request, $id)
     {
         try {
             $this->repo->update($request->validated(), $id);
-            return redirect()->route('admin.users')->with(['message' => 'Users updated successfully!', 'type' => 'success']);
+            return redirect()->route('admin.profile')->with(['message' => 'Users updated successfully!', 'type' => 'success']);
         } catch (Exception $e) {
             return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
         }
