@@ -138,7 +138,7 @@
 			</div>
 		</div>
 	</div>
-	@if(isset($selectedPosition) && count($selectedPosition->job_questions) > 0)
+	@if(isset($selectedPosition) && !empty($selectedPosition->job_questions) && count($selectedPosition->job_questions) > 0)
 	<div class="grey-bg details-form-block" style="margin-top:15px">
 		<div class="form-section-title">
 			<h4>On-Job Question</h4>

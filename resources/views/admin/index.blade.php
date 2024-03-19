@@ -4,7 +4,7 @@
 
 <div class="inner-section-wrapper">
   <div class="create-link">
-    <a href="{{route('admin.profile.create')}}">Add Users</a>
+    <a href="{{route('admin.user.create')}}">Add Users</a>
   </div>
   <div class="data-table-wrapper">
     <table id="position-table" class="table">
@@ -36,7 +36,7 @@
     serveSide: true,
     responsive: true,
     ajax: {
-      url: "{{route('admin.profile')}}",
+      url: "{{route('admin.user')}}",
 
     },
     columns: [{
@@ -89,10 +89,10 @@
         searchable: false,
         render: function(data, type, full, meta) {
           var editUrl =
-            "{{ route('admin.profile.edit', ['id' => ':id']) }}"
+            "{{ route('admin.user.edit', ['id' => ':id']) }}"
             .replace(':id', full.id);
           var deleteUrl =
-            "{{ route('admin.profile.delete', ['id' => ':id']) }}".replace(':id', full.id);
+            "{{ route('admin.user.delete', ['id' => ':id']) }}".replace(':id', full.id);
           var editButton =
             '<a class="primary-btn" href="' + editUrl + '"><i class="fa fa-pencil"></i></a>';
           var deleteButton =
