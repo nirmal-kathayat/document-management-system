@@ -13,11 +13,13 @@ class ApplicantRepository{
 
 	public function dataTable($params = []){
 		$query =$this->query
-					->query();
+					->query()
+					->where('applicants.is_selected',$params['isSelected']);
 		if(isset($params['search']) && !empty($params['search'])){
 			$query = $query->where('passports.first_name','like','%' . strtoupper($params['search']) . '%')
 							->orWhere('passports.last_name','like','%' . strtoupper($params['search']) . '%');
 		}	
+
 		if(isset($params['gender']) && !empty($params['gender'])){
 			$query = $query->where('passports.gender',$params['gender']);
 		}
@@ -34,7 +36,7 @@ class ApplicantRepository{
 		}
 
 		if(isset($params['experience']) && !empty($params['experience'])){
-			$query = $query->whereJsonContains('applicants.experiences->professionals[0].duration', $params['experience']);
+ 			$query = $query->where(\DB::raw("IFNULL(JSON_UNQUOTE(JSON_EXTRACT(applicants.experiences, '$.professionals[0].duration')), NULL)"), $params['experience']);
 
 		}
 
@@ -47,7 +49,7 @@ class ApplicantRepository{
 				->leftJoin('passports','passports.id','applicants.passport_id')
 				->leftJoin('job_positions','job_positions.id','applicants.job_position_id')
 				->leftJoin('countries','countries.id','applicants.country_id')
-				->select('applicants.id','applicants.experiences','passports.first_name','passports.last_name','passports.id as passport_id','applicants.job_position_id','job_positions.title as position_name','applicants.country_id','countries.title as country_name','applicants.created_at')
+				->select('applicants.id',\DB::raw("IFNULL(JSON_UNQUOTE(JSON_EXTRACT(applicants.experiences, '$.professionals[0].duration')), NULL) AS experience"),'passports.first_name','passports.last_name','passports.id as passport_id','applicants.job_position_id','job_positions.title as position_name','applicants.country_id','countries.title as country_name','passports.gender','passports.dob','applicants.created_at','applicants.is_selected')
 				->orderBy('applicants.created_at','desc');
 		return $query;
 	}
@@ -171,18 +173,43 @@ class ApplicantRepository{
 		return $query;
 	}
 
+	public function delete($id){
+		$query =$this->find($id);
+		if(is_array($query->attachments)){
+			foreach($query->attachments as $attachment){
+				if(!empty($attachment)){
+					$this->unlinkAttachment($attachment);
+				}
+			}
+		}
+
+		return $query->delete();
+	}
+
+
+	public function multiUpdate(array $data,$ids){
+		return $this->query->whereIn('id',$ids)->update($data);
+	}
+
 
 	public function uploadAttachment($file,$params = []){
 		$imageName = $params['image_name'].'.'.pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
 		$file->move($params['destination'],$imageName);
 		if(!empty($params['existing_file'])){
-			if(file_exists( public_path().'/'.$params['existing_file'])){
-
-				unlink($params['existing_file']);
-			}
+			$this->unlinkAttachment($params['existing_file']);
 		}
 		return $params['destination'].'/'.$imageName;
 	}
+
+	public function unlinkAttachment($path){
+		if(file_exists( public_path().'/'.$path)){
+			unlink($path);
+				
+		}
+		return;
+	}
+
+
 
 	
 }

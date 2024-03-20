@@ -76,7 +76,7 @@
               var editButton =
                 '<a class="primary-btn" href="' + editUrl + '"><i class="fa fa-pencil"></i></a>';
               var deleteButton =
-                  `<a class="danger-btn" href=${deleteUrl}><i class="fa fa-trash"></i></a>`;
+                  `<button type="button" class="danger-btn confirm-modal-open" href=${deleteUrl}><i class="fa fa-trash"></i></button>`;
               var actionButtons =
                  `<div style='display:flex;column-gap:10px'> ${editButton} ${deleteButton}</div>`;
               return actionButtons

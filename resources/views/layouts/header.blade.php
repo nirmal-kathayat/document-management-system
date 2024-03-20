@@ -19,6 +19,10 @@
           <li><a href="#">My Profile</a></li>
           <li><a href="{{route('admin.user')}}">All User</a></li>
           <li><a href="{{route('admin.user.create')}}">Add User</a></li>
+           <li><a href="{{route('admin.role')}}">All Role</a></li>
+          <li><a href="{{route('admin.role.create')}}">Add Role</a></li>
+          <li><a href="{{route('admin.permission')}}">All Permission</a></li>
+          <li><a href="{{route('admin.permission.create')}}">Add Permission</a></li>
           <li><a href="{{route('logout')}}">Logout</a></li>
         </ul>
     </div>

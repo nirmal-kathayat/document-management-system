@@ -9,7 +9,19 @@
 				<i class="fa fa-search"></i>
 			</div>
 			<div class="other-action-wrapper flex-end">
-				<a href="{{route('admin.applicant.create')}}"><i class="fa fa-user-plus"></i></a>
+				<a href="{{route('admin.applicant.create')}}" title="Create Applicant"><i class="fa fa-user-plus"></i></a>
+				<form method="post" class="excel-export-form"action="{{route('admin.applicant.export')}}">
+					@csrf
+					 <input type="hidden" name="from_date">
+					 <input type="hidden" name="to_date">
+					 <input type="hidden" name="age">
+					 <input type="hidden" name="position">
+					 <input type="hidden" name="country">
+					 <input type="hidden" name="experience">
+					 <input type="hidden" name="gender">
+					 <input type="hidden" name="isSelected" value="false">
+					<button title="Download Excel"><i class="fa fa-file-excel-o"></i></button>
+				</form>
 				<button type="button" class="filter-btn"><i class="fa fa-filter"></i></button>
 			</div>
 		</div>
@@ -69,6 +81,11 @@
 						</div>
 					</div>
 
+					<div class="form-group group-row">
+						<label style="display: flex;align-items: center;width:50%">Selected&nbsp;&nbsp;<input style="width:20px;height:20px" type="checkbox" name="isSelected" class="filter-is-select"></label>
+						
+					</div>
+
 				</div>
 				<div class="form-group group-column filter-submit-wrapper">
 					<button class="primary-btn">Filter</button>
@@ -91,6 +108,9 @@
 				</tr>
 			</thead>
 		</table>
+	</div>
+	<div class="flex-row flex-end move-btn-wrapper" style="margin-top:20px">
+		<a href="" class="primary-btn">Move to Selected</a>
 	</div>
 </div>
 @endsection
@@ -154,15 +174,10 @@ rel="stylesheet">
 			orderable:false,
 		},
 		{
-			data:'experiences',
-			name:'experiences',
+			data:'experience',
+			name:'experience',
 			orderable:false,
 			searchable:false,
-			render:function(data,type,full,meta){
-				const experiences = full?.experiences['professionals'] || []
-				const filterExp = experiences?.filter(experience => full?.position_name === experience?.position)
-				return filterExp[0]?.duration || ''
-			}
 		},
 		{
 			data: 'action',
@@ -175,8 +190,13 @@ rel="stylesheet">
 				.replace(':id', full.id);
 				var editButton =
 				'<a title="Edit" class="primary-btn" href="' + editUrl + '"><i class="fa fa-pencil"></i></a>';
+				   var deleteUrl =
+                "{{ route('admin.applicant.delete', ['id' => ':id']) }}".replace(':id', full.id);
+                  var deleteButton =
+                  `<button type="button" class="danger-btn confirm-modal-open" href=${deleteUrl}><i class="fa fa-trash"></i></button>`;
+				var checkbox =!!full?.is_selected ? '' :  `<input value="${full.id}"  type='checkbox' class="applicant-selected-checkbox"  />`
 				var actionButtons =
-				`<div style='display:flex;column-gap:10px'> ${editButton}</div>`;
+				`<div style='display:flex;column-gap:10px;align-items:center;justify-content:flex-end;'>${checkbox} ${editButton} ${deleteButton}</div>`;
 				return actionButtons
 			}
 		}
@@ -201,7 +221,38 @@ rel="stylesheet">
 	$('.filter-submit-form').on('submit',function(event){
 		event.preventDefault()
 		const formData = $(this).serialize()
+		const arrayData = $(this).serializeArray()
+		arrayData?.forEach(item =>{
+			$(`.excel-export-form input[name=${item?.name}]`).val(item?.value)
+		})
 		dataTable.ajax.url("{{ route('admin.applicant') }}?" + formData).load();
+	})
+
+	$('.filter-is-select').on('change',function(){
+		const val  = $(this).prop('checked') ? 'on' : 'off';
+		$(`.excel-export-form input[name=isSelected]`).val(val)
+	})
+
+	const checkbox = $('.applicant-selected-checkbox')
+	let selected = []
+	$(document).on('change','.applicant-selected-checkbox',function(){
+		const isChecked = $(this).prop('checked')
+		const val = parseInt($(this).val())
+		if(!!isChecked){
+			selected.push(val)
+		}else{
+			selected = selected?.filter(item => val!=item)
+		}
+		
+
+		if(!!selected?.length){
+			let url = "{{route('admin.applicant.move')}}?ids="+selected.toString()
+			$('.move-btn-wrapper a').attr('href',url)
+			$('.move-btn-wrapper').show()
+		}else{
+			$('.move-btn-wrapper').hide()
+			$('.move-btn-wrapper a').attr('href','')
+		}
 	})
 </script>
 @endpush

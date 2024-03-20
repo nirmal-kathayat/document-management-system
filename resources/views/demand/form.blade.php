@@ -21,17 +21,17 @@
           </div>
 
           <div class="form-group group-row align-center">
-            <label for="">Title:</label>
-            <input type="text" name="title" value="{{isset($demand) ? $demand->title: ''}}" class="validation-control" data-validation="required">
-            @error('title')
-            <span class="validation-error">
-              {{$message}}
-            </span>
-            @enderror
+            <label for="">Position</label>
+            <select name="job_position_id" class="validation-control" data-validation="required">
+              <option value="">Select</option>
+              @foreach($positions as $position)
+                <option value="{{$position->id}}">{{$position->title}}</option>
+              @endforeach
+            </select>
           </div>
 
           <div class="form-group group-row align-center">
-            <label for="">Salary:</label>
+            <label for="">Salary</label>
             <input type="number" name="salary" value="{{isset($demand) ? $demand->salary: ''}}" class="validation-control" data-validation="required">
           
             @error('salary')
@@ -42,13 +42,13 @@
           </div>
 
           <div class="form-group group-row align-center">
-            <label for="">Experience:</label>
+            <label for="">Experience</label>
             <select name="experience_id" class="validation-control" data-validation="required">
 
               <option value="" selected>Select Experience</option>
-              @foreach($experiences as $id => $experience)
-              <option value="{{ $id }}" {{ isset($demand) && $demand->experience_id == $id ? 'selected' : '' }}>
-                {{ $experience }}
+              @foreach($experiences as $experience)
+              <option value="{{ $experience->id }}" {{ isset($demand) && $demand->experience_id == $experience->id ? 'selected' : '' }}>
+                {{ $experience->experience }}
               </option>
               @endforeach
             </select>
@@ -61,7 +61,7 @@
           </div>
 
           <div class="form-group group-row align-center">
-            <label for="">Country:</label>
+            <label for="">Country</label>
             <select name="country_id" class="validation-control" data-validation="required">
                 <option value = "">Select Country</option>
                 @foreach($countries as $country)
@@ -77,7 +77,7 @@
           </div>
 
           <div class="form-group group-row">
-            <label for="comment">Comment:</label>
+            <label for="comment">Comment</label>
             <textarea id="comment" name="comment" rows="4" cols="50" class="validation-control" data-validation="required"></textarea>
           </div>
 

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DemandRequest extends FormRequest
+class RoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,9 @@ class DemandRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date'=>'required',
-            'job_position_id'=>'required',
-            'salary'=>'required',
-            'experience_id'=>'required',
-            'country_id'=>'required',
-            'comment'=>'nullable'
+            'name'=>'required|unique:roles,name,'.$this->id,
+            'permissions' =>'nullable'
+
         ];
     }
 }
