@@ -22,7 +22,7 @@ $url = isset($user) ? route('admin.user.edit',['id' => $user->id]) : route('admi
         <label class="upload-passport-img-wrapper white-bg drop-zone" id="drop-zone" for="passport-file-input">
           @if(isset($user) && !empty($user->image))
           <div class="uploaded-img">
-            <img src="{{asset('uploaded/passports/'.$user->image)}}">
+            <img src="{{asset('uploaded/user/'.$user->image)}}">
           </div>
           @else
           <div class="upload-passport-info">
