@@ -6,14 +6,14 @@ use App\Http\Requests\UserRequest;
 use App\Repository\UserRepository;
 use Exception;
 use DataTables;
-use Illuminate\Http\Request;
-
+use IAnanta\UserManagement\Repository\RoleRepository;
 class UserController extends Controller
 {
-    private $repo;
-    public function __construct(UserRepository $repo)
+    private $repo,$roleRepo;
+    public function __construct(UserRepository $repo,RoleRepository $roleRepo)
     {
         $this->repo = $repo;
+        $this->roleRepo = $roleRepo;
     }
 
     public function index()
@@ -34,7 +34,8 @@ class UserController extends Controller
     public function create()
     {
         try {
-            return view('admin.form');
+            $data['roles'] = $this->roleRepo->getRoles();
+            return view('admin.form')->with($data);
         } catch (Exception $e) {
             return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
         }
@@ -43,7 +44,7 @@ class UserController extends Controller
     {
         try {
             $this->repo->store($request->validated());
-            return redirect()->route('admin.profile')->with(['message' => 'Users created successfully!', 'type' => 'success']);
+            return redirect()->route('admin.user')->with(['message' => 'Users created successfully!', 'type' => 'success']);
         } catch (Exception $e) {
             return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
         }
@@ -52,8 +53,9 @@ class UserController extends Controller
     public function edit($id)
     {
         try {
-            $user = $this->repo->find($id);
-            return view('admin.form')->with(['user' => $user]);
+             $data['roles'] = $this->roleRepo->getRoles();
+            $data['user'] = $this->repo->find($id);
+            return view('admin.form')->with($data);
         } catch (Exception $e) {
             return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
         }
@@ -63,7 +65,7 @@ class UserController extends Controller
     {
         try {
             $this->repo->update($request->validated(), $id);
-            return redirect()->route('admin.profile')->with(['message' => 'Users updated successfully!', 'type' => 'success']);
+            return redirect()->route('admin.user')->with(['message' => 'Users updated successfully!', 'type' => 'success']);
         } catch (Exception $e) {
             return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
         }

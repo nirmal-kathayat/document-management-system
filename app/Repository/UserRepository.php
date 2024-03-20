@@ -1,8 +1,14 @@
 <?php
+
 namespace App\Repository;
+
 use IAnanta\UserManagement\Models\Admin;
-class UserRepository{
+use Illuminate\Http\UploadedFile;
+
+class UserRepository
+{
   private $query;
+
   public function __construct(Admin $query)
   {
     $this->query = $query;
@@ -15,15 +21,19 @@ class UserRepository{
 
   public function store(array $data)
   {
-    if(isset($data['image']) && !empty($data['image'])){
-      $data['image'] = $this->uploadImage($data['image'],[
-         'destination' => 'uploaded/user',
-         'image_name' => now(),
-         'existing_file' => NULL
+    if (isset($data['image']) && $data['image']) {
+      $data['image'] = $this->uploadImage($data['image'], [
+        'destination' => 'uploaded/users',
+        'image_name' => now()->timestamp,
+        'existing_file' => NULL
       ]);
     }
-    return $this->query->create($data);
 
+    $admin =  $this->query->create($data);
+    if(isset($data['roles']) && !empty($data['roles'])){
+      $admin->roles()->attach($data['roles']);
+    }
+    return $admin;
   }
 
   public function find($id)
@@ -34,32 +44,37 @@ class UserRepository{
   public function update(array $data, int $id)
   {
     $query = $this->find($id);
-    if(isset($data['image'])){
-      $data['image'] = $this->uploadImage($data['image'],[
-         'destination' => 'uploaded/user',
-         'image_name' => now(),
-         'existing_file' => $query->image
+
+    if (isset($data['image']) && $data['image']) {
+      $data['image'] = $this->uploadImage($data['image'], [
+        'destination' => 'uploaded/users',
+        'image_name' => now()->timestamp,
+        'existing_file' => $query->image
       ]);
     }
-		$query->update($data);
-
-		return $query;
+    $updatedData = $data;
+    unset($updatedData['roles']);
+    $query->update($updatedData);
+    if(isset($data['roles']) && !empty($data['roles'])){
+      $query->roles()->detach();
+      $query->roles()->attach($data['roles']);
+    } 
+    return $query;
   }
 
   public function delete($id)
   {
-    return $this->query->where(['id'=>$id])->delete($id);
+    return $this->query->findOrFail($id)->delete();
   }
 
-
-  public function uploadImage($file,$params){
-    $imageName = $params['image_name'].'.'.pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
-    $file->move($params['destination'],$imageName);
-    if(!empty($params['existing_file'])){
-      if(file_exists( public_path().'/'.$params['existing_file'])){
-        unlink($params['existing_file']);
-      }
+  public function uploadImage(UploadedFile $file, $params)
+  {
+    $imageName = $params['image_name'] . '.' . $file->getClientOriginalExtension();
+    $file->move($params['destination'], $imageName);
+    if (!empty($params['existing_file']) && file_exists(public_path() . '/' . $params['existing_file'])) {
+      unlink($params['existing_file']);
     }
-    return $params['destination'].'/'.$imageName;
+
+    return $params['destination'] . '/' . $imageName;
   }
 }

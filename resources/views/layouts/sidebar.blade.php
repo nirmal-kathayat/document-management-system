@@ -9,38 +9,59 @@
                   <li>
                       <a href="{{route('admin.dashboard')}}" class="{{ request()->is('admin/dashboard') ? 'active' : '' }}"><i class="fa fa-home"></i>Dashboard</a>
                   </li>
+                   @if(can(url('admin/passport/create/')))
                   <li>
                       <a href="{{route('admin.passport.create')}}" class="{{ request()->is('admin/passport/create') ? 'active' : '' }}"><i class="fa fa-photo"></i>Upload Passport</a>
                   </li>
+                  @endif
+                  @if(can(url('admin/passport')))
                    <li>
                       <a href="{{route('admin.passport')}}" class="{{ request()->is('admin/passport') ? 'active' : '' }}"><i class="fa fa-photo"></i>Uploaded Passport</a>
                   </li>
-
+                  @endif
+                  @if(can(url('admin/applicant/create')))
                   <li>
                        <a href="{{route('admin.applicant.create')}}" class="{{ request()->is('admin/applicant/create') ? 'active' : '' }}"><i class="fa fa-user"></i>Add Applicant</a>
                   </li>
+                  @endif
+                  @if(can(url('admin/applicant')))
                    <li>
                        <a  href="{{route('admin.applicant')}}" class="{{ request()->is('admin/applicant') ? 'active' : '' }}"><i class="fa fa-user"></i>View Applicants</a>
                   </li>
+                  @endif
+                  @if(can(url('admin/country/create')))
+
                   <li>
                        <a href="{{route('admin.country.create')}}" class="{{ request()->is('admin/country/create') ? 'active' : '' }}"><i class="fa fa-flag"></i>Add Country</a>
                   </li>
+                  @endif
+                  @if(can(url('admin/country')))
                     <li>
                        <a href="{{route('admin.country')}}" class="{{ request()->is('admin/country') ? 'active' : '' }}"><i class="fa fa-flag"></i>View Country</a>
-                  </li>
+                    </li>
+                  @endif
+                  @if(can(url('admin/demand/create')))
 
                   <li>
                        <a href="{{route('admin.demand.create')}}" class="{{ request()->is('admin/demand/create') ? 'active' : '' }}"><i class="fa fa-eye"></i>Add Demand</a>
                   </li>
+                  @endif
+                  @if(can(url('admin/demand')))
                    <li>
                        <a href="{{route('admin.demand')}}" class="{{ request()->is('admin/demand') ? 'active' : '' }}"><i class="fa fa-eye"></i>View Demand</a>
                   </li>
+                  @endif
+                  @if(can(url('admin/position/create')))
                    <li>
                        <a href="{{route('admin.position.create')}}" class="{{ request()->is('admin/position/create') ? 'active' : '' }}"><i class="fa fa-graduation-cap"></i>Add Position</a>
                   </li>
+                  @endif
+                  @if(can(url('admin/position')))
+
                    <li>
                        <a href="{{route('admin.position')}}" class="{{ request()->is('admin/position') ? 'active' : '' }}"><i class="fa fa-graduation-cap"></i>View Position</a>
                   </li>
+                  @endif
                  
               </ul>
           </nav>

@@ -159,3 +159,11 @@ if(!function_exists('getRelatedList')){
         return $html;
     }
 }
+
+if(!function_exists('can')){
+    function can($url){
+        if(!empty($url)){
+            return auth()->guard('admin')->user()->checkUrlAllowAccess($url);
+        }
+    }
+}

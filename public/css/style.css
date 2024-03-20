@@ -529,7 +529,6 @@ ul.pagination li:hover a,ul.pagination li.active a{
   color:#ccc;
   font-size: 20px;
 }
-
 .other-action-wrapper{
   display: flex;
   column-gap: 15px;
@@ -722,3 +721,93 @@ input.applicant-selected-checkbox {
   border-radius: 4px;
   text-align: center;
 }
+/* Dashboard */
+
+.text-blue{
+  color: #01ACF1;
+  font-size: 25px;
+  font-weight: bold;
+  padding-top: 10px;
+}
+.card-row{
+  border: 1px solid #F3F3F3;
+  color: #57585A;
+  border-radius: 8px;
+  width: 100%;
+  font-weight: bold;
+  align-items: center;
+  border-top: none;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+.card-row i{
+  font-size: 20px;
+  border-radius: 50%;
+  border: 1px solid #F3F3F3;
+  background-color: #F3F3F3;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #01ACF1;
+}
+.card-row a{
+  color:var(--black);
+  padding:10px 15px;
+}
+.card-row h4{
+  font-size:16px;
+  line-height:22px;
+}
+.card-row-1 i{
+  font-size: 20px;
+  border-radius: 50%;
+  border: 1px solid #F3F3F3;
+  background-color: #F3F3F3;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #01ACF1;
+}
+
+.upload-table-content{
+  padding-top: 20px;
+}
+.card-column{
+  border: 1px solid #F3F3F3;
+  color: #57585A;
+  border-radius: 8px;
+  width: 90%;
+  font-weight: bold;
+  align-items: center;
+  justify-content: space-evenly;
+  border-top: none;
+  margin-top: 15px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+.card-column img{
+  border-radius: 50%;
+}
+.card-column .card-dropdown{
+  width: 26%;
+  font-weight: bold;
+  color: #01ACF1;
+  font-size: 20px;
+}
+
+.text-black{
+  font-size: 20px;
+}
+
+.card-info{
+  width: 50%;
+}
+
+.table-wrapper{
+  width: 100%;
+}
+
+
+

@@ -23,13 +23,14 @@ class UserRequest extends FormRequest
     {
         return [
             'name'=>'required',
-            'username'=>'required',
+            'username'=>'required|unique:admins,username,'.$this->id,
             'email'=>'required',
-            'password'=>'required',
+            'password'=>isset($this->id) ? 'nullable' : 'required',
             'designation'=>'required',
             'dob'=>'required',
             'phone_no'=>'required',
-            'image'=>'required'
+            'image' =>isset($this->id) ? 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048': 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'roles' => 'required|array'
         ];
     }
 }

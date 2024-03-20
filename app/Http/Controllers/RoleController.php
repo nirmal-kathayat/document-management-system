@@ -70,7 +70,10 @@ class RoleController extends Controller
 
     public function update(RoleRequest $request,$id){
 		try {
-			$this->repo->updateRole($request->validated(),$id);
+            $data = $request->validated();
+            $data['permissions'] = array_map('intval', $data['permissions']);
+           
+			$this->repo->updateRole($data,$id);
 			return redirect()->route('admin.role')->with(['message' => 'Role updated successfully','type'=>'success']);
 		} catch (Exception $e) {
 			return redirect()->back()->with(['message' => 'Somthing were wrong','type' => 'error']);
