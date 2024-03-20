@@ -8,11 +8,11 @@ use App\Repository\ContinentRepository;
 use DataTables;
 class CountryController extends Controller
 {
-    private $repo,$continentRepository;
-    public function __construct(CountryRepository $repo,ContinentRepository $continentRepository )
+    private $repo,$continentRepo;
+    public function __construct(CountryRepository $repo,ContinentRepository $continentRepo )
     {
         $this->repo = $repo;
-        $this->continentRepository = $continentRepository;
+        $this->continentRepo = $continentRepo;
     }
 
     public function index()
@@ -33,7 +33,7 @@ class CountryController extends Controller
     public function create()
     {
         try{
-            $continents = $this->continentRepository->get();
+            $continents = $this->continentRepo->get();
             return view('country.form')->with(['continents'=>$continents]);
 
         }catch(\Exception $e)
@@ -57,7 +57,7 @@ class CountryController extends Controller
     {
         try{
             $country = $this->repo->find($id);
-            $continents = $this->continentRepository->getContinentForSelect();
+            $continents = $this->continentRepo->get();
             return view('country.form')->with(['country'=>$country, 'continents'=>$continents]);
 
         }catch(\Exception $e){

@@ -27,11 +27,13 @@
 			}
 			if(validationAttrArr.includes('confirm') && value){
 				let confirmInput=$('input[name="confirm_password"]')
+				let password=$('input[name="password"]')
+
 				if(confirmInput){
 					if(confirmInput.val()){
-						if(value != confirmInput.val()){
+						if(password.val() != confirmInput.val()){
 							$(this).css('border','1px solid red')
-							//$(this).parent().append('<p class="validation-error">Password did not match</p>')
+							$(this).parent().append('<p class="validation-error">Password did not match</p>')
 							count ++
 						}
 					}

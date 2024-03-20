@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('demands', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->string('title');
+            $table->unsignedBigInteger('job_position_id');
             $table->decimal('salary');
             $table->text('comment');
             $table->unsignedBigInteger('experience_id');
@@ -22,7 +22,8 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
             $table->foreign('experience_id')->references('id')->on('experiences')->onDelete('cascade');
-            $table->index(['country_id','experience_id']);
+            $table->foreign('job_position_id')->references('id')->on('job_positions')->onDelete('cascade');
+            $table->index(['country_id','experience_id','job_position_id']);
 
         });
     }

@@ -10,4 +10,19 @@ $(document).ready(function(){
 			profileDropdown.slideDown()
 		}
 	})
+
+	const modalCloseBtn = $('.modal-cancel')
+	const modalOk = $('.confrim-ok')
+	const target = $('.confirmation-modal')
+	modalCloseBtn.on('click',function(){
+		target.fadeOut()
+		modalOk.removeAttr('href',href)
+	})
+
+	$(document).on('click','.confirm-modal-open',function(e){
+		e.preventDefault()
+		const href=$(this).attr('href')
+		modalOk.attr('href',href)
+		target.fadeIn()
+	})
 })

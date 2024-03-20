@@ -10,6 +10,10 @@ use App\Repository\CountryRepository;
 use App\Http\Requests\ApplicantRequest;
 use DataTables;
 use Carbon\Carbon;
+use App\Exports\ApplicantExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Http\Request;
+
 class ApplicantController extends Controller
 {
 	private $repo,$passportRepo,$continentRepo,$positionRepo,$experienceRepo,$countryRepo;
@@ -33,7 +37,8 @@ class ApplicantController extends Controller
                     'experience' => $_GET['experience'] ?? null,
                     'age' => $_GET['age'] ?? null,
                     'from_date' => $_GET['from_date'] ?? null,
-                    'to_date' => $_GET['to_date'] ?? null
+                    'to_date' => $_GET['to_date'] ?? null,
+                    'isSelected' => isset($_GET['isSelected']) ? true : false
 
                 ]);
                 return DataTables::of($data)
@@ -133,6 +138,53 @@ class ApplicantController extends Controller
             }
         } catch (Exception $e) {
             return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
+        }
+    }
+
+    public function delete($id){
+        try {
+            $this->repo->delete($id);
+            return redirect()->back()->with(['message' => 'Applicant deleted successfully','type' => 'success']);
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
+            
+        }
+    }
+
+    public function export(Request $request){
+        try {
+            return Excel::download(new ApplicantExport(
+                 $this->repo->dataTable([
+                    'gender' => $request->gender ?? null,
+                    'country' =>$request->country ?? null,
+                    'position' => $request->position ?? null,
+                    'experience' => $request->experience ?? null,
+                    'age' =>$request->age ?? null,
+                    'from_date' => $request->from_date ?? null,
+                    'to_date' => $request->to_date ?? null,
+                    'isSelected' => $request->isSelected == 'on' ? true : false
+                ])->get()->toArray()
+            ), 'applicants.xlsx');
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
+            
+        }
+    }
+
+
+    public function move(){
+        try {
+           $ids = $_GET['ids'];
+           $idArr =  array_map('intval',explode(',',$ids));
+           $this->repo->multiUpdate([
+                'is_selected' => true,
+               
+           ], $idArr);
+           return redirect()->back()->with(['message' =>'Move to selected successfully','type' =>'success']);
+
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
+            
         }
     }
 

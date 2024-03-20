@@ -145,3 +145,25 @@ if(!function_exists('getPersonalQuestions')){
         ]; 
     }
 }
+
+if(!function_exists('getRelatedList')){
+    function getRelatedList($lists){
+        $html = '<div class="table-permission-list-wrapper">';
+        $html.='<ul>';
+            foreach($lists as $list){
+                 $html.= '<li>'.$list->name.'</li>';
+            }
+
+        $html .= '</ul>';
+        $html .='</div>';
+        return $html;
+    }
+}
+
+if(!function_exists('can')){
+    function can($url){
+        if(!empty($url)){
+            return auth()->guard('admin')->user()->checkUrlAllowAccess($url);
+        }
+    }
+}

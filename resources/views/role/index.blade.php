@@ -1,9 +1,9 @@
 @extends('layouts.default')
-@section('title','Permissions')
+@section('title','Roles')
 @section('content')
 <div class="inner-section-wrappe">
   <div class="create-link">
-    <a href="{{route('admin.permission.create')}}">Add Permission</a>
+    <a href="{{route('admin.role.create')}}">Add Role</a>
   </div>
 
   <div class="data-table-wrapper">
@@ -12,7 +12,7 @@
         <tr>
           <th>S.No</th>
           <th>Name</th>
-          <th>Access</th>
+          <th>Permissions</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -34,7 +34,7 @@ rel="stylesheet">
     serveSide:true,
     responsive:true,
     ajax:{
-      url:"{{route('admin.permission')}}",
+      url:"{{route('admin.role')}}",
 
     },
     columns:[
@@ -52,8 +52,8 @@ rel="stylesheet">
       orderable: false,
     },
     {
-      data:'access_uri',
-      name:'access_uri',
+      data:'permissions',
+      name:'permissions',
       orderable: false,
     },
     {
@@ -63,10 +63,10 @@ rel="stylesheet">
       searchable: false,
       render:function(data,type,full,meta){
         var editUrl =
-        "{{ route('admin.permission.edit', ['id' => ':id']) }}"
+        "{{ route('admin.role.edit', ['id' => ':id']) }}"
         .replace(':id', full.id);
         var deleteUrl =
-        "{{ route('admin.permission.delete', ['id' => ':id']) }}".replace(':id', full.id);
+        "{{ route('admin.role.delete', ['id' => ':id']) }}".replace(':id', full.id);
         var editButton =
         '<a class="primary-btn" href="' + editUrl + '"><i class="fa fa-pencil"></i></a>';
         var deleteButton =

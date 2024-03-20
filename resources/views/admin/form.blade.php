@@ -22,7 +22,7 @@ $url = isset($user) ? route('admin.user.edit',['id' => $user->id]) : route('admi
         <label class="upload-passport-img-wrapper white-bg drop-zone" id="drop-zone" for="passport-file-input">
           @if(isset($user) && !empty($user->image))
           <div class="uploaded-img">
-            <img src="{{asset('uploaded/passports/'.$user->image)}}">
+            <img src="{{asset($user->image)}}">
           </div>
           @else
           <div class="upload-passport-info">
@@ -34,36 +34,54 @@ $url = isset($user) ? route('admin.user.edit',['id' => $user->id]) : route('admi
       </div>
       <div class="upload-password-form-wrapper ">
         <div class="form-wrapper upload-passport-input-items">
-
           <div class="form-group group-column">
             <label>Full Name <span class="text-red">*</span></label>
-            <input type="text" name="name" class="bg-white validation-control" data-validation="required" value="{{old('name',$user->name ?? '')}}">
+            <input type="text" name="name" class="validation-control" data-validation="required" value="{{old('name',$user->name ?? '')}}">
           </div>
           <div class="form-group group-column">
-            <label>User Name <span class="text-red">*</span></label>
-            <input type="text" name="username" class="bg-white validation-control" data-validation="required" value="{{old('username',$user->username ?? '')}}">
+            <label>Username <span class="text-red">*</span></label>
+            <input type="text" name="username" class="validation-control" data-validation="required" value="{{old('username',$user->username ?? '')}}">
+            @error('username')
+              <p class="validation-error">{{$message}}</p>
+            @enderror
           </div>
           <div class="form-group group-column">
             <label>Email <span class="text-red">*</span></label>
-            <input type="email" name="email" class="bg-white validation-control" data-validation="required" value="{{old('email',$user->email ?? '')}}">
+            <input type="email" name="email" class="validation-control" data-validation="required" value="{{old('email',$user->email ?? '')}}">
+          </div>
+          @if(!isset($user))
+          <div class="form-group group-column">
+            <label>Password @if(!isset($user)) <span class="text-red">*</span> @endif</label>
+            <input type="password" name="password" class="validation-control" data-validation="{{isset($user) ? '' : 'required'}}">
           </div>
           <div class="form-group group-column">
-            <label>Password <span class="text-red">*</span></label>
-            <input type="password" name="password" class="bg-white validation-control" data-validation="required" value="{{old('password',$user->password ?? '')}}">
+            <label>Confrim Password @if(!isset($user)) <span class="text-red">*</span> @endif</label>
+            <input type="password" name="confirm_password" class="validation-control" data-validation="{{isset($user) ? '' : 'required|confirm'}}">
           </div>
+          @endif
           <div class="form-group group-column">
             <label>Designation <span class="text-red">*</span></label>
-            <input type="text" name="designation" class="bg-white validation-control" data-validation="required" value="{{old('designation',$user->designation ?? '')}}">
+            <input type="text" name="designation" class="validation-control" data-validation="required" value="{{old('designation',$user->designation ?? '')}}">
           </div>
+          <div class="form-group group-column">
+                <label>Role</label>
+                <select name="roles[]" class="validation-control" data-validation="required">
+                    <option value="">Select</option>
+                    @foreach($roles as $role)
+                      <option value="{{$role->id}}" {{isset($user) && in_array($role->id,$user->roles->pluck('id')->toArray()) ? 'selected' : '' }}>{{$role->name}}</option>
+                    @endforeach
+                </select>
+            </div>
           <div class="grid-row template-repeat-3 col-gap-20">
             <div class="form-group group-column">
               <label>DOB <span class="text-red">*</span></label>
-              <input type="date" name="dob" class="bg-white validation-control" data-validation="required" value="{{old('dob',$user->dob ?? '')}}">
+              <input type="date" name="dob" class="validation-control" data-validation="required" value="{{old('dob',$user->dob ?? '')}}">
             </div>
             <div class="form-group group-column">
-              <label>Phone Number <span class="text-red">*</span></label>
-              <input type="number" name="phone_no" class="bg-white validation-control" data-validation="required" value="{{old('phone_no',$user->phone_no ?? '')}}">
+              <label>Phone Number <span class="tvalext-red">*</span></label>
+              <input type="number" name="phone_no" class="validation-control" data-validation="required" value="{{old('phone_no',$user->phone_no ?? '')}}">
             </div>
+            
           </div>
           <div class="form-group flex-end">
             <button type="submit" class="primary-btn">{{isset($user) ? 'Update' : 'Add'}}</button>
@@ -80,16 +98,6 @@ $url = isset($user) ? route('admin.user.edit',['id' => $user->id]) : route('admi
   (function() {
     function Initial() {
       let _this = this;
-      this.makeInputEmpty = function() {
-        $('input[name=name]').val("")
-        $('input[name=username]').val("")
-        $('input[name=email]').val("")
-        $('input[name=password]').val("")
-        $('input[name=designation]').val("")
-        $('input[name=type]').val("")
-        $('input[name=dob]').val("")
-        $('input[name=phone_no]').val("")
-      }
 
       this.fileInputListener = function() {
         const dropZone = $('#drop-zone')
@@ -114,59 +122,6 @@ $url = isset($user) ? route('admin.user.edit',['id' => $user->id]) : route('admi
           reader.readAsDataURL(file);
           $('.progress-loader-wrapper').fadeIn()
           _this.makeInputEmpty()
-          Tesseract.recognize(
-            file,
-            'eng', {
-              logger: m => {
-                if ((m?.progress || 0) * 100 <= 100 && m?.status === 'initializing tesseract') {
-                  $('.progress-bg').css('width', (m?.progress || 0) * 100 + '%');
-                  $('.progress-bg').css('background', 'var(--primary)');
-                }
-
-              }
-            }
-          ).then(({
-            data: {
-              text
-            }
-          }) => {
-            const MRZData = new MRZ(text)
-            const result = MRZData.result
-            $('input[name=type]').val(result?.type).trigger('input')
-
-            if (!!result?.name) {
-              $('select[name=name]').val(result?.name).trigger('change')
-            }
-            if (!!result?.username) {
-              $('input[name=username]').val(result?.username).trigger('input')
-            }
-            if (!!result?.email) {
-              $('input[name=email]').val(result?.email).trigger('input')
-            }
-            if (!!result?.password) {
-              $('input[name=password]').val(result?.password).trigger('input')
-            }
-            if (!!result?.designation) {
-              $('input[name=designation]').val(result?.designation).trigger('input')
-            }
-            if (!!result?.dob) {
-              $('select[name=dob]').val(result?.dob).trigger('input')
-            }
-            if (!!result?.phone_no) {
-              $('input[name=phone_no]').val(result?.phone_no).trigger('input')
-            }
-
-
-            $('.progress-loader-wrapper').fadeOut();
-            $('.progress-bg').css('width', '0%');
-
-
-          }).catch(err => {
-            console.error('Error during OCR:', err);
-            $('.progress-loader-wrapper').fadeOut();
-            $('.progress-bg').css('width', '0%');
-
-          });
 
         }
         dropZone.on('dragover', function(e) {

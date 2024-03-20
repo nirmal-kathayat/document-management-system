@@ -18,7 +18,7 @@
           </option>
 
           @foreach ($continents as $continent)
-          <option value="{{ $continent->id }}" {{ isset($country) && $country->continent_id == $list ? 'selected' : '' }}>
+          <option value="{{ $continent->id }}" {{ isset($country) && $country->continent_id == $continent->id ? 'selected' : '' }}>
             {{ $continent->title }}
           </option>
           @endforeach

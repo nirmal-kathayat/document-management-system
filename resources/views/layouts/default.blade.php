@@ -12,7 +12,7 @@
 <body>
     <main class="main-section">
         @include('layouts.sidebar')
-        <div class="main-content">
+      <div class="main-content">
             @include('layouts.header')
             <div class="main-section-content">
                 <div class="container">
@@ -21,9 +21,29 @@
             </div>
         </div>
     </main>
+    <div class="confirmation-modal">
+        <div class="confirmation-modal-wrapper">
+            <div class="confirmation-box">
+               <div class="confirmation-header">
+                  <h3>Delete Confirmation</h3>
+               </div>
+               <div class="confirmation-body">
+                   <p class="confirm-info">Are you sure you want to delete ?</p>
+                   <p class="confirm-sub-info">Once you delete you will not able to retrive this information.</p>
+               </div>
+               <div class="confrim-footer">
+                  <button class="modal-cancel">Cancel</button>
+                  <a href="" class="confrim-ok">Ok</a>
+
+
+               </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript" src="{{asset('js/jquery.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
     <script type="text/javascript" src="{{asset('js/main.js')}}"></script>
+
     @include('scripts.message')
     @stack('js')
 </body>
