@@ -24,10 +24,10 @@
 </section>
 
 <section class="upload-table-content">
-  <div class="grid-row template-repeat-2">
-    <div class="grid-column">
+  <div class="flex-row justify-space-between">
+    <div class="flex-column card-info">
       <div class="form-group group-column card-column">
-        <img src="https://culinarylabschool.com/wp-content/uploads/2019/06/Pros-and-cons-to-working-in-culinary-arts-CulinaryLab-School.jpg" style="width: 200px;height:200px;" alt="img">
+        <img src="https://culinarylabschool.com/wp-content/uploads/2019/06/Pros-and-cons-to-working-in-culinary-arts-CulinaryLab-School.jpg" style="width: 160px;height:160px;" alt="img">
         <select class="card-dropdown" name="" id="">
           <option value="cook">cook</option>
           <option value="cook">cook</option>

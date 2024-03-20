@@ -529,7 +529,6 @@ ul.pagination li:hover a,ul.pagination li.active a{
   color:#ccc;
   font-size: 20px;
 }
-
 .other-action-wrapper{
   display: flex;
   column-gap: 15px;
@@ -632,7 +631,7 @@ ul.pagination li:hover a,ul.pagination li.active a{
   border: 1px solid #F3F3F3;
   color: #57585A;
   border-radius: 8px;
-  width: 70%;
+  width: 90%;
   font-weight: bold;
   align-items: center;
   justify-content: space-evenly;
@@ -663,6 +662,13 @@ ul.pagination li:hover a,ul.pagination li.active a{
   margin-bottom: 10px;
   font-weight: bold;
   color: #57585A;
+}
+.card-info{
+  width: 50%;
+}
+
+.table-wrapper{
+  width: 100%;
 }
 
 
