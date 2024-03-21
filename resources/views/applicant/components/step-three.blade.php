@@ -1,4 +1,4 @@
-<div class="step-three">
+<div class="step-three" style="margin-top:15px">
 	<div class="grey-bg details-form-block" data-index="0" style="padding-bottom:20px">
 		<div class="form-section-title">
 			<h4>Education Background</h4>

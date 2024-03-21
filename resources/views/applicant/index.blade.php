@@ -190,13 +190,18 @@ rel="stylesheet">
 				.replace(':id', full.id);
 				var editButton =
 				'<a title="Edit" class="primary-btn" href="' + editUrl + '"><i class="fa fa-pencil"></i></a>';
+				var viewUrl =
+				"{{ route('admin.applicant.info', ['id' => ':id']) }}"
+				.replace(':id', full.id);
+				var viewButton =
+				'<a title="Edit" class="primary-btn" href="' + viewUrl + '"><i class="fa fa-eye"></i></a>';
 				   var deleteUrl =
                 "{{ route('admin.applicant.delete', ['id' => ':id']) }}".replace(':id', full.id);
-                  var deleteButton =
+                var deleteButton =
                   `<button type="button" class="danger-btn confirm-modal-open" href=${deleteUrl}><i class="fa fa-trash"></i></button>`;
 				var checkbox =!!full?.is_selected ? '' :  `<input value="${full.id}"  type='checkbox' class="applicant-selected-checkbox"  />`
 				var actionButtons =
-				`<div style='display:flex;column-gap:10px;align-items:center;justify-content:flex-end;'>${checkbox} ${editButton} ${deleteButton}</div>`;
+				`<div style='display:flex;column-gap:10px;align-items:center;justify-content:flex-end;'>${checkbox} ${editButton} ${viewButton} ${deleteButton}</div>`;
 				return actionButtons
 			}
 		}

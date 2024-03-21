@@ -13,11 +13,14 @@
 						</div>
 						@endif
 					</div>
+					@if(!isset($info))
 					<div class="attach-upload-btn-wrapper">
 						<input type="file" name="attachments[passport_img]" class="d-none attach-upload-input" id="passport_image" accept="image/*">
 						<label for="passport_image" class="attach-upload-label">Upload</label>
 						
 					</div>
+					@endif
+
 				</div>
 			</div>
 			<div class="grey-bg">
@@ -32,11 +35,13 @@
 						</div>
 						@endif
 					</div>
+					@if(!isset($info))
 					<div class="attach-upload-btn-wrapper">
 						<input type="file" name="attachments[education_1]" class="d-none attach-upload-input" id="education_1" accept="image/*">
 						<label for="education_1" class="attach-upload-label">Upload</label>
 						
 					</div>
+					@endif
 				</div>
 			</div>
 			<div class="grey-bg">
@@ -51,11 +56,13 @@
 						</div>
 						@endif
 					</div>
+					@if(!isset($info))
 					<div class="attach-upload-btn-wrapper">
 						<input type="file" name="attachments[education_2]" class="d-none attach-upload-input" id="education_2" accept="image/*">
 						<label for="education_2" class="attach-upload-label">Upload</label>
 						
 					</div>
+					@endif
 				</div>
 			</div>
 			<div class="grey-bg">
@@ -70,11 +77,13 @@
 						</div>
 						@endif
 					</div>
+					@if(!isset($info))
 					<div class="attach-upload-btn-wrapper">
 						<input type="file" name="attachments[education_3]" class="d-none attach-upload-input" id="education_3" accept="image/*">
 						<label for="education_3" class="attach-upload-label">Upload</label>
 						
 					</div>
+					@endif
 				</div>
 			</div>
 		</div>
@@ -90,11 +99,13 @@
 					</div>
 					@endif
 				</div>
+				@if(!isset($info))
 				<div class="attach-upload-btn-wrapper">
 					<input type="file" name="attachments[full_body_img]" class="d-none attach-upload-input full_body" id="full_body_img" accept="image/*">
 					<label for="full_body_img" class="attach-upload-label">Upload</label>
 
 				</div>
+				@endif
 			</div>
 		</div>
 	</div>
@@ -111,11 +122,13 @@
 					</div>
 					@endif
 				</div>
+				@if(!isset($info))
 				<div class="attach-upload-btn-wrapper">
 					<input type="file" name="attachments[training_1]" class="d-none attach-upload-input" id="training_1" accept="image/*">
 					<label for="training_1" class="attach-upload-label">Upload</label>
 
 				</div>
+				@endif
 			</div>
 		</div>
 		<div class="grey-bg">
@@ -130,11 +143,13 @@
 					</div>
 					@endif
 				</div>
+				@if(!isset($info))
 				<div class="attach-upload-btn-wrapper">
 					<input type="file" name="attachments[training_2]" class="d-none attach-upload-input" id="training_2" accept="image/*">
 					<label for="training_2" class="attach-upload-label">Upload</label>
 					
 				</div>
+				@endif
 			</div>
 		</div>
 		<div class="grey-bg">
@@ -149,11 +164,13 @@
 					</div>
 					@endif
 				</div>
+				@if(!isset($info))
 				<div class="attach-upload-btn-wrapper">
 					<input type="file" name="attachments[other_img]" class="d-none attach-upload-input" id="other_img" accept="image/*">
 					<label for="other_img" class="attach-upload-label">Upload</label>
 					
 				</div>
+				@endif
 			</div>
 		</div>
 	</div>
