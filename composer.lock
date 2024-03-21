@@ -1189,16 +1189,16 @@
         },
         {
             "name": "iananta/user-management",
-            "version": "v1.0.29",
+            "version": "V1.0.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ianantashrestha/laravel-user-management.git",
-                "reference": "eb2c1c8f27bf6cec6a2606a265fe6000694b850f"
+                "reference": "4255d3fc220195c298594eb07d00d4bd4435a253"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ianantashrestha/laravel-user-management/zipball/eb2c1c8f27bf6cec6a2606a265fe6000694b850f",
-                "reference": "eb2c1c8f27bf6cec6a2606a265fe6000694b850f",
+                "url": "https://api.github.com/repos/Ianantashrestha/laravel-user-management/zipball/4255d3fc220195c298594eb07d00d4bd4435a253",
+                "reference": "4255d3fc220195c298594eb07d00d4bd4435a253",
                 "shasum": ""
             },
             "require": {
@@ -1224,9 +1224,9 @@
             "description": "User Management with role and permission",
             "support": {
                 "issues": "https://github.com/Ianantashrestha/laravel-user-management/issues",
-                "source": "https://github.com/Ianantashrestha/laravel-user-management/tree/v1.0.29"
+                "source": "https://github.com/Ianantashrestha/laravel-user-management/tree/V1.0.32"
             },
-            "time": "2024-03-12T10:56:41+00:00"
+            "time": "2024-03-20T17:11:45+00:00"
         },
         {
             "name": "laravel/framework",
