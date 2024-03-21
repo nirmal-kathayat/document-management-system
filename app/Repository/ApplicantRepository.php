@@ -75,7 +75,11 @@ class ApplicantRepository{
 
 	public function find(int $id){
 		return $this->query
-		->findOrFail($id);
+				->leftJoin('continents','continents.id','applicants.continent_id')
+				->leftJoin('countries','countries.id','applicants.country_id')
+				->leftJoin('job_positions','job_positions.id','applicants.job_position_id')
+				->select('applicants.*','continents.title as continent_name','countries.title as country_name','job_positions.title as position_name')
+				->findOrFail($id);
 	}
 
 	public function findByPassportNo(int $id){

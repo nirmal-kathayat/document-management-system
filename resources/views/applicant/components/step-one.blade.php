@@ -8,7 +8,7 @@
 			<label>
 				Select Continent <span class="text-red">*</span>
 			</label>
-			<select name="continent_id" class="validation-control grey-bg"  data-validation="required" >
+			<select name="continent_id" class="validation-control grey-bg "  data-validation="required" >
 				<option value="">Select Continent</option>
 				@foreach($continents as $continent)
 				<option value="{{$continent->id}}" {{isset($applicant) && $applicant->continent_id == $continent->id ? 'selected' : ''}}>{{$continent->title}}</option>
@@ -132,12 +132,12 @@
 							</select>
 						</div>
 						<div class="form-group group-column">
-							<label>Height</label>
-							<input type="text" name="personal_details[height]"  value="{{old('personal_details[height]',$applicant->personal_details['height'] ?? '')}}"  >
+							<label>Height <span class="text-red">*</span></label>
+							<input type="text" name="personal_details[height]"  value="{{old('personal_details[height]',$applicant->personal_details['height'] ?? '')}}" class="validation-control" data-validation="required"  >
 						</div>
 						<div class="form-group group-column">
-							<label>Weight</label>
-							<input type="text" name="personal_details[weight]"  value="{{old('personal_details[weight]',$applicant->personal_details['weight'] ?? '')}}"  >
+							<label>Weight <span class="text-red">*</span></label>
+							<input type="text" name="personal_details[weight]"  value="{{old('personal_details[weight]',$applicant->personal_details['weight'] ?? '')}}" class="validation-control" data-validation="required" >
 						</div>
 
 					</div>
@@ -230,8 +230,8 @@
 					</div>
 				</div>
 				<div class="form-group group-column">
-					<label>Referred By</label>
-					<input type="text" name="referred_by" class="grey-bg" value="{{old('referred_by',$applicant->referred_by ?? '')}}">
+					<label>Referred By <span class="text-red">*</span></label>
+					<input type="text" name="referred_by" class="grey-bg validation-control" value="{{old('referred_by',$applicant->referred_by ?? '')}}" data-validation="required">
 
 				</div>
 				<div class="form-group group-column">

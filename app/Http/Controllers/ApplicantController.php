@@ -190,7 +190,19 @@ class ApplicantController extends Controller
 
 
     public function info($id){
-
+        try {
+            $data['applicant'] = $this->repo->find($id);
+            $data['passport'] = $this->passportRepo->find($data['applicant']->passport_id);
+             $data['continents'] = $this->continentRepo->get();
+                $data['positions'] = $this->positionRepo->get();
+                $data['experiences'] = $this->experienceRepo->get();
+                
+            return view('applicant.info')->with($data);
+            
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
+            
+        }
     }
 
 

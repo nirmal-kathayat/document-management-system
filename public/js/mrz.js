@@ -107,6 +107,7 @@ class MRZ{
 			nationality:'Nepalese',
 			citizen_no:''
 		}
+		console.log(arr)
 		 arr.filter(item => !!item)?.forEach(item =>{
 			if(item.includes('NPL')){
 				_mrz.push(item.replace(/\s+|\||~/g, ''));
@@ -141,6 +142,10 @@ class MRZ{
 					if(item.includes('GIVEN NAMES')){
 						let textBetweenSpaces = _others[index + 1].substring(_others[index + 1].indexOf(" ") + 1, _others[index + 1].lastIndexOf(" "));
 						fields = { ...fields,name:textBetweenSpaces}
+					}else if(item.includes("NATIONALITY")){
+						let splitStrArr = _others[index-1]?.split(' ')
+						console.log(splitStrArr,_others[index-1],item,index,'s')
+						fields = { ...fields,surname:splitStrArr.slice(-1),name:splitStrArr[splitStrArr?.length - 2]}
 					}
 				})
 			}
@@ -153,7 +158,7 @@ class MRZ{
 			const matchGender = this._gender(_mrzLine2)
 			const matchExpDate = this._expiryDate(_mrzLine2)
 			if(matchForPassportNo && matchForPassportNo?.length){
-				fields = { ...fields,passport_no:this._replaceDtoZero(matchForPassportNo[0]).slice(0, -1)}
+				fields = { ...fields,passport_no:this._replaceLettertoNumber(matchForPassportNo[0]).slice(0, -1)}
 			}
 
 			if(!!matchDob){
@@ -211,7 +216,7 @@ class MRZ{
 		let dob= ''
 		if (indexNPL !== -1 && _mrzLine2?.length > (indexNPL + 6)) {
 		   dob = _mrzLine2.substring(indexNPL + 3, indexNPL + 9);
-		   let year = parseInt(this._replaceDtoZero(dob.substring(0, 2)));
+		   let year = parseInt(this._replaceLettertoNumber(dob.substring(0, 2)));
 		   let month = dob.substring(2, 4);
 		   let day = dob.substring(4, 6);
 		   dob = `${year + ((year < 99 && year > 40) ? 1900 : 2000 )}-${month}-${day}`
@@ -224,7 +229,7 @@ class MRZ{
 		let expDate = ''
 		if(findIndex!==-1 && _mrzLine2?.length > (findIndex + 6)){
 			expDate = _mrzLine2.substring(findIndex + 1, findIndex + 7);
-			let year = parseInt(this._replaceDtoZero(expDate.substring(0, 2)));
+			let year = parseInt(this._replaceLettertoNumber(expDate.substring(0, 2)));
 		    let month = expDate.substring(2, 4);
 		    let day = expDate.substring(4, 6);
 		    expDate = `${year + 2000}-${month}-${day}`
@@ -233,9 +238,10 @@ class MRZ{
 	}
 	
 
-	_replaceDtoZero(str){
-		return this._removeSymbol(str.replace(/[OD]/g, '0'))
+	_replaceLettertoNumber(str){
+		return this._removeSymbol(str.replace(/[OD]/g, '0').replace(/[B]/g, '8'))
 	}
+
 
 	_removeSymbol(str){
 		return str.replace(/[^a-zA-Z0-9]/g, '')
