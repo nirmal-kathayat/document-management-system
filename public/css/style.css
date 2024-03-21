@@ -810,4 +810,19 @@ input.applicant-selected-checkbox {
 }
 
 
-
+.video-section{
+  margin-top:20px;
+}
+.video-section p{
+  width: 150px;
+  background: var(--primary);
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  color:var(--white);
+  font-size: 14px;
+}
+.video-section input{
+  border:1px solid #ccc;
+  border-radius: 0px;
+}

@@ -85,13 +85,13 @@
 			<div style="padding:20px;">
 				<div class="white-bg attachment-preview-full">
 					@if(isset($applicant) && isset($applicant->attachments['full_body_img']))
-					<div class="attach-uploaded-img">
-						<img src="{{asset($applicant->attachments['full_body_img'])}}">
+					<div class="attach-uploaded-img ">
+						<img src="{{asset($applicant->attachments['full_body_img'])}}" style="height:700px;aspect-ratio:3/5;object-fit:contain;">
 					</div>
 					@endif
 				</div>
 				<div class="attach-upload-btn-wrapper">
-					<input type="file" name="attachments[full_body_img]" class="d-none attach-upload-input" id="full_body_img" accept="image/*">
+					<input type="file" name="attachments[full_body_img]" class="d-none attach-upload-input full_body" id="full_body_img" accept="image/*">
 					<label for="full_body_img" class="attach-upload-label">Upload</label>
 
 				</div>
@@ -156,5 +156,9 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="form-group group-row video-section">
+		<p>Video Link</p>
+		<input type="url" name="attachments[video_link]">
 	</div>
 </div>

@@ -19,7 +19,7 @@
   <div class="form-group column card-row">
    <a href="{{route('admin.applicant')}}" class="flex-row col-gap-20">
     <i class="fa fa-check"></i>
-    <h4>Total APPLICANTS <br> <span class="text-blue">3500</span> </h4>
+    <h4>Total APPLICANTS <br> <span class="text-blue">{{$total_applicant}}</span> </h4>
   </a>
 </div>
 <div class="form-group column card-row">
@@ -48,9 +48,9 @@
       </div>
     </div>
     <div class="table-wrapper">
-      <div class="flex-row justify-space-between">
-        <h1>Quick <span class="text-blue">view</span></h1>
-        <a href="#">View All</a>
+      <div class="flex-row justify-space-between align-center">
+        <h1 style="font-size:21px;font-weight:700">Quick <span class="text-blue">view</span></h1>
+        <a href="{{route('admin.applicant')}}">View All</a>
       </div>
       <div class="col-sm-12">
         <table style="width: 100%;" class="table">

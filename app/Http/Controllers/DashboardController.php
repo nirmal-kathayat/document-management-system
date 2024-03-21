@@ -9,7 +9,10 @@ class DashboardController extends Controller
     public function index()
     {
         try{
-            return view('dashboard.index');
+        	$data = [
+        		'total_applicant' => \DB::table('applicants')->count() 
+        	];
+            return view('dashboard.index')->with($data);
             
         }catch(\Exception $e)
         {

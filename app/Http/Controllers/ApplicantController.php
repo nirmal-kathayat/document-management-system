@@ -189,4 +189,9 @@ class ApplicantController extends Controller
     }
 
 
+    public function info($id){
+
+    }
+
+
 }

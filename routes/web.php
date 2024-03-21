@@ -22,7 +22,7 @@ Route::group(['prefix' => 'admin',], function () {
    
 
     // Add Applicant
-    Route::group(['prefix'=>'applicant'],function(){
+    Route::group(['prefix'=>'applicants'],function(){
         Route::get('/',[ApplicantController::class,'index'])->name('admin.applicant');
         Route::get('/create',[ApplicantController::class,'create'])->name('admin.applicant.create');
         Route::post('/create',[ApplicantController::class,'store'])->name('admin.applicant.store');
@@ -31,9 +31,11 @@ Route::group(['prefix' => 'admin',], function () {
         Route::get('delete/{id}',[ApplicantController::class,'delete'])->name('admin.applicant.delete');
         Route::post('export',[ApplicantController::class,'export'])->name('admin.applicant.export');
         Route::get('/move',[ApplicantController::class,'move'])->name("admin.applicant.move");
+        Route::get('/info/{id}',[ApplicantController::class,'info'])->name("admin.applicant.info");
+
     });
 
-    Route::group(['prefix' =>'passport'],function(){
+    Route::group(['prefix' =>'passports'],function(){
         Route::get('/',[PassportController::class,'index'])->name('admin.passport');
         Route::get('/create',[PassportController::class,'create'])->name('admin.passport.create');
         Route::post('/create',[PassportController::class,'store'])->name('admin.passport.store');
@@ -43,7 +45,7 @@ Route::group(['prefix' => 'admin',], function () {
     });
 
     // country
-    Route::group(['prefix'=>'country'],function(){
+    Route::group(['prefix'=>'countries'],function(){
         Route::get('/',[CountryController::class,'index'])->name('admin.country');
         Route::get('/create',[CountryController::class,'create'])->name('admin.country.create');
         Route::post('/create',[CountryController::class,'store'])->name('admin.country.store');
@@ -54,7 +56,7 @@ Route::group(['prefix' => 'admin',], function () {
     });
 
     // job position
-    Route::group(['prefix'=>'position'],function(){
+    Route::group(['prefix'=>'positions'],function(){
         Route::get('/',[JobPositionController::class,'index'])->name('admin.position');
         Route::get('/create',[JobPositionController::class,'create'])->name('admin.position.create');
         Route::post('/create',[JobPositionController::class,'store'])->name('admin.position.store');
@@ -65,7 +67,7 @@ Route::group(['prefix' => 'admin',], function () {
     });
 
     // demand
-    Route::group(['prefix'=>'demand'],function(){
+    Route::group(['prefix'=>'demands'],function(){
         Route::get('/',[DemandController::class,'index'])->name('admin.demand');
         Route::get('/create',[DemandController::class,'create'])->name('admin.demand.create');
         Route::post('/create',[DemandController::class,'store'])->name('admin.demand.store');
@@ -76,7 +78,7 @@ Route::group(['prefix' => 'admin',], function () {
         
     });
 
-    Route::group(['prefix' => 'permission'], function () {
+    Route::group(['prefix' => 'permissions'], function () {
         Route::get('/', [PermissionController::class, 'index'])->name('admin.permission');
         Route::get('/create', [PermissionController::class, 'create'])->name('admin.permission.create');
         Route::post('/create', [PermissionController::class, 'store'])->name('admin.permission.store');
@@ -85,7 +87,7 @@ Route::group(['prefix' => 'admin',], function () {
         Route::get('delete/{id}', [PermissionController::class, 'delete'])->name('admin.permission.delete');
     });
 
-      Route::group(['prefix' => 'role'], function () {
+      Route::group(['prefix' => 'roles'], function () {
         Route::get('/', [RoleController::class, 'index'])->name('admin.role');
         Route::get('/create', [RoleController::class, 'create'])->name('admin.role.create');
         Route::post('/create', [RoleController::class, 'store'])->name('admin.role.store');
@@ -93,7 +95,7 @@ Route::group(['prefix' => 'admin',], function () {
         Route::post('edit/{id}', [RoleController::class, 'update'])->name('admin.role.update');
         Route::get('delete/{id}', [RoleController::class, 'delete'])->name('admin.role.delete');
     });
-    Route::group(['prefix'=>'user'],function(){
+    Route::group(['prefix'=>'users'],function(){
         Route::get('/',[UserController::class,'index'])->name('admin.user');
         Route::get('/create',[UserController::class,'create'])->name('admin.user.create');
         Route::post('/create',[UserController::class,'store'])->name('admin.user.store');
