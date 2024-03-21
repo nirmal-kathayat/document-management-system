@@ -190,8 +190,10 @@ route('admin.applicant.create'));
 						const imgWrapper = $('<div />',{
 							class:'attach-uploaded-img',
 						})
+
 						const img = $('<img />',{
-							src:event.target.result
+							src:event.target.result,
+							style:target.hasClass('full_body') ? 'height:700px;aspect-ratio:3/5;object-fit:contain;' : ''
 						})
 						current.parent().prev().html('')
 						imgWrapper.append(img)

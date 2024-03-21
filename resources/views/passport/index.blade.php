@@ -95,7 +95,7 @@
               var editUrl =
                 "{{ route('admin.passport.edit', ['id' => ':id']) }}"
                 .replace(':id', full.id);
-              var addApplicantUrl =!!full.isApplicant ? `{{route('admin.applicant.edit',['id' =>':id'])}}`.replace(':id',full?.id)  : `{{route('admin.applicant.create')}}?passport_id=${full.id}`;
+              var addApplicantUrl =!!full.isApplicant ? `{{route('admin.applicant.edit',['id' =>':id'])}}`.replace(':id',full?.applicant_id)  : `{{route('admin.applicant.create')}}?passport_id=${full.id}`;
               var editButton =
                 '<a title="Edit" class="primary-btn" href="' + editUrl + '"><i class="fa fa-pencil"></i></a>';
               var addAppButton = `<a title='${full?.isApplicant ? 'Update Applicant': "Add Applicant"}' class="primary-btn" href="${addApplicantUrl}"><i class='${!!full.isApplicant ? 'fa fa-user' : 'fa fa-user-plus'}'></i></a>`
