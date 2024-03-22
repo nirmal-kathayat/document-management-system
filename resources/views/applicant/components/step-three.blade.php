@@ -30,7 +30,7 @@
 				<input type="text" name="educations[backgrounds][1][title]" value="{{old('educations[backgrounds][1][title]',$applicant->educations['backgrounds'][1]['title'] ?? '')}}">
 			</div>
 			<div class="form-group group-row col-gap-10 align-center">
-				<label>Period</label>
+				<label>Period (In Yrs)</label>
 				<input type="text" name="educations[backgrounds][1][duration]" value="{{old('educations[backgrounds][1][duration]',$applicant->educations['backgrounds'][1]['duration'] ?? '')}}">
 			</div>
 		</div>
@@ -48,7 +48,7 @@
 				<input type="text" name="educations[backgrounds][2][title]" value="{{old('educations[backgrounds][2][title]',$applicant->educations['backgrounds'][2]['title'] ?? '')}}" >
 			</div>
 			<div class="form-group group-row col-gap-10 align-center">
-				<label>Period</label>
+				<label>Period (In Yrs)</label>
 				<input type="text" name="educations[backgrounds][2][duration]" value="{{old('educations[backgrounds][2][duration]',$applicant->educations['backgrounds'][2]['duration'] ?? '')}}">
 			</div>
 		</div>
@@ -57,7 +57,7 @@
 		<div class="form-wrapper education-form-wrapper" style="padding:0px 15px;margin-top:15px">
 			<div class="form-group group-row col-gap-10 align-center">
 				<label>Other Certificates</label>
-				<input type="text" name="educations[backgrounds][2][organization]"
+				<input type="text" name="educations[other_certificate]"
 				value="{{old('educations[other_certificate]',$applicant->educations['other_certificate'] ?? '')}}">
 			</div>
 		</div>
@@ -71,7 +71,7 @@
 					@foreach(englishLevels() as $level)
 					<div class="form-group group-row align-center col-gap-10">
 						<label style="width:auto;">{{$level}}</label>
-						<input type="radio" name="educations[english_level]" value="{{$level}}" style="width:25px;height:25px;border:0px"  {{isset($applicant) && isset($applicant->educations["english_level"]) && $applicant->educations['english_level'] == $level  ? 'checked' : ''}}>
+						<input type="radio" name="educations[english_level]" value="{{$level}}" style="width:25px;height:25px;border:0px"  {{ isset($applicant->educations["english_level"]) && $applicant->educations['english_level'] == $level ? 'checked' : ($level == 'Poor' ? 'checked' : '') }}>
 					</div>
 					@endforeach
 				</div>

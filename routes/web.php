@@ -32,7 +32,6 @@ Route::group(['prefix' => 'admin',], function () {
         Route::post('export',[ApplicantController::class,'export'])->name('admin.applicant.export');
         Route::get('/move',[ApplicantController::class,'move'])->name("admin.applicant.move");
         Route::get('/info/{id}',[ApplicantController::class,'info'])->name("admin.applicant.info");
-
     });
 
     Route::group(['prefix' =>'passports'],function(){

@@ -1,4 +1,4 @@
-<div class="step-four">
+<div class="step-four" style="margin-top:15px;">
 	<div class="flex-row justify-space-between">
 		<div class="grid-row template-repeat-2 col-gap-20 row-gap-10" style="width:67%">
 			<div class="grey-bg">
