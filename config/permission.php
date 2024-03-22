@@ -4,6 +4,7 @@ return[
 	"without" =>[
 		'/',
 		'logout',
+		'admin/users/forgotPassword'
 	],
 	"allow" =>[
 		"login",

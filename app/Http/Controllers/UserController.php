@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use Exception;
 use DataTables;
 use IAnanta\UserManagement\Repository\RoleRepository;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -85,15 +86,16 @@ class UserController extends Controller
     }
 
 
-    public function validatePasswordRequest(UserRequest $request)
+    public function validatePasswordRequest(Request $request)
     {
-        // dd('sdf');
+        // dd($request->all());
         $request->validate([
             'email' => 'required|email',
         ]);
 
         $user = \DB::table('admins')->where('email', $request->email)->first();
         if (!$user) {
+            // dd('error');
             return redirect()->back()->withErrors(['email' => trans('User does not exist')]);
         }
 
@@ -118,7 +120,7 @@ class UserController extends Controller
     private function sendResetEmail($email, $token)
     {
         // Retrieve the user from the database
-        $user = \DB::table('admins')->where('email', $email)->select('firstname', 'email')->first();
+        $user = \DB::table('admins')->where('email', $email)->select('name', 'email')->first();
 
         // Generate the password reset link
         $link = config('base_url') . 'password/reset/' . $token . '?email=' . urlencode($user->email);
@@ -131,7 +133,7 @@ class UserController extends Controller
         }
     }
 
-    public function resetPassword(UserRequest $request)
+    public function resetPassword(Request $request)
     {
 
         // Validation

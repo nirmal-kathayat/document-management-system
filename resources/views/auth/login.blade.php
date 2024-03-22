@@ -86,9 +86,6 @@
       }
     }
 
-    var forgotPasswordForm = document.getElementById("forgotPasswordForm");
-    forgotPasswordForm.onsubmit = function(event) {
-    }
   </script>
 </body>
 
