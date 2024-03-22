@@ -194,14 +194,19 @@ rel="stylesheet">
 				"{{ route('admin.applicant.info', ['id' => ':id']) }}"
 				.replace(':id', full.id);
 				var viewButton =
-				'<a title="Edit" class="primary-btn" href="' + viewUrl + '"><i class="fa fa-eye"></i></a>';
+				'<a title="Info" class="primary-btn" href="' + viewUrl + '"><i class="fa fa-eye"></i></a>';
+				var cvUrl =
+				"{{ route('admin.applicant.info', ['id' => ':id']) }}?type=cv"
+				.replace(':id', full.id);
+				var cvButton =
+				'<a title="Info" class="primary-btn" href="' + cvUrl + '">CV</a>';
 				   var deleteUrl =
                 "{{ route('admin.applicant.delete', ['id' => ':id']) }}".replace(':id', full.id);
                 var deleteButton =
                   `<button type="button" class="danger-btn confirm-modal-open" href=${deleteUrl}><i class="fa fa-trash"></i></button>`;
 				var checkbox =!!full?.is_selected ? '' :  `<input value="${full.id}"  type='checkbox' class="applicant-selected-checkbox"  />`
 				var actionButtons =
-				`<div style='display:flex;column-gap:10px;align-items:center;justify-content:flex-end;'>${checkbox} ${editButton} ${viewButton} ${deleteButton}</div>`;
+				`<div style='display:flex;column-gap:10px;align-items:center;justify-content:flex-end;'>${checkbox} ${editButton} ${viewButton} ${cvButton} ${deleteButton}</div>`;
 				return actionButtons
 			}
 		}

@@ -132,11 +132,11 @@
 							</select>
 						</div>
 						<div class="form-group group-column">
-							<label>Height <span class="text-red">*</span></label>
+							<label>Height <span class="text-red">*</span> (In Meter)</label>
 							<input type="text" name="personal_details[height]"  value="{{old('personal_details[height]',$applicant->personal_details['height'] ?? '')}}" class="validation-control" data-validation="required"  >
 						</div>
 						<div class="form-group group-column">
-							<label>Weight <span class="text-red">*</span></label>
+							<label>Weight <span class="text-red">*</span> (In Kg)</label>
 							<input type="text" name="personal_details[weight]"  value="{{old('personal_details[weight]',$applicant->personal_details['weight'] ?? '')}}" class="validation-control" data-validation="required" >
 						</div>
 
