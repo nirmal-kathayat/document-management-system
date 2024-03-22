@@ -20,13 +20,8 @@ class DashboardController extends Controller
                     ->orderBy('applicants.created_at', 'desc')
                     ->get(),
                 'stats' => [
-<<<<<<< HEAD
-                    'total_male_percentage' => $totalApplicant > 0 ? ($totalMale * 100) / $totalApplicant : 0,
-                    'total_female_percentage' => $totalApplicant > 0 ? ($totalFemale * 100) / $totalApplicant : 0
-=======
                     'total_male_percentage' => $totalApplicant > 0 ? ( $totalMale * 100 )/ $totalApplicant : 0,
                     'total_female_percentage' =>$totalApplicant > 0 ?  ( $totalFemale * 100 ) / $totalApplicant : 0
->>>>>>> 952065b72e10b69bdf30b76826d6f2349318bad0
                 ]
             ];
             return view('dashboard.index')->with($data);
