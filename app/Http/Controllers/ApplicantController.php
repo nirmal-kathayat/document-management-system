@@ -9,6 +9,7 @@ use App\Repository\ExperienceRepository;
 use App\Repository\CountryRepository;
 use App\Http\Requests\ApplicantRequest;
 use DataTables;
+use PDF;
 use Carbon\Carbon;
 use App\Exports\ApplicantExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -183,8 +184,7 @@ class ApplicantController extends Controller
            return redirect()->back()->with(['message' =>'Move to selected successfully','type' =>'success']);
 
         } catch (Exception $e) {
-            return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
-            
+            return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']); 
         }
     }
 
@@ -193,11 +193,18 @@ class ApplicantController extends Controller
         try {
             $data['applicant'] = $this->repo->find($id);
             $data['passport'] = $this->passportRepo->find($data['applicant']->passport_id);
-             $data['continents'] = $this->continentRepo->get();
+            if(!isset($_GET['type'])){
+                $data['continents'] = $this->continentRepo->get();
                 $data['positions'] = $this->positionRepo->get();
                 $data['experiences'] = $this->experienceRepo->get();
-                
-            return view('applicant.info')->with($data);
+            }
+            if(isset($_GET['type'])&& $_GET['type'] == 'download'){
+                 $pdf = PDF::loadView('applicant.cv', $data);
+                 $pdf->getDomPDF()->getOptions()->set('defaultFont', 'Arial');
+                return $pdf->download($data['passport']->first_name.'-'.$data['passport']->last_name.'.pdf');
+            }else{
+                return view('applicant.info')->with($data);
+            }
             
         } catch (Exception $e) {
             return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
