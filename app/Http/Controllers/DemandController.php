@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Demandrequest;
+use App\Http\Requests\DemandRequest;
 use App\Repository\DemandRepository;
 use App\Repository\CountryRepository;
 use App\Repository\JobPositionRepository;
@@ -61,7 +61,7 @@ class DemandController extends Controller
     }
   }
 
-  public function store(Demandrequest $request)
+  public function store(DemandRequest $request)
   {
     try {
       $this->repo->store($request->validated());
@@ -87,7 +87,7 @@ class DemandController extends Controller
     }
   }
 
-  public function update(Demandrequest $request,$id)
+  public function update(DemandRequest $request,$id)
   {
     try{
       $this->repo->update($request->validated(),$id);
