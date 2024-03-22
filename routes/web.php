@@ -11,7 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DemandController;
 use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\ProfileController;
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/', [AuthController::class, 'loginProcess'])->name('loginProcess');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
@@ -19,8 +19,11 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::group(['prefix' => 'admin',], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 952065b72e10b69bdf30b76826d6f2349318bad0
     // Add Applicant
     Route::group(['prefix' => 'applicants'], function () {
         Route::get('/', [ApplicantController::class, 'index'])->name('admin.applicant');
@@ -99,6 +102,18 @@ Route::group(['prefix' => 'admin',], function () {
         Route::put('edit/{id}', [UserController::class, 'update'])->name('admin.user.update');
         Route::get('delete/{id}', [UserController::class, 'delete'])->name('admin.user.delete');
 
+<<<<<<< HEAD
+=======
+    Route::group(['prefix' =>'profile'],function(){
+        Route::get('/',[ProfileController::class,'index'])->name('admin.profile');
+        Route::put('edit',[ProfileController::class,'update'])->name('admin.profile.update');
+    });
+
+    Route::group(['prefix'=>'changePassword'],function(){
+        Route::get('/create',[ChangePasswordController::class,'create'])->name('admin.changePassword.create');
+        Route::post('/create',[ChangePasswordController::class,'passwordChange'])->name('admin.changePassword.passwordChange');
+    });
+>>>>>>> 952065b72e10b69bdf30b76826d6f2349318bad0
 
         Route::post('/forgotPassword', [UserController::class, 'validatePasswordRequest'])->name('admin.user.forgotPassword');
         Route::post('/create', [UserController::class, 'resetPassword'])->name('admin.user.resetPassword');
