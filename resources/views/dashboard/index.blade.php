@@ -1,4 +1,8 @@
 @extends('layouts.default')
+@php
+  use Carbon\Carbon;
+
+@endphp
 @section('title','Dashboard')
 @section('content')
 <section class="card-view">
@@ -33,21 +37,12 @@
 
 <section class="upload-table-content">
   <div class="flex-row justify-space-between">
-    <div class="flex-column card-info">
-      <div class="form-group group-column card-column">
-        <img src="https://culinarylabschool.com/wp-content/uploads/2019/06/Pros-and-cons-to-working-in-culinary-arts-CulinaryLab-School.jpg" style="width: 160px;height:160px;" alt="img">
-        <select class="card-dropdown" name="" id="">
-          <option value="cook">cook</option>
-          <option value="cook">cook</option>
-          <option value="cook">cook</option>
-        </select>
-        <span class="text-black">256</span>
-      </div>
+    <div class="card-info">
       <div class="form-group group-column  card-column">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Pie-chart.jpg" style="width: 200px;height:200px;" alt="piechart">
+          <div id="chartContainer" style="height: 300px; width: 100%;"></div>
       </div>
     </div>
-    <div class="table-wrapper">
+    <div class="table-wrapper dashboard-quick-view">
       <div class="flex-row justify-space-between align-center">
         <h1 style="font-size:21px;font-weight:700">Quick <span class="text-blue">view</span></h1>
         <a href="{{route('admin.applicant')}}">View All</a>
@@ -63,84 +58,18 @@
             </tr>
           </thead>
           <tbody>
+            @foreach($applicants as $applicant)
+            @php
+               $age =  Carbon::createFromFormat('Y-m-d', $applicant->dob)->diffInYears(Carbon::now());
+
+            @endphp
             <tr role="row" class="odd">
-              <td>Ram kumar Bista</td>
-              <td>4 Years</td>
-              <td>30</td>
-              <td>Male</td>
+              <td>{{$applicant->first_name}} {{$applicant->last_name}}</td>
+              <td>{{$applicant->experiences['professionals'][0]['duration'] ?? ''}}</td>
+              <td>{{$age}}</td>
+              <td>{{$applicant->gender}}</td>
             </tr>
-            <tr>
-              <td>Anjana Shrestha</td>
-              <td>2 Years</td>
-              <td>40</td>
-              <td>Female</td>
-            </tr>
-            <tr>
-              <td>Niraj Basnet</td>
-              <td>5 Years</td>
-              <td>35</td>
-              <td>Male</td>
-            </tr>
-            <tr>
-              <td>Rashmi Bista</td>
-              <td>6 Years</td>
-              <td>37</td>
-              <td>Female</td>
-            </tr>
-            <tr>
-              <td>Ram kumar Bista</td>
-              <td>4 Years</td>
-              <td>30</td>
-              <td>Male</td>
-            </tr>
-            <tr>
-              <td>Rashmi Bista</td>
-              <td>6 Years</td>
-              <td>37</td>
-              <td>Female</td>
-            </tr>
-            <tr>
-              <td>Niraj Basnet</td>
-              <td>5 Years</td>
-              <td>35</td>
-              <td>Male</td>
-            </tr>
-            <tr>
-              <td>Rashmi Bista</td>
-              <td>6 Years</td>
-              <td>37</td>
-              <td>Female</td>
-            </tr>
-            <tr>
-              <td>Niraj Basnet</td>
-              <td>5 Years</td>
-              <td>35</td>
-              <td>Male</td>
-            </tr>
-            <tr>
-              <td>Niraj Basnet</td>
-              <td>5 Years</td>
-              <td>35</td>
-              <td>Male</td>
-            </tr>
-            <tr>
-              <td>Niraj Basnet</td>
-              <td>5 Years</td>
-              <td>35</td>
-              <td>Male</td>
-            </tr>
-            <tr>
-              <td>Niraj Basnet</td>
-              <td>5 Years</td>
-              <td>35</td>
-              <td>Male</td>
-            </tr>
-            <tr>
-              <td>Anjana Shrestha</td>
-              <td>2 Years</td>
-              <td>40</td>
-              <td>Female</td>
-            </tr>
+            @endforeach
           </tbody>
         </table>
       </div>
@@ -148,3 +77,31 @@
   </div>
 </section>
 @endsection
+
+@push('js')
+<script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
+<script>
+window.onload = function () {
+
+var options = {
+  theme: "light2",
+  animationEnabled: true,
+  data: [{
+    type: "pie",
+    startAngle: 40,
+    toolTipContent: "<b>{label}</b>: {y}%",
+    showInLegend: "true",
+    legendText: "{label}",
+    indexLabelFontSize: 16,
+    indexLabel: "{label} - {y}%",
+    dataPoints: [
+      { y: `{{$stats['total_female_percentage']}}`, label: "Female", },
+      { y: `{{$stats['total_male_percentage']}}`, label: "Male" },
+    ]
+  }]
+};
+$("#chartContainer").CanvasJSChart(options);
+
+}
+</script>
+@endpush

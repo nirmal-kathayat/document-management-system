@@ -17,22 +17,22 @@
     <div class="profile-dropdown">
         <ul>
           <li><a href="#">My Profile</a></li>
-          @if(can(url('admin/user')))
+          @if(can(url('admin/users')))
             <li><a href="{{route('admin.user')}}">All User</a></li>
           @endif
-           @if(can(url('admin/user/create')))
+           @if(can(url('admin/users/create')))
           <li><a href="{{route('admin.user.create')}}">Add User</a></li>
           @endif
-           @if(can(url('admin/role')))
+           @if(can(url('admin/roles')))
            <li><a href="{{route('admin.role')}}">All Role</a></li>
            @endif
-           @if(can(url('admin/role/create')))
+           @if(can(url('admin/roles/create')))
           <li><a href="{{route('admin.role.create')}}">Add Role</a></li>
           @endif
-           @if(can(url('admin/permission')))
+           @if(can(url('admin/permissions')))
           <li><a href="{{route('admin.permission')}}">All Permission</a></li>
           @endif
-           @if(can(url('admin/permission/create')))
+           @if(can(url('admin/permissions/create')))
           <li><a href="{{route('admin.permission.create')}}">Add Permission</a></li>
           @endif
           <li><a href="{{route('logout')}}">Logout</a></li>

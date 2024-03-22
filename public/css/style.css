@@ -178,6 +178,7 @@
   top:0px;
   left:0px;
   display: none;
+  z-index: 111;
 }
 .progress-loader-info{
   display: flex;
@@ -779,17 +780,12 @@ input.applicant-selected-checkbox {
   border: 1px solid #F3F3F3;
   color: #57585A;
   border-radius: 8px;
-  width: 90%;
-  font-weight: bold;
   align-items: center;
-  justify-content: space-evenly;
   border-top: none;
-  margin-top: 15px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  padding:10px 15px;
 }
-.card-column img{
-  border-radius: 50%;
-}
+
 .card-column .card-dropdown{
   width: 26%;
   font-weight: bold;
@@ -802,7 +798,7 @@ input.applicant-selected-checkbox {
 }
 
 .card-info{
-  width: 50%;
+  width:35%;
 }
 
 .table-wrapper{

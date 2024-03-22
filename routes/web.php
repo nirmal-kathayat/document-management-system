@@ -102,6 +102,7 @@ Route::group(['prefix' => 'admin',], function () {
         Route::get('edit/{id}',[UserController::class,'edit'])->name('admin.user.edit');
         Route::put('edit/{id}',[UserController::class,'update'])->name('admin.user.update');
         Route::get('delete/{id}',[UserController::class,'delete'])->name('admin.user.delete');
+        Route::post('forgotPassword',[UserController::class,'delete'])->name('admin.user.delete');
     });
 
     Route::group(['prefix'=>'changePassword'],function(){

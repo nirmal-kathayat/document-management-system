@@ -1,5 +1,5 @@
 
-<div class="step-two">
+<div class="step-two" style="margin-top:15px">
 	<div class="grey-bg details-form-block" data-index="0">
 		<div class="form-section-title">
 			<h4>Professional Experience</h4>
