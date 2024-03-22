@@ -159,7 +159,10 @@
 						<input type="text" name="personal_details[permanent_address]" class="validation-control" data-validation="required"
 						value="{{old('personal_details[permanent_address]',$applicant->personal_details['permanent_address'] ?? '')}}">
 					</div>
-
+					<div class="form-group group-row align-center">
+						<label>Religion <span class="text-red">*</span></label>
+						<input type="text" name="personal_details[religion]" class="validation-control" data-validation="required"  value="{{old('personal_details[religion]',$applicant->personal_details['religion'] ?? '')}}">
+					</div>
 					<div class="form-group group-row align-center">
 						<label>Email</label>
 						<input type="email" name="personal_details[email]" value="{{old('personal_details[email]',$applicant->personal_details['email'] ?? '')}}">

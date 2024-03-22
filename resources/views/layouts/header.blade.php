@@ -16,7 +16,7 @@
     </div>
     <div class="profile-dropdown">
         <ul>
-          <li><a href="#">My Profile</a></li>
+          <li><a href="{{route('admin.profile')}}">My Profile</a></li>
           @if(can(url('admin/users')))
             <li><a href="{{route('admin.user')}}">All User</a></li>
           @endif
