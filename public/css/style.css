@@ -823,3 +823,10 @@ input.applicant-selected-checkbox {
   border-radius: 0px;
 }
 
+.dashboard-quick-view{
+  width:62%;
+}
+
+a.canvasjs-chart-credit {
+    display: none;
+}
