@@ -120,8 +120,8 @@
 						<div class="form-group group-row justify-space-between">
 							<label>{{$question}}</label>
 							<div class="form-group group-row col-gap-10">
-								<input type="radio" value="Yes" name="personal_checklist[personal_questions][{{$key}}]" style="width:25px;height:25px;border:0px" {{isset($applicant) && isset($applicant->personal_checklist['personal_questions']) && $applicant->personal_checklist['personal_questions'][$key] ==='Yes' ? 'checked' : '' }}>
-								<input type="radio" value="No" name="personal_checklist[personal_questions][{{$key}}]" style="width:25px;height:25px;border:0px" {{isset($applicant) && isset($applicant->personal_checklist['personal_questions']) && $applicant->personal_checklist['personal_questions'][$key] ==='No' ? 'checked' : '' }}>
+								<input type="radio" value="Yes" name="personal_checklist[personal_questions][{{$key}}]" style="width:25px;height:25px;border:0px" {{isset($applicant) && isset($applicant->personal_checklist['personal_questions'][$key]) && $applicant->personal_checklist['personal_questions'][$key] ==='Yes' ? 'checked' : '' }}>
+								<input type="radio" value="No" name="personal_checklist[personal_questions][{{$key}}]" style="width:25px;height:25px;border:0px" {{isset($applicant) && isset($applicant->personal_checklist['personal_questions'][$key]) && $applicant->personal_checklist['personal_questions'][$key] ==='No' ? 'checked' : '' }}>
 
 							</div>
 						</div>
