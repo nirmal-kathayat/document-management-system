@@ -4,8 +4,8 @@ use App\Http\Controllers\ApplicantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
-
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DemandController;
@@ -103,5 +103,9 @@ Route::group(['prefix' => 'admin',], function () {
         Route::get('delete/{id}',[UserController::class,'delete'])->name('admin.user.delete');
     });
 
+    Route::group(['prefix'=>'changePassword'],function(){
+        Route::get('/create',[ChangePasswordController::class,'create'])->name('admin.changePassword.create');
+        Route::post('/create',[ChangePasswordController::class,'passwordChange'])->name('admin.changePassword.passwordChange');
+    });
 
 });
