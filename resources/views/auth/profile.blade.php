@@ -1,15 +1,13 @@
 @extends('layouts.default')
-@section('title','All Users')
+@section('title','My Profile')
 @php
-$url = isset($user) ? route('admin.user.edit',['id' => $user->id]) : route('admin.user.create');
+	$user = auth()->guard('admin')->user();
 @endphp
 @section('content')
 <div class="inner-section-wrapper grey-bg upload-block">
-  <form action="{{$url}}" method="post" class="form-data" enctype="multipart/form-data">
+  <form action="{{route('admin.profile.update')}}" method="post" class="form-data" enctype="multipart/form-data">
     @csrf
-    @if(isset($user))
     @method('PUT')
-    @endif
     <div class="flex-row justify-space-between">
       <div class="upload-passport-wrapper">
         <div class="form-group group-column">
@@ -49,29 +47,11 @@ $url = isset($user) ? route('admin.user.edit',['id' => $user->id]) : route('admi
             <label>Email <span class="text-red">*</span></label>
             <input type="email" name="email" class="validation-control" data-validation="required" value="{{old('email',$user->email ?? '')}}">
           </div>
-          @if(!isset($user))
-          <div class="form-group group-column">
-            <label>Password @if(!isset($user)) <span class="text-red">*</span> @endif</label>
-            <input type="password" name="password" class="validation-control" data-validation="{{isset($user) ? '' : 'required'}}">
-          </div>
-          <div class="form-group group-column">
-            <label>Confrim Password @if(!isset($user)) <span class="text-red">*</span> @endif</label>
-            <input type="password" name="confirm_password" class="validation-control" data-validation="{{isset($user) ? '' : 'required|confirm'}}">
-          </div>
-          @endif
+      
           <div class="form-group group-column">
             <label>Designation <span class="text-red">*</span></label>
             <input type="text" name="designation" class="validation-control" data-validation="required" value="{{old('designation',$user->designation ?? '')}}">
           </div>
-          <div class="form-group group-column">
-                <label>Role</label>
-                <select name="roles[]" class="validation-control" data-validation="required">
-                    <option value="">Select</option>
-                    @foreach($roles as $role)
-                      <option value="{{$role->id}}" {{isset($user) && in_array($role->id,$user->roles->pluck('id')->toArray()) ? 'selected' : '' }}>{{$role->name}}</option>
-                    @endforeach
-                </select>
-            </div>
           <div class="grid-row template-repeat-3 col-gap-20">
             <div class="form-group group-column">
               <label>DOB <span class="text-red">*</span></label>
@@ -84,7 +64,7 @@ $url = isset($user) ? route('admin.user.edit',['id' => $user->id]) : route('admi
             
           </div>
           <div class="form-group flex-end">
-            <button type="submit" class="primary-btn">{{isset($user) ? 'Update' : 'Add'}}</button>
+            <button type="submit" class="primary-btn">Update Profile</button>
           </div>
         </div>
       </div>
@@ -92,61 +72,3 @@ $url = isset($user) ? route('admin.user.edit',['id' => $user->id]) : route('admi
   </form>
 </div>
 @endsection
-@push('js')
-@include('scripts.validation')
-<script>
-  (function() {
-    function Initial() {
-      let _this = this;
-
-      this.fileInputListener = function() {
-        const dropZone = $('#drop-zone')
-        const fileInput = $('#passport-file-input')
-
-        function handleFile(files) {
-          const file = files[0]
-          const reader = new FileReader();
-          reader.onload = function(event) {
-            const imgWrapper = $('<div />', {
-              class: 'uploaded-img',
-            })
-            const img = $('<img />', {
-              src: event.target.result
-            })
-            $('.uploaded-img').remove()
-            $('.upload-passport-info').hide()
-            imgWrapper.append(img)
-            dropZone.append(imgWrapper)
-          };
-
-          reader.readAsDataURL(file);
-          $('.progress-loader-wrapper').fadeIn()
-          _this.makeInputEmpty()
-
-        }
-        dropZone.on('dragover', function(e) {
-          e.preventDefault()
-          dropZone.addClass('dragged-over')
-        })
-        dropZone.on('dragleave', function(e) {
-          dropZone.removeClass('dragged-over')
-        })
-        dropZone.on('drop', function(e) {
-          e.preventDefault()
-          dropZone.removeClass('dragged-over')
-          handleFile(e.originalEvent.dataTransfer.files)
-        })
-
-        fileInput.on('change', function(e) {
-          handleFile(e.target.files)
-        })
-      };
-      this.init = function() {
-        _this.fileInputListener();
-      };
-    }
-    let initialObj = new Initial();
-    initialObj.init();
-  })();
-</script>
-@endpush

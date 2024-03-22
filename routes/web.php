@@ -11,7 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DemandController;
 use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\ProfileController;
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/', [AuthController::class, 'loginProcess'])->name('loginProcess');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
@@ -19,8 +19,6 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::group(['prefix' => 'admin',], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-   
-
     // Add Applicant
     Route::group(['prefix'=>'applicants'],function(){
         Route::get('/',[ApplicantController::class,'index'])->name('admin.applicant');
@@ -101,6 +99,11 @@ Route::group(['prefix' => 'admin',], function () {
         Route::get('edit/{id}',[UserController::class,'edit'])->name('admin.user.edit');
         Route::put('edit/{id}',[UserController::class,'update'])->name('admin.user.update');
         Route::get('delete/{id}',[UserController::class,'delete'])->name('admin.user.delete');
+    });
+
+    Route::group(['prefix' =>'profile'],function(){
+        Route::get('/',[ProfileController::class,'index'])->name('admin.profile');
+        Route::put('edit',[ProfileController::class,'update'])->name('admin.profile.update');
     });
 
     Route::group(['prefix'=>'changePassword'],function(){
