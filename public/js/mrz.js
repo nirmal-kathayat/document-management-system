@@ -268,7 +268,7 @@ class MRZ{
 
 
 	_removeSymbol(str){
-		return str.replace(/[^a-zA-Z0-9]/g, '')
+		return str.replace(/[^A-Z0-9]/g, '')
 	}
 
 	_containsNumber(str) {
@@ -279,7 +279,7 @@ class MRZ{
 
 	_containsLetter(str){
 		let result=''
-		const match = str.match(/[a-zA-Z]+/g)
+		const match = str.match(/[A-Z]+/g)
 
 		return !!match ? match[0] : null;
 
