@@ -54,6 +54,8 @@ const nepalDistricts = [
 "Pyuthan",
 "Rolpa",
 "Rukum",
+'Eastern Rukum',
+'Western Rukum',
 "Salyan",
 "Dang",
 "Banke",
@@ -130,24 +132,13 @@ class MRZ{
 		}
 
 		if(!!_mrzLine1){
-			var matchForSurname =this._surname(_mrzLine1) ;
-			var matchForName = this._name(_mrzLine1);
+			var matchForSurname =this._surname(_mrzLine1);
+			var matchForName = this._name(_mrzLine1,matchForSurname);
 			if(matchForSurname && matchForSurname?.length){
 				fields = { ...fields,surname:matchForSurname[0]}
 			}
 			if(matchForName && matchForName?.length){
 				fields = { ...fields,name:matchForName[0]}
-			}else{
-				_others?.forEach((item,index) =>{
-					if(item.includes('GIVEN NAMES')){
-						let textBetweenSpaces = _others[index + 1].substring(_others[index + 1].indexOf(" ") + 1, _others[index + 1].lastIndexOf(" "));
-						fields = { ...fields,name:textBetweenSpaces}
-					}else if(item.includes("NATIONALITY")){
-						let splitStrArr = _others[index-1]?.split(' ')
-						console.log(splitStrArr,_others[index-1],item,index,'s')
-						fields = { ...fields,surname:splitStrArr.slice(-1),name:splitStrArr[splitStrArr?.length - 2]}
-					}
-				})
 			}
 		}
 
@@ -180,7 +171,7 @@ class MRZ{
 			}
 		}
 
-		
+		console.log(fields);
 
 		return fields;
 
@@ -239,7 +230,7 @@ class MRZ{
 	
 
 	_replaceLettertoNumber(str){
-		return this._removeSymbol(str.replace(/[OD]/g, '0').replace(/[B]/g, '8'))
+		return this._removeSymbol(str.replace(/[OD]/g, '0').replace(/[B]/g, '8').replace(/[I]/g, '9'))
 	}
 
 
