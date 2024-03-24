@@ -43,12 +43,12 @@
                   @if(can(url('admin/demands/create')))
 
                   <li>
-                       <a href="{{route('admin.demand.create')}}" class="{{ request()->is('admin/demands/create') ? 'active' : '' }}"><i class="fa fa-eye"></i>Add Demand</a>
+                       <a href="{{route('admin.demand.create')}}" class="{{ request()->is('admin/demands/create') ? 'active' : '' }}"><i class="fa fa-graduation-cap"></i>Add Demand</a>
                   </li>
                   @endif
                   @if(can(url('admin/demands')))
                    <li>
-                       <a href="{{route('admin.demand')}}" class="{{ request()->is('admin/demands') ? 'active' : '' }}"><i class="fa fa-eye"></i>View Demand</a>
+                       <a href="{{route('admin.demand')}}" class="{{ request()->is('admin/demands') ? 'active' : '' }}"><i class="fa fa-graduation-cap"></i>View Demand</a>
                   </li>
                   @endif
                   @if(can(url('admin/positions/create')))
