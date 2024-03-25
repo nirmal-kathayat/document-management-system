@@ -1,7 +1,6 @@
 @extends('layouts.default')
 @php
   use Carbon\Carbon;
-
 @endphp
 @section('title','Dashboard')
 @section('content')
@@ -10,7 +9,7 @@
     <div class="form-group column card-row">
       <a href="{{route('admin.passport.create')}}" class="flex-row col-gap-20">
        <i class="fa fa-photo"></i>
-       <h4>UPLOAD <br>PASSPORT</h4>
+       <h4>UPLOAD <br>PASSPORT </h4>
      </a>
    </div>
    <div class="form-group column  card-row">
