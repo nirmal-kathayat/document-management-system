@@ -25,4 +25,16 @@ $(document).ready(function(){
 		modalOk.attr('href',href)
 		target.fadeIn()
 	})
+
+	$('.sidebar-nav-wrapper nav ul li p').on('click',function(){
+	 	if($(this).parent().hasClass('open')){
+	 		$(this).next().slideUp()
+	 		$(this).parent().removeClass('open')
+	 	}else{
+	 		$(this).next().slideDown()
+	 		$(this).parent().addClass('open')
+
+
+	 	}
+	})
 })

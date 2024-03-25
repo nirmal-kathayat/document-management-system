@@ -20,7 +20,7 @@ class UserController extends Controller
     {
         try {
             if (request()->ajax()) {
-                $data = $this->repo->getAll();
+                $data = $this->repo->get();
                 return DataTables::of($data)
                     ->addIndexColumn()
                     ->rawColumns([])
