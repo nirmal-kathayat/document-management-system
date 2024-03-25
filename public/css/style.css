@@ -44,6 +44,7 @@
   color:var(--textPrimary);
   align-items: center;
   padding:7px 10px;
+  cursor: pointer;
 }
 .sidebar-nav-wrapper nav ul li p i:first-child,.sidebar-nav-wrapper nav ul li a i{
   width:20px;
