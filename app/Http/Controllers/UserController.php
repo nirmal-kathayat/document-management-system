@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Http\Requests\UserRequest;
 use App\Repository\UserRepository;
 use IAnanta\UserManagement\Models\Admin;

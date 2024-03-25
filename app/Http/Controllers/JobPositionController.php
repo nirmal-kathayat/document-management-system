@@ -55,6 +55,7 @@ class JobPositionController extends Controller
     {
         try{
             $position = $this->repo->find($id);
+            dd($position);
             return view('position.form')->with(['position'=>$position]);
 
         }catch(\Exception $e)

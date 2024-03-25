@@ -99,6 +99,7 @@ Route::group(['prefix' => 'admin',], function () {
         Route::get('delete/{id}', [UserController::class, 'delete'])->name('admin.user.delete');
 
         Route::post('/forgotPassword', [UserController::class, 'validatePasswordRequest'])->name('admin.user.forgotPassword');
+        
         // Route::post('/create', [UserController::class, 'resetPassword'])->name('admin.user.resetPassword');
 
         Route::group(['prefix' => 'profile'], function () {
