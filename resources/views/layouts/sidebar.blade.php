@@ -14,11 +14,11 @@
           <p><i class="fa fa-photo"></i>Passport <i class="fa fa-chevron-right"></i></p>
           <ul class="side-dropdown">
             @if(can(url('admin/passports/create/')))
-            <li><a href="{{route('admin.passport.create')}}" class="{{ request()->is('admin/passports/create') ? 'active' : '' }}">Upload Passport</a></li>
+            <li><a href="{{route('admin.passport.create')}}" class="{{ request()->is('admin/passports/create') ? 'active' : '' }}">Upload</a></li>
             @endif
             @if(can(url('admin/passports')))
             <li>
-              <a href="{{route('admin.passport')}}" class="{{ request()->is('admin/passports') ? 'active' : '' }}">Uploaded Passport</a>
+              <a href="{{route('admin.passport')}}" class="{{ request()->is('admin/passports') ? 'active' : '' }}">View</a>
             </li>
             @endif
           </ul>
@@ -30,12 +30,12 @@
           <ul class="side-dropdown">
             @if(can(url('admin/applicants/create')))
             <li>
-              <a href="{{route('admin.applicant.create')}}" class="{{ request()->is('admin/applicants/create') ? 'active' : '' }}">Add Applicant</a>
+              <a href="{{route('admin.applicant.create')}}" class="{{ request()->is('admin/applicants/create') ? 'active' : '' }}">Add</a>
             </li>
             @endif
             @if(can(url('admin/applicants')))
             <li>
-              <a  href="{{route('admin.applicant')}}" class="{{ request()->is('admin/applicants') ? 'active' : '' }}">View Applicants</a>
+              <a  href="{{route('admin.applicant')}}" class="{{ request()->is('admin/applicants') ? 'active' : '' }}">View</a>
             </li>
             @endif
           </ul>
@@ -49,12 +49,12 @@
            @if(can(url('admin/countries/create')))
 
            <li>
-             <a href="{{route('admin.country.create')}}" class="{{ request()->is('admin/countries/create') ? 'active' : '' }}">Add Country</a>
+             <a href="{{route('admin.country.create')}}" class="{{ request()->is('admin/countries/create') ? 'active' : '' }}">Add</a>
            </li>
            @endif
            @if(can(url('admin/countries')))
            <li>
-             <a href="{{route('admin.country')}}" class="{{ request()->is('admin/countries') ? 'active' : '' }}">View Country</a>
+             <a href="{{route('admin.country')}}" class="{{ request()->is('admin/countries') ? 'active' : '' }}">View</a>
            </li>
            @endif
          </ul>
@@ -67,12 +67,12 @@
          @if(can(url('admin/demands/create')))
 
          <li>
-          <a href="{{route('admin.demand.create')}}" class="{{ request()->is('admin/demands/create') ? 'active' : '' }}">Add Demand</a>
+          <a href="{{route('admin.demand.create')}}" class="{{ request()->is('admin/demands/create') ? 'active' : '' }}">Add</a>
         </li>
         @endif
         @if(can(url('admin/demands')))
         <li>
-          <a href="{{route('admin.demand')}}" class="{{ request()->is('admin/demands') ? 'active' : '' }}">View Demand</a>
+          <a href="{{route('admin.demand')}}" class="{{ request()->is('admin/demands') ? 'active' : '' }}">View</a>
         </li>
         @endif
       </ul>
@@ -84,12 +84,12 @@
       <ul class="side-dropdown">
        @if(can(url('admin/positions/create')))
        <li>
-         <a href="{{route('admin.position.create')}}" class="{{ request()->is('admin/positions/create') ? 'active' : '' }}">Add Position</a>
+         <a href="{{route('admin.position.create')}}" class="{{ request()->is('admin/positions/create') ? 'active' : '' }}">Add</a>
        </li>
        @endif
        @if(can(url('admin/positions')))
        <li>
-         <a href="{{route('admin.position')}}" class="{{ request()->is('admin/positions') ? 'active' : '' }}">View Position</a>
+         <a href="{{route('admin.position')}}" class="{{ request()->is('admin/positions') ? 'active' : '' }}">View</a>
        </li>
        @endif
      </ul>
