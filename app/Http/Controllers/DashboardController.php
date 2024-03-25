@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 use App\Models\Applicant;
+use App\Models\Passport;
 class DashboardController extends Controller
 {
     public function index()
     {
         try{
             $totalApplicant = Applicant::count();
+            $totalPassport = Passport::count();
             $totalMale = Applicant::
                                 leftJoin('passports','passports.id','applicants.passport_id')->where('passports.gender','Male')->count();
             $totalFemale =   Applicant::
                                 leftJoin('passports','passports.id','applicants.passport_id')->where('passports.gender','Female')->count();
         	$data = [
-        		'total_applicant' => \DB::table('applicants')->count(),
+        		'total_applicant' => $totalApplicant,
+                'total_passport' =>  $totalPassport,
                 'applicants' => $applicants = Applicant::
                                 leftJoin('passports','passports.id','applicants.passport_id')
                                     ->select('applicants.id','passports.first_name','passports.last_name','passports.dob','passports.gender','applicants.experiences')

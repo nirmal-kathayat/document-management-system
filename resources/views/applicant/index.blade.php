@@ -204,7 +204,7 @@ rel="stylesheet">
                 "{{ route('admin.applicant.delete', ['id' => ':id']) }}".replace(':id', full.id);
                 var deleteButton =
                   `<button type="button" class="danger-btn confirm-modal-open" href=${deleteUrl}><i class="fa fa-trash"></i></button>`;
-				var checkbox =!!full?.is_selected ? '' :  `<input value="${full.id}"  type='checkbox' class="applicant-selected-checkbox"  />`
+				var checkbox =!!parseInt(full?.is_selected) ? '' :  `<input value="${full.id}"  type='checkbox' class="applicant-selected-checkbox"  />`
 				var actionButtons =
 				`<div style='display:flex;column-gap:10px;align-items:center;justify-content:flex-end;'>${checkbox} ${editButton} ${viewButton} ${cvButton} ${deleteButton}</div>`;
 				return actionButtons
