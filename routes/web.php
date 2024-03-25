@@ -12,6 +12,7 @@ use App\Http\Controllers\DemandController;
 use App\Http\Controllers\JobPositionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LeadershipBoardController;
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/', [AuthController::class, 'loginProcess'])->name('loginProcess');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
@@ -63,7 +64,6 @@ Route::group(['prefix' => 'admin',], function () {
        
     });
 
-    // demand
     Route::group(['prefix'=>'demands'],function(){
         Route::get('/',[DemandController::class,'index'])->name('admin.demand');
         Route::get('/create',[DemandController::class,'create'])->name('admin.demand.create');
@@ -73,6 +73,21 @@ Route::group(['prefix' => 'admin',], function () {
         Route::get('delete/{id}',[DemandController::class,'delete'])->name('admin.demand.delete');
         Route::post('export',[DemandController::class,'export'])->name('admin.demand.export');
         
+    });
+
+    Route::group(['prefix' => 'leadershipBoard'],function(){
+        Route::get('/',[LeadershipBoardController::class,'index'])->name('admin.leadershipBoard');
+    });
+
+    Route::group(['prefix' =>'profile'],function(){
+        Route::get('/',[ProfileController::class,'index'])->name('admin.profile');
+        Route::put('edit',[ProfileController::class,'update'])->name('admin.profile.update');
+    });
+    
+
+    Route::group(['prefix'=>'changePassword'],function(){
+        Route::get('/',[ChangePasswordController::class,'index'])->name('admin.changePassword.create');
+        Route::post('/edit',[ChangePasswordController::class,'passwordChange'])->name('admin.changePassword.passwordChange');
     });
 
     Route::group(['prefix' => 'permissions'], function () {
@@ -101,14 +116,8 @@ Route::group(['prefix' => 'admin',], function () {
         Route::get('delete/{id}',[UserController::class,'delete'])->name('admin.user.delete');
     });
 
-    Route::group(['prefix' =>'profile'],function(){
-        Route::get('/',[ProfileController::class,'index'])->name('admin.profile');
-        Route::put('edit',[ProfileController::class,'update'])->name('admin.profile.update');
-    });
 
-    Route::group(['prefix'=>'changePassword'],function(){
-        Route::get('/create',[ChangePasswordController::class,'create'])->name('admin.changePassword.create');
-        Route::post('/create',[ChangePasswordController::class,'passwordChange'])->name('admin.changePassword.passwordChange');
-    });
+
+
 
 });

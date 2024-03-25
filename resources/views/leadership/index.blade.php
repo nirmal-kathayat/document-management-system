@@ -1,11 +1,8 @@
 @extends('layouts.default')
-@section('title','All Users')
+@section('title','Leadership Board')
 @section('content')
 
 <div class="inner-section-wrapper">
-  <div class="create-link">
-    <a href="{{route('admin.user.create')}}">Add Users</a>
-  </div>
   <div class="data-table-wrapper">
     <table id="position-table" class="table">
       <thead>
@@ -13,16 +10,13 @@
           <th>S.No</th>
           <th>Full name</th>
           <th>Designation</th>
-          <th>DOB</th>
-          <th>phone No.</th>
-          <th>Action</th>
+          <th>Applicants</th>
         </tr>
       </thead>
     </table>
   </div>
 </div>
 @endsection
-
 @push('style')
 <link rel="stylesheet" type="text/css" href="{{asset('vendor/datatable/jquery.dataTables.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('vendor/datatable/dataTables.bootstrap.min.css')}}" rel="stylesheet">
@@ -36,7 +30,7 @@
     serveSide: true,
     responsive: true,
     ajax: {
-      url: "{{route('admin.user')}}",
+      url: "{{route('admin.leadershipBoard')}}",
 
     },
     columns: [{
@@ -58,35 +52,12 @@
         orderable: false,
       },
       {
-        data: 'dob',
-        name: 'dob',
+        data: 'applicants_count',
+        name: 'applicants_count',
         orderable: false,
+        searchable:false,
+
       },
-      {
-        data: 'phone_no',
-        name: 'phone_no',
-        orderable: false,
-      },
-      {
-        data: 'action',
-        name: 'action',
-        orderable: false,
-        searchable: false,
-        render: function(data, type, full, meta) {
-          var editUrl =
-            "{{ route('admin.user.edit', ['id' => ':id']) }}"
-            .replace(':id', full.id);
-          var deleteUrl =
-            "{{ route('admin.user.delete', ['id' => ':id']) }}".replace(':id', full.id);
-          var editButton =
-            '<a class="primary-btn" href="' + editUrl + '"><i class="fa fa-pencil"></i></a>';
-          var deleteButton =
-            `<a class="danger-btn" href=${deleteUrl}><i class="fa fa-trash"></i></a>`;
-          var actionButtons =
-            `<div style='display:flex;column-gap:10px'> ${editButton} ${deleteButton}</div>`;
-          return actionButtons
-        }
-      }
     ]
   })
 </script>

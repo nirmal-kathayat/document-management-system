@@ -25,8 +25,8 @@ class DemandRepository
 
     }
     if(isset($params['from_date']) && isset($params['to_date']) && !empty($params['from_date']) && !empty($params['to_date'])){
-      $query = $query->whereDate('demand.date', '>=', $params['from_date'])
-                         ->whereDate('demand.date', '<=', $params['to_date']);
+      $query = $query->whereDate('demands.date', '>=', $params['from_date'])
+                         ->whereDate('demands.date', '<=', $params['to_date']);
     }
     return $query
               ->leftJoin('job_positions','job_positions.id','demands.job_position_id')

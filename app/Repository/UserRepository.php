@@ -14,9 +14,17 @@ class UserRepository
     $this->query = $query;
   }
 
-  public function getAll()
+  public function get($params = [])
   {
-    return $this->query->get();
+    $query = $this->query->query();
+    if (isset($params['isLeadershipBoard']) && !empty($params['isLeadershipBoard'])) {
+       $query =$query->leftJoin('applicants', 'applicants.created_by', '=', 'admins.id')
+              ->groupBy('admins.id')
+              ->select('admins.*', \DB::raw('COUNT(applicants.id) as applicants_count'))
+              ->orderBy('applicants_count', 'DESC');
+    }
+    return $query;
+
   }
 
   public function store(array $data)

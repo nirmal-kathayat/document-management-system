@@ -10,7 +10,7 @@ use Exception;
 class ChangePasswordController extends Controller
 {
 
-    public function create()
+    public function index()
     {
         return view('passwordChange.form');
     }
