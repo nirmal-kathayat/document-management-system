@@ -140,19 +140,13 @@ class MRZ{
 
 			})
 		}
-
 		if(_mrzLine1?.startsWith('PB')){
 			fields = { ...fields,type:'PB'}
 		}else if(_mrzLine1?.startsWith('P')){
 			fields = { ...fields,type:'P'}
 		}
-
-		if(!!_mrzLine1){
-			fields = { ...fields,surname:this._surname(_mrzLine1)}
-			fields = { ...fields,name: this._name(_mrzLine1)}
-		}
-
-
+		fields = { ...fields,surname:this._surname(_mrzLine1)}
+		fields = { ...fields,name: this._name(_mrzLine1)}
 		if(!!_mrzLine2){
 			const matchForPassportNo =this._passportNo(_mrzLine2)
 			const matchDob = this._dob(_mrzLine2)
@@ -205,11 +199,21 @@ class MRZ{
 		const match = _mrzLine1.match(/(?<=<<)[A-Z]+(?=<)/)
 		if(!!match){
 			result = match[0]
+			let index = _mrzLine1.indexOf(match[0])
+			if (index !== -1) {
+			    let matchMiddleName = _mrzLine1.substring(index + match[0].length).match(/<([A-Z]+)<<+/);
+			    if(!!matchMiddleName){
+			    	result = `${result} ${matchMiddleName[1]}`
+			    }
+			}
+
 		}else{
 			this.others?.forEach((other,index )=>{
 				if(other.includes('GIVEN NAMES')){
-					const item = this.others[index + 1]
-					result = this._removeSymbol(item)
+					const item =  this.others[index + 1]
+					if(!item.includes('NATIONALITY') && !item.includes('NEPALT')){
+						result = this._removeSymbol(item)
+					}
 
 				}
 			})
