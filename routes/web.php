@@ -10,6 +10,8 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DemandController;
 use App\Http\Controllers\JobPositionController;
+use App\Http\Controllers\LeadershipBoardController;
+use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 
@@ -73,6 +75,21 @@ Route::group(['prefix' => 'admin',], function () {
         Route::post('export', [DemandController::class, 'export'])->name('admin.demand.export');
     });
 
+    Route::group(['prefix' => 'leadershipBoard'], function () {
+        Route::get('/', [LeadershipBoardController::class, 'index'])->name('admin.leadershipBoard');
+    });
+
+    Route::group(['prefix' => 'profile'], function () {
+        Route::get('/', [ProfileController::class, 'index'])->name('admin.profile');
+        Route::put('edit', [ProfileController::class, 'update'])->name('admin.profile.update');
+    });
+
+
+    Route::group(['prefix' => 'changePassword'], function () {
+        Route::get('/', [ChangePasswordController::class, 'index'])->name('admin.changePassword.create');
+        Route::post('/edit', [ChangePasswordController::class, 'passwordChange'])->name('admin.changePassword.passwordChange');
+    });
+
     Route::group(['prefix' => 'permissions'], function () {
         Route::get('/', [PermissionController::class, 'index'])->name('admin.permission');
         Route::get('/create', [PermissionController::class, 'create'])->name('admin.permission.create');
@@ -99,8 +116,7 @@ Route::group(['prefix' => 'admin',], function () {
         Route::get('delete/{id}', [UserController::class, 'delete'])->name('admin.user.delete');
 
         Route::post('/forgotPassword', [UserController::class, 'validatePasswordRequest'])->name('admin.user.forgotPassword');
-        
-        // Route::post('/create', [UserController::class, 'resetPassword'])->name('admin.user.resetPassword');
+        Route::get('/password/reset/{token}/{email}', [UserController::class, 'passwordReset']) ->name('password.reset');
 
         Route::group(['prefix' => 'profile'], function () {
             Route::get('/', [ProfileController::class, 'index'])->name('admin.profile');

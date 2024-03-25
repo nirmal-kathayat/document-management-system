@@ -32,11 +32,11 @@
            @if(can(url('admin/permissions')))
           <li><a href="{{route('admin.permission')}}">All Permission</a></li>
           @endif
-           @if(can(url('admin/permissions/create')))
+          @if(can(url('admin/permissions/create')))
           <li><a href="{{route('admin.permission.create')}}">Add Permission</a></li>
           @endif
+          <li><a href="{{route('admin.changePassword.create')}}">Change Password</a></li>
           <li><a href="{{route('logout')}}">Logout</a></li>
-          <li><a href="#">Change Password</a></li>
         </ul>
     </div>
 </div>

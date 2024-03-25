@@ -83,7 +83,7 @@ class RoleController extends Controller
 	public function delete($id){
           try {
             $this->repo->deleteRole($id);
-           	return redirect()->with(['message'=>'Role deleted successfully','type'=>'success']);
+           	return redirect()->back()->with(['message'=>'Role deleted successfully','type'=>'success']);
         } catch (\Exception $e) {
 			return redirect()->back()->with(['message' => 'Somthing were wrong','type' => 'error']);
         }

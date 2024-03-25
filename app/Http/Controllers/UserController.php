@@ -23,7 +23,7 @@ class UserController extends Controller
     {
         try {
             if (request()->ajax()) {
-                $data = $this->repo->getAll();
+                $data = $this->repo->get();
                 return DataTables::of($data)
                     ->addIndexColumn()
                     ->rawColumns([])
@@ -95,22 +95,22 @@ class UserController extends Controller
         $user = \DB::table('admins')->where('email', $request->email)->first();
         if (!$user) {
             // dd('error');
-            return redirect()->back()->withErrors(['email' => trans('User does not exist')]);
+            return redirect()->back()->with(['message' => 'Email doesnot exist!','type' => 'error']);
         }
 
         // Create Password Reset Token
-        \DB::table('password_reset_tokens')->insert([
-            'email' => $request->email,
-            'token' => \Str::random(60),
-            'created_at' => now()
-        ]);
+        // \DB::table('password_reset_tokens')->insert([
+        //     'email' => $request->email,
+        //     'token' => \Str::random(60),
+        //     'created_at' => now()
+        // ]);
 
         // Get the token just created above
         $tokenData = \DB::table('password_reset_tokens')
             ->where('email', $request->email)->first();
-
+        
         if ($this->sendResetEmail($request->email, $tokenData->token)) {
-            return redirect()->back()->with('status', trans('A reset link has been sent to your email address.'));
+            return redirect()->back()->with(['message'=>'A reset link has been sent to your email address.','type' => 'success']);
         } else {
             return redirect()->back()->withErrors(['error' => trans('A Network Error occurred. Please try again.')]);
         }
@@ -122,15 +122,23 @@ class UserController extends Controller
         $user = \DB::table('admins')->where('email', $email)->select('name', 'email')->first();
 
         // Generate the password reset link
-        $link = config('base_url') . 'password/reset/' . $token . '?email=' . urlencode($user->email);
+        $link = route('password.reset', ['token' => $token, 'email' => $email]);
+        dd($link);
 
         try {
             // Mail::to($user->email)->send(new PasswordResetMail($link));
             return true;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
     }
+
+    public function passwordReset($email, $token)
+    {
+        $userEmail = Admin::where('email', $email)->first();
+        return view('auth.reset', ['token' => $token, 'email' => $email])->with(['userEmail'=>$userEmail]);
+    }
+    
 
     public function resetPassword(Request $request)
     {
