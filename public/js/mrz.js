@@ -126,40 +126,34 @@ class MRZ{
 		})
 		this.others = _others
 		this.mrz = _mrz
-		let length = _mrz?.length;
+		
 		let _mrzLine1 = length === 3 ? _mrz[1] : length === 2 ? _mrz[0] : '' 
 		let _mrzLine2 = length === 3 ? _mrz[2] : length === 2 ? _mrz[1] : ''
-		if(!_mrzLine2 || !_mrzLine1){
+		if(!_mrzLine1 || !_mrzLine2){
 			_mrz?.forEach(item =>{
-				if(!!this._containsNumber(item) && this._containsNumber(item)?.length > 5){
-					_mrzLine2 = item
+				if(!_mrzLine2 && !!this._containsNumber(item) && this._containsNumber(this._replaceLettertoNumber(item))?.length > 10 ){
+					_mrzLine2 = this._replaceLettertoNumber(item)
 				}
-				if(!!this._containsLetter(item) && this._containsLetter(item)?.length > 6){
+				if(!_mrzLine1 && !!this._containsLetter(item) && this._containsLetter(item)?.length > 12){
 					_mrzLine1 = item
 				}
 
 			})
 		}
-
 		if(_mrzLine1?.startsWith('PB')){
 			fields = { ...fields,type:'PB'}
 		}else if(_mrzLine1?.startsWith('P')){
 			fields = { ...fields,type:'P'}
 		}
-
-		if(!!_mrzLine1){
-			fields = { ...fields,surname:this._surname(_mrzLine1)}
-			fields = { ...fields,name: this._name(_mrzLine1)}
-		}
-
-
+		fields = { ...fields,surname:this._surname(_mrzLine1)}
+		fields = { ...fields,name: this._name(_mrzLine1)}
 		if(!!_mrzLine2){
 			const matchForPassportNo =this._passportNo(_mrzLine2)
 			const matchDob = this._dob(_mrzLine2)
 			const matchGender = this._gender(_mrzLine2)
 			const matchExpDate = this._expiryDate(_mrzLine2)
 			if(matchForPassportNo && matchForPassportNo?.length){
-				fields = { ...fields,passport_no:this._replaceLettertoNumber(matchForPassportNo[0]).slice(0, -1)}
+				fields = { ...fields,passport_no:matchForPassportNo[0].slice(0, -1)}
 			}
 
 			if(!!matchDob){
@@ -205,11 +199,21 @@ class MRZ{
 		const match = _mrzLine1.match(/(?<=<<)[A-Z]+(?=<)/)
 		if(!!match){
 			result = match[0]
+			let index = _mrzLine1.indexOf(match[0])
+			if (index !== -1) {
+			    let matchMiddleName = _mrzLine1.substring(index + match[0].length).match(/<([A-Z]+)<<+/);
+			    if(!!matchMiddleName){
+			    	result = `${result} ${matchMiddleName[1]}`
+			    }
+			}
+
 		}else{
 			this.others?.forEach((other,index )=>{
 				if(other.includes('GIVEN NAMES')){
-					const item = this.others[index + 1]
-					result = this._removeSymbol(item)
+					const item =  this.others[index + 1]
+					if(!item.includes('NATIONALITY') && !item.includes('NEPALT')){
+						result = this._removeSymbol(item)
+					}
 
 				}
 			})
@@ -263,7 +267,7 @@ class MRZ{
 	
 
 	_replaceLettertoNumber(str){
-		return this._removeSymbol(str.replace(/[OD]/g, '0').replace(/[B]/g, '8').replace(/[I]/g, '9'))
+		return this._removeSymbol(str.replace(/[OD]/g, '0').replace(/[BE]/g, '8').replace(/[I]/g, '9'))
 	}
 
 
@@ -273,19 +277,17 @@ class MRZ{
 
 	_containsNumber(str) {
 		let result=''
-		const match = str.match(/\d+/);
-		return !!match ? match[0] : null;
+		const match = str.match(/\d+/g)
+		return !!match ? match.join('') : null;
 	}
 
 	_containsLetter(str){
 		let result=''
 		const match = str.match(/[A-Z]+/g)
 
-		return !!match ? match[0] : null;
+		return !!match ? match.join('') : null;
 
 	}
-
-
 
 	_result(content){
 		return this._process(content)
