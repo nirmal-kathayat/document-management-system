@@ -11,13 +11,14 @@ use DataTables;
 use App\Exports\DemandExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+
 class DemandController extends Controller
 {
-  private $repo,$countryRepo,$positionRepo,$experienceRepo;
-  public function __construct(DemandRepository $repo,CountryRepository $countryRepo,JobPositionRepository $positionRepo,ExperienceRepository $experienceRepo)
+  private $repo, $countryRepo, $positionRepo, $experienceRepo;
+  public function __construct(DemandRepository $repo, CountryRepository $countryRepo, JobPositionRepository $positionRepo, ExperienceRepository $experienceRepo)
   {
     $this->repo = $repo;
-    $this->countryRepo= $countryRepo;
+    $this->countryRepo = $countryRepo;
     $this->positionRepo = $positionRepo;
     $this->experienceRepo = $experienceRepo;
   }
@@ -26,27 +27,27 @@ class DemandController extends Controller
   public function index()
   {
     try {
-      if(request()->ajax()){
+      if (request()->ajax()) {
         $data = $this->repo->dataTable([
-                    'search' => $_GET['search'] ?? null,
-                    'country' => $_GET['country'] ?? null,
-                    'position' => $_GET['position'] ?? null,
-                    'experience' => $_GET['experience'] ?? null,
-                    'from_date' => $_GET['from_date'] ?? null,
-                    'to_date' => $_GET['to_date'] ?? null,
-                ]);
+          'search' => $_GET['search'] ?? null,
+          'country' => $_GET['country'] ?? null,
+          'position' => $_GET['position'] ?? null,
+          'experience' => $_GET['experience'] ?? null,
+          'from_date' => $_GET['from_date'] ?? null,
+          'to_date' => $_GET['to_date'] ?? null,
+        ]);
         return DataTables::of($data)
-        ->addIndexColumn()
-        ->rawColumns([])
-        ->make(true);
+          ->addIndexColumn()
+          ->rawColumns([])
+          ->make(true);
       }
       $countries = $this->countryRepo->get();
       $positions = $this->positionRepo->get();
       $experiences = $this->experienceRepo->get();
 
-      return view('demand.index')->with(['experiences'=>$experiences,'countries' =>$countries,'positions' => $positions]);
+      return view('demand.index')->with(['experiences' => $experiences, 'countries' => $countries, 'positions' => $positions]);
     } catch (\Exception $e) {
-      return redirect()->back()->with(['message' => 'An error occurred while fetching  data.','type' => 'error']);
+      return redirect()->back()->with(['message' => 'An error occurred while fetching  data.', 'type' => 'error']);
     }
   }
   public function create()
@@ -55,9 +56,9 @@ class DemandController extends Controller
       $experiences = $this->experienceRepo->get();
       $countries = $this->countryRepo->get();
       $positions = $this->positionRepo->get();
-      return view('demand.form')->with(['experiences'=>$experiences,'countries' =>$countries,'positions' => $positions]);
+      return view('demand.form')->with(['experiences' => $experiences, 'countries' => $countries, 'positions' => $positions]);
     } catch (\Exception $e) {
-      return redirect()->back()->with(['message' =>$e->getMessage(),'type'=>'error']);
+      return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
     }
   }
 
@@ -67,64 +68,58 @@ class DemandController extends Controller
       $this->repo->store($request->validated());
       return redirect()->route('admin.demand')->with(['message' => 'Demand created successfully!', 'type' => 'success']);
     } catch (\Exception $e) {
-      return redirect()->back()->with(['message' => $e->getMessage(),'type'=>'error']);
+      return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
     }
   }
 
   public function edit($id)
   {
-    try{
+    try {
       $experiences = $this->experienceRepo->get();
       $countries = $this->countryRepo->get();
       $positions = $this->positionRepo->get();
 
       $demand = $this->repo->find($id);
-      return view('demand.form')->with(['demand'=>$demand,'experiences'=>$experiences,'countries' =>$countries,'positions' => $positions]);
-
-    }catch(\Exception $e)
-    {
-      return redirect()->back()->with(['message' =>$e->getMessage(),'type'=>'error']);
+      return view('demand.form')->with(['demand' => $demand, 'experiences' => $experiences, 'countries' => $countries, 'positions' => $positions]);
+    } catch (\Exception $e) {
+      return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
     }
   }
 
-  public function update(DemandRequest $request,$id)
+  public function update(DemandRequest $request, $id)
   {
-    try{
-      $this->repo->update($request->validated(),$id);
-      return redirect()->route('admin.demand')->with(['message'=>'Demand Updated successfully','type'=>'success']);
-    }catch(\Exception $e)
-    {
-      return redirect()->back()->with(['message' =>$e->getMessage(),'type'=>'error']);
-
+    try {
+      $this->repo->update($request->validated(), $id);
+      return redirect()->route('admin.demand')->with(['message' => 'Demand Updated successfully', 'type' => 'success']);
+    } catch (\Exception $e) {
+      return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
     }
   }
 
   public function delete($id)
   {
-    try{
+    try {
       $this->repo->delete($id);
-      return redirect()->back()->with(['message'=>'Demand deleted successfully','type'=>'success']);
-    }catch(\Exception $e)
-    {
-      return redirect()->back()->with(['message' =>$e->getMessage(),'type'=>'error']);
-      
+      return redirect()->back()->with(['message' => 'Demand deleted successfully', 'type' => 'success']);
+    } catch (\Exception $e) {
+      return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
     }
   }
 
-  public function export(Request $request){
-        try {
-            return Excel::download(new DemandExport(
-                 $this->repo->dataTable([
-                    'country' =>$request->country ?? null,
-                    'position' => $request->position ?? null,
-                    'experience' => $request->experience ?? null,
-                    'from_date' => $request->from_date ?? null,
-                    'to_date' => $request->to_date ?? null,
-                ])->get()->toArray()
-            ), 'demands.xlsx');
-        } catch (Exception $e) {
-            return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
-            
-        }
+  public function export(Request $request)
+  {
+    try {
+      return Excel::download(new DemandExport(
+        $this->repo->dataTable([
+          'country' => $request->country ?? null,
+          'position' => $request->position ?? null,
+          'experience' => $request->experience ?? null,
+          'from_date' => $request->from_date ?? null,
+          'to_date' => $request->to_date ?? null,
+        ])->get()->toArray()
+      ), 'demands.xlsx');
+    } catch (Exception $e) {
+      return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
     }
+  }
 }
