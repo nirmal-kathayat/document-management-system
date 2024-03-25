@@ -132,7 +132,7 @@ class MRZ{
 		if(!_mrzLine1 || !_mrzLine2){
 			_mrz?.forEach(item =>{
 				if(!_mrzLine2 && !!this._containsNumber(item) && this._containsNumber(this._replaceLettertoNumber(item))?.length > 10 ){
-					_mrzLine2 = this._replaceLettertoNumber(item)
+					_mrzLine2 = item
 				}
 				if(!_mrzLine1 && !!this._containsLetter(item) && this._containsLetter(item)?.length > 12){
 					_mrzLine1 = item
@@ -147,23 +147,14 @@ class MRZ{
 		}
 		fields = { ...fields,surname:this._surname(_mrzLine1)}
 		fields = { ...fields,name: this._name(_mrzLine1)}
-		if(!!_mrzLine2){
-			const matchForPassportNo =this._passportNo(_mrzLine2)
-			const matchDob = this._dob(_mrzLine2)
-			const matchGender = this._gender(_mrzLine2)
+		if(!!_mrzLine2){ 
 			const matchExpDate = this._expiryDate(_mrzLine2)
-			if(matchForPassportNo && matchForPassportNo?.length){
-				fields = { ...fields,passport_no:matchForPassportNo[0].slice(0, -1)}
-			}
-
-			if(!!matchDob){
-				fields = {...fields,dob:matchDob}
-			}
-
-			if(!!matchGender){
-				fields = {...fields,gender:matchGender}
-			}
-
+			fields = {
+					 	...fields,
+						passport_no:this._passportNo(_mrzLine2),
+						dob:this._dob(_mrzLine2),
+						gender:this._gender(_mrzLine2)
+					}
 			if(!!matchExpDate){
 				fields = {...fields,expiry_date:matchExpDate}
 				const matchIssueDate = new Date(matchExpDate)
@@ -222,7 +213,13 @@ class MRZ{
 		return result
 	}
 	_passportNo(_mrzLine2){
-		return _mrzLine2.match(/^(.*?)(?=NPL)/)
+		let result = ''
+		let match =  _mrzLine2.match(/^(.*?)(?=NPL)/)
+
+		if(!!match){
+			result  = `${match[0].slice(0,2)}${this._replaceLettertoNumber(match[0].slice(2,match[0]?.length - 1))}`
+		}
+		return result
 	}
 
 	_gender(_mrzLine2){
@@ -265,9 +262,9 @@ class MRZ{
 		return expDate
 	}
 	
-
 	_replaceLettertoNumber(str){
-		return this._removeSymbol(str.replace(/[OD]/g, '0').replace(/[BE]/g, '8').replace(/[I]/g, '9'))
+		const filterSymbol = this._removeSymbol(str)
+		return filterSymbol.replace(/[OD]/g, '0').replace(/[BE]/g, '8').replace(/[I]/g, '9')
 	}
 
 
