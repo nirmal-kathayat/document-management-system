@@ -82,6 +82,8 @@ const districts = nepalDistricts.map(district => district.toUpperCase());
 class MRZ{
 	constructor(content){
 		this.result = this._result(content)
+		this.others = []
+		this.mrz = []
 	}
 
 	_process(content){
@@ -109,12 +111,12 @@ class MRZ{
 			nationality:'Nepalese',
 			citizen_no:''
 		}
-		console.log(arr)
-		 arr.filter(item => !!item)?.forEach(item =>{
+		arr.filter(item => !!item)?.forEach(item =>{
 			if(item.includes('NPL')){
 				_mrz.push(item.replace(/\s+|\||~/g, ''));
 			}else{
 				_others.push(item)
+
 			}
 			districts.forEach(district =>{
 				if(item.includes(district)){
@@ -122,9 +124,23 @@ class MRZ{
 				}
 			})
 		})
-		const length = _mrz?.length;
-		const _mrzLine1 = length === 3 ? _mrz[1] : length === 2 ? _mrz[0] : ""
-		const _mrzLine2 = length === 3 ? _mrz[2] : length === 2 ? _mrz[1] : ""
+		this.others = _others
+		this.mrz = _mrz
+		let length = _mrz?.length;
+		let _mrzLine1 = length === 3 ? _mrz[1] : length === 2 ? _mrz[0] : '' 
+		let _mrzLine2 = length === 3 ? _mrz[2] : length === 2 ? _mrz[1] : ''
+		if(!_mrzLine2 || !_mrzLine1){
+			_mrz?.forEach(item =>{
+				if(!!this._containsNumber(item) && this._containsNumber(item)?.length > 5){
+					_mrzLine2 = item
+				}
+				if(!!this._containsLetter(item) && this._containsLetter(item)?.length > 6){
+					_mrzLine1 = item
+				}
+
+			})
+		}
+
 		if(_mrzLine1?.startsWith('PB')){
 			fields = { ...fields,type:'PB'}
 		}else if(_mrzLine1?.startsWith('P')){
@@ -132,14 +148,8 @@ class MRZ{
 		}
 
 		if(!!_mrzLine1){
-			var matchForSurname =this._surname(_mrzLine1);
-			var matchForName = this._name(_mrzLine1,matchForSurname);
-			if(matchForSurname && matchForSurname?.length){
-				fields = { ...fields,surname:matchForSurname[0]}
-			}
-			if(matchForName && matchForName?.length){
-				fields = { ...fields,name:matchForName[0]}
-			}
+			fields = { ...fields,surname:this._surname(_mrzLine1)}
+			fields = { ...fields,name: this._name(_mrzLine1)}
 		}
 
 
@@ -170,19 +180,42 @@ class MRZ{
 				}
 			}
 		}
-
-		console.log(fields);
-
 		return fields;
 
 	}
 
 	_surname(_mrzLine1){
-		return _mrzLine1.match(/(?<=NPL)[A-Z]+/)
+		let result = ''
+		const match =  _mrzLine1.match(/(?<=NPL)[A-Z]+/)
+		if(!!match){
+			result = match[0];
+		}else{
+			this.others?.forEach((other,index )=>{
+				if(other.includes('GIVEN NAMES')){
+					const item = this.others[index - 1]
+					result = this._removeSymbol(item)
+				}
+			})
+		}
+		return result
 	}
 
 	_name(_mrzLine1){
-		return  _mrzLine1.match(/(?<=<<)[A-Z]+(?=<)/)
+		let result = ''
+		const match = _mrzLine1.match(/(?<=<<)[A-Z]+(?=<)/)
+		if(!!match){
+			result = match[0]
+		}else{
+			this.others?.forEach((other,index )=>{
+				if(other.includes('GIVEN NAMES')){
+					const item = this.others[index + 1]
+					result = this._removeSymbol(item)
+
+				}
+			})
+		}
+
+		return result
 	}
 	_passportNo(_mrzLine2){
 		return _mrzLine2.match(/^(.*?)(?=NPL)/)
@@ -206,11 +239,11 @@ class MRZ{
 		let indexNPL = _mrzLine2.indexOf("NPL")
 		let dob= ''
 		if (indexNPL !== -1 && _mrzLine2?.length > (indexNPL + 6)) {
-		   dob = _mrzLine2.substring(indexNPL + 3, indexNPL + 9);
-		   let year = parseInt(this._replaceLettertoNumber(dob.substring(0, 2)));
-		   let month = dob.substring(2, 4);
-		   let day = dob.substring(4, 6);
-		   dob = `${year + ((year < 99 && year > 40) ? 1900 : 2000 )}-${month}-${day}`
+			dob = _mrzLine2.substring(indexNPL + 3, indexNPL + 9);
+			let year = parseInt(this._replaceLettertoNumber(dob.substring(0, 2)));
+			let month = dob.substring(2, 4);
+			let day = dob.substring(4, 6);
+			dob = `${year + ((year < 99 && year > 40) ? 1900 : 2000 )}-${month}-${day}`
 		}
 		return dob
 	}
@@ -221,9 +254,9 @@ class MRZ{
 		if(findIndex!==-1 && _mrzLine2?.length > (findIndex + 6)){
 			expDate = _mrzLine2.substring(findIndex + 1, findIndex + 7);
 			let year = parseInt(this._replaceLettertoNumber(expDate.substring(0, 2)));
-		    let month = expDate.substring(2, 4);
-		    let day = expDate.substring(4, 6);
-		    expDate = `${year + 2000}-${month}-${day}`
+			let month = expDate.substring(2, 4);
+			let day = expDate.substring(4, 6);
+			expDate = `${year + 2000}-${month}-${day}`
 		}
 		return expDate
 	}
@@ -235,7 +268,21 @@ class MRZ{
 
 
 	_removeSymbol(str){
-		return str.replace(/[^a-zA-Z0-9]/g, '')
+		return str.replace(/[^A-Z0-9]/g, '')
+	}
+
+	_containsNumber(str) {
+		let result=''
+		const match = str.match(/\d+/);
+		return !!match ? match[0] : null;
+	}
+
+	_containsLetter(str){
+		let result=''
+		const match = str.match(/[A-Z]+/g)
+
+		return !!match ? match[0] : null;
+
 	}
 
 
@@ -243,4 +290,6 @@ class MRZ{
 	_result(content){
 		return this._process(content)
 	}
+
+
 }
