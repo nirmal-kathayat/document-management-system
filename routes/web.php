@@ -20,7 +20,7 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::group(['prefix' => 'admin',], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-    // Add Applicant
+    
     Route::group(['prefix'=>'applicants'],function(){
         Route::get('/',[ApplicantController::class,'index'])->name('admin.applicant');
         Route::get('/create',[ApplicantController::class,'create'])->name('admin.applicant.create');

@@ -22,7 +22,8 @@ class ProfileController extends Controller
 				'email' => 'required|email',
 				'designation' => 'required',
 				'dob' => 'required',
-				'phone_no' => 'required'
+				'phone_no' => 'required',
+				'image' => 'nullable'
 			]);
 			$this->userRepo->update($data,auth()->guard('admin')->user()->id);
 			return redirect()->back()->with(['message'=> 'Profile update successfully','type' => 'success']);
