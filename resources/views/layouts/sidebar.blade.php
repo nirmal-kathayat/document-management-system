@@ -79,7 +79,7 @@
     </li>
     @endif
     @if(can(url('admin/positions')) || can(url('admin/positions/create/')))
-    <li class="{{request()->is('admin/demands/create') ||  request()->is('admin/demands') ? 'open' : '' }}">
+    <li class="{{request()->is('admin/positions/create') ||  request()->is('admin/positions') ? 'open' : '' }}">
       <p><i class="fa fa-graduation-cap"></i>Position <i class="fa fa-chevron-right"></i></p>
       <ul class="side-dropdown">
        @if(can(url('admin/positions/create')))
