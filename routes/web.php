@@ -22,17 +22,17 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::group(['prefix' => 'admin',], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-    // Add Applicant
-    Route::group(['prefix' => 'applicants'], function () {
-        Route::get('/', [ApplicantController::class, 'index'])->name('admin.applicant');
-        Route::get('/create', [ApplicantController::class, 'create'])->name('admin.applicant.create');
-        Route::post('/create', [ApplicantController::class, 'store'])->name('admin.applicant.store');
-        Route::get('edit/{id}', [ApplicantController::class, 'edit'])->name('admin.applicant.edit');
-        Route::put('edit/{id}', [ApplicantController::class, 'update'])->name('admin.applicant.update');
-        Route::get('delete/{id}', [ApplicantController::class, 'delete'])->name('admin.applicant.delete');
-        Route::post('export', [ApplicantController::class, 'export'])->name('admin.applicant.export');
-        Route::get('/move', [ApplicantController::class, 'move'])->name("admin.applicant.move");
-        Route::get('/info/{id}', [ApplicantController::class, 'info'])->name("admin.applicant.info");
+    
+    Route::group(['prefix'=>'applicants'],function(){
+        Route::get('/',[ApplicantController::class,'index'])->name('admin.applicant');
+        Route::get('/create',[ApplicantController::class,'create'])->name('admin.applicant.create');
+        Route::post('/create',[ApplicantController::class,'store'])->name('admin.applicant.store');
+        Route::get('edit/{id}',[ApplicantController::class,'edit'])->name('admin.applicant.edit');
+        Route::put('edit/{id}',[ApplicantController::class,'update'])->name('admin.applicant.update');
+        Route::get('delete/{id}',[ApplicantController::class,'delete'])->name('admin.applicant.delete');
+        Route::post('export',[ApplicantController::class,'export'])->name('admin.applicant.export');
+        Route::get('/move',[ApplicantController::class,'move'])->name("admin.applicant.move");
+        Route::get('/info/{id}',[ApplicantController::class,'info'])->name("admin.applicant.info");
     });
 
     Route::group(['prefix' => 'passports'], function () {

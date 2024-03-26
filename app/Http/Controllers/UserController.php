@@ -1,12 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\UserRequest;
+use App\Mail\ForgotPasswordEmail;
 use App\Repository\UserRepository;
+use Carbon\Carbon;
 use IAnanta\UserManagement\Models\Admin;
 use Illuminate\Support\Facades\Mail;
 use Exception;
 use DataTables;
+use Str;
 use IAnanta\UserManagement\Repository\RoleRepository;
 use Illuminate\Http\Request;
 
@@ -95,22 +99,34 @@ class UserController extends Controller
         $user = \DB::table('admins')->where('email', $request->email)->first();
         if (!$user) {
             // dd('error');
-            return redirect()->back()->with(['message' => 'Email doesnot exist!','type' => 'error']);
+            return redirect()->back()->with(['message' => 'Email doesnot exist!', 'type' => 'error']);
         }
 
         // Create Password Reset Token
-        // \DB::table('password_reset_tokens')->insert([
-        //     'email' => $request->email,
-        //     'token' => \Str::random(60),
-        //     'created_at' => now()
-        // ]);
+        $existingToken = \DB::table('password_reset_tokens')->where('email', $request->email)->first();
+        if ($existingToken) {
+            // If a token already exists for this email, update the existing record
+            \DB::table('password_reset_tokens')
+                ->where('email', $request->email)
+                ->update([
+                    'token' => Str::random(60),
+                    'created_at' => Carbon::now()
+                ]);
+        } else {
+            // If no token exists, insert a new record
+            \DB::table('password_reset_tokens')->insert([
+                'email' => $request->email,
+                'token' => Str::random(60),
+                'created_at' => Carbon::now()
+            ]);
+        }
 
         // Get the token just created above
         $tokenData = \DB::table('password_reset_tokens')
             ->where('email', $request->email)->first();
-        
+
         if ($this->sendResetEmail($request->email, $tokenData->token)) {
-            return redirect()->back()->with(['message'=>'A reset link has been sent to your email address.','type' => 'success']);
+            return redirect()->back()->with(['message' => 'A reset link has been sent to your email address.', 'type' => 'success']);
         } else {
             return redirect()->back()->withErrors(['error' => trans('A Network Error occurred. Please try again.')]);
         }
@@ -123,69 +139,13 @@ class UserController extends Controller
 
         // Generate the password reset link
         $link = route('password.reset', ['token' => $token, 'email' => $email]);
-        dd($link);
+        // dd($link);
 
         try {
-            // Mail::to($user->email)->send(new PasswordResetMail($link));
+            Mail::to($user->email)->send(new ForgotPasswordEmail($link));
             return true;
         } catch (Exception $e) {
             return false;
-        }
-    }
-
-    public function passwordReset($email, $token)
-    {
-        $userEmail = Admin::where('email', $email)->first();
-        return view('auth.reset', ['token' => $token, 'email' => $email])->with(['userEmail'=>$userEmail]);
-    }
-    
-
-    public function resetPassword(Request $request)
-    {
-
-        // Validation
-        $validator = \Validator::make($request->all(), [
-            'email' => 'required|email|exists:admins,email',
-            'password' => 'required|confirmed',
-            'token' => 'required'
-        ]);
-
-        // Check if payload is valid before moving on
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors(['email' => 'Please complete the form']);
-        }
-
-        $password = $request->password;
-
-        $tokenData = \DB::table('password_reset_tokens')->where('token', $request->token)->first();
-
-        // Redirect the user back to the password reset request form if the token is invalid
-        if (!$tokenData) {
-            return view('passwordChange.form');
-        }
-
-        // Get the user
-        $user = Admin::where('email', $tokenData->email)->first();
-
-        // Redirect the user back if the email is invalid
-        if (!$user) {
-            return redirect()->back()->withErrors(['email' => 'Email not found']);
-        }
-
-        // Hash and update the new password
-        $user->password = Hash::make($password);
-        $user->save();
-
-        Auth::login($user);
-
-        // Delete the token
-        DB::table('password_reset_tokens')->where('email', $user->email)->delete();
-
-        // Send Email Reset Success Email
-        if ($this->sendSuccessEmail($tokenData->email)) {
-            return view('index');
-        } else {
-            return redirect()->back()->withErrors(['email' => trans('A Network Error occurred. Please try again.')]);
         }
     }
 }

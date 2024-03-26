@@ -72,3 +72,59 @@
   </form>
 </div>
 @endsection
+
+@push('js')
+@include('scripts.validation')
+<script>
+  (function() {
+    function Initial() {
+      let _this = this;
+
+      this.fileInputListener = function() {
+        const dropZone = $('#drop-zone')
+        const fileInput = $('#passport-file-input')
+        function handleFile(files){
+          const file = files[0]
+          const reader = new FileReader();
+          reader.onload = function(event) {
+              const imgWrapper = $('<div />',{
+                class:'uploaded-img',
+              })
+              const img = $('<img />',{
+                src:event.target.result
+              })
+              $('.uploaded-img').remove()
+              $('.upload-passport-info').hide()
+              imgWrapper.append(img)
+              dropZone.append(imgWrapper)
+            };
+
+            reader.readAsDataURL(file);
+
+          }
+          dropZone.on('dragover',function(e){
+            e.preventDefault()
+            dropZone.addClass('dragged-over')
+          })
+          dropZone.on('dragleave',function(e){
+            dropZone.removeClass('dragged-over')
+          })
+          dropZone.on('drop',function(e){
+            e.preventDefault()
+            dropZone.removeClass('dragged-over')
+            handleFile(e.originalEvent.dataTransfer.files)
+          })
+
+          fileInput.on('change',function(e){
+            handleFile(e.target.files)
+          })
+        };  
+        this.init = function() {
+          _this.fileInputListener();
+        };
+      }
+      let initialObj = new Initial();
+      initialObj.init();
+    })();
+  </script>
+  @endpush
