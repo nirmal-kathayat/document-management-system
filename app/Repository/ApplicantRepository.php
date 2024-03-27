@@ -13,8 +13,7 @@ class ApplicantRepository{
 
 	public function dataTable($params = []){
 		$query =$this->query
-					->query()
-					->where('applicants.is_selected',$params['isSelected']);
+					->query();
 		if(isset($params['search']) && !empty($params['search'])){
 			$query = $query->where('passports.first_name','like','%' . strtoupper($params['search']) . '%')
 							->orWhere('passports.last_name','like','%' . strtoupper($params['search']) . '%');
@@ -32,7 +31,7 @@ class ApplicantRepository{
 
 		if(isset($params['age']) && !empty($params['age'])){
 			$birthDate = Carbon::now()->subYears((int)$params['age'])->format('Y');
-			$query = $query->whereYear('passports.dob', '>=', $birthDate);
+			$query = $query->whereYear('passports.dob', '<=', $birthDate - 1);
 		}
 
 		if(isset($params['experience']) && !empty($params['experience'])){
@@ -49,7 +48,7 @@ class ApplicantRepository{
 				->leftJoin('passports','passports.id','applicants.passport_id')
 				->leftJoin('job_positions','job_positions.id','applicants.job_position_id')
 				->leftJoin('countries','countries.id','applicants.country_id')
-				->select('applicants.id',\DB::raw("IFNULL(JSON_UNQUOTE(JSON_EXTRACT(applicants.experiences, '$.professionals[0].duration')), NULL) AS experience"),'passports.first_name','passports.last_name','passports.id as passport_id','applicants.job_position_id','job_positions.title as position_name','applicants.country_id','countries.title as country_name','passports.gender','passports.dob','applicants.created_at','applicants.is_selected')
+				->select('applicants.id',\DB::raw("IFNULL(JSON_UNQUOTE(JSON_EXTRACT(applicants.experiences, '$.professionals[0].duration')), NULL) AS experience"),'passports.first_name','passports.last_name','passports.id as passport_id','applicants.job_position_id','job_positions.title as position_name','applicants.country_id','countries.title as country_name','passports.gender','passports.dob','applicants.step','applicants.created_at')
 				->orderBy('applicants.created_at','desc');
 		return $query;
 	}
@@ -95,7 +94,9 @@ class ApplicantRepository{
 		if(isset($data['passport_details'])){
 			unset($data['passport_details']);
 		}
-		unset($data['step']);
+		if($query->step =='four'){
+			unset($data['step']);
+		}
 		if(isset($data['attachments'])){
 			$attachments = $data['attachments'];
 			$data['attachments'] = $query->attachments ?? [];
@@ -117,28 +118,6 @@ class ApplicantRepository{
 					'image_name' => 'profile'
 				]);
 			}
-			if(isset($attachments['education_1']) && !empty($attachments['education_1'])){
-				$data['attachments']['education_1']= $this->uploadAttachment($attachments['education_1'],[
-					'existing_file' => $query->attachments['education_1'] ?? null,
-					'destination' => 'uploaded/applicants/'.$query->passport_id,
-					'image_name' => 'education_1'
-				]);
-			}
-			if(isset($attachments['education_2']) && !empty($attachments['education_2'])){
-				$data['attachments']['education_2']= $this->uploadAttachment($attachments['education_2'],[
-					'existing_file' => $query->attachments['education_2'] ?? null,
-					'destination' => 'uploaded/applicants/'.$query->passport_id,
-					'image_name' => 'education_2'
-				]);
-			}
-
-			if(isset($attachments['education_3']) && !empty($attachments['education_3'])){
-				$data['attachments']['education_3']= $this->uploadAttachment($attachments['education_3'],[
-					'existing_file' => $query->attachments['education_3'] ?? null,
-					'destination' => 'uploaded/applicants/'.$query->passport_id,
-					'image_name' => 'education_3'
-				]);
-			}
 
 			if(isset($attachments['full_body_img']) && !empty($attachments['full_body_img'])){
 				$data['attachments']['full_body_img'] = $this->uploadAttachment($attachments['full_body_img'],[
@@ -148,32 +127,21 @@ class ApplicantRepository{
 				]);
 			}
 
-			if(isset($attachments['training_1']) && !empty($attachments['training_1'])){
-				$data['attachments']['training_1'] = $this->uploadAttachment($attachments['training_1'],[
-					'existing_file' => $query->attachments['training_1'] ?? null,
-					'destination' => 'uploaded/applicants/'.$query->passport_id,
-					'image_name' => 'training_1'
-				]);
-			}
-
-			if(isset($attachments['training_2']) && !empty($attachments['training_2'])){
-				$data['attachments']['training_2'] = $this->uploadAttachment($attachments['training_2'],[
-					'existing_file' => $query->attachments['training_2'] ?? null,
-					'destination' => 'uploaded/applicants/'.$query->passport_id,
-					'image_name' => 'training_2'
-				]);
-			}
-
-			if(isset($attachments['other_img']) && !empty($attachments['other_img'])){
-				$data['attachments']['other_img'] = $this->uploadAttachment($attachments['other_img'],[
-					'existing_file' => $query->attachments['other_img'] ?? null,
-					'destination' => 'uploaded/applicants/'.$query->passport_id,
-					'image_name' => 'other_img'
-				]);
+			if(isset($attachments['others']) && !empty($attachments['others'])){
+				$existingFiles = $query->attachments['others'] ?? [];
+				$count = count($existingFiles);
+				foreach($attachments['others'] as $key => $file){
+					$existingFiles[] = $this->uploadAttachment($file,[
+								'existing_file' => null,
+								'destination' => 'uploaded/applicants/'.$query->passport_id,
+								'image_name' => 'other-'.$count + $key
+							]);
+					$data['attachments']['others'] = $existingFiles;
+				}
 			}
 		}
 
-		$query->update($data);
+		$query->update(array_merge($data,['updated_by' => auth()->guard('admin')->user()->id]));
 		return $query;
 	}
 
@@ -191,8 +159,19 @@ class ApplicantRepository{
 	}
 
 
-	public function multiUpdate(array $data,$ids){
-		return $this->query->whereIn('id',$ids)->update($data);
+	public function moveSelected(array $data){
+		$applicant_ids = array_map('intval',explode(',',$data['applicant_ids']));
+		$selectedApplicant = [];
+		foreach($applicant_ids as $applicantId){
+			$selectedApplicant[] = [
+				'demand_id' => $data['demand_id'],
+				'applicant_id' => $applicantId,
+				'status' => 'In Demand',
+				'created_at' => now()
+			];
+		}
+		return \DB::table('demand_applicants')->insert($selectedApplicant);
+
 	}
 
 

@@ -15,12 +15,7 @@
 				</div>
 				<div class="form-group group-column">
 					<label>Job Position <span class="text-red">*</span></label>
-					<select name="experiences[professionals][0][position]" class="validation-control position-select-wrapper" data-validation="required" >
-						<option value="">Select Position</option>
-						@foreach($positions as $position)
-							<option value="{{$position->title}}" data-duties ="{{json_encode($position->duties)}}"  {{isset($applicant) && isset($applicant->experiences['professionals'][0]) && $applicant->experiences['professionals'][0]['position'] == $position->title ? 'selected' : '' }}>{{$position->title}}</option>
-						@endforeach
-					</select>
+					<input type="text" name="experiences[professionals][0][position]" class="validation-control" data-validation="required" value="{{old('experiences[professionals][0][country]',$applicant->experiences['professionals'][0]['position'] ?? '')}}">
 				</div>
 				<div class="form-group group-column">
 					<label>Duration <span class="text-red">*</span></label>
@@ -56,19 +51,14 @@
 				</div>
 				<div class="form-group group-column">
 					<label>Job Position</label>
-					<select name="experiences[professionals][1][position]" class=" position-select-wrapper" >
-						<option value="">Select Position</option>
-						@foreach($positions as $position)
-							<option value="{{$position->title}}" data-duties ="{{json_encode($position->duties)}}"  {{isset($applicant) && isset($applicant->experiences['professionals'][1]) && $applicant->experiences['professionals'][1]['position'] == $position->title ? 'selected' : '' }}>{{$position->title}}</option>
-						@endforeach
-					</select>
+					<input type="text" name="experiences[professionals][1][position]" value="{{old('experiences[professionals][0][country]',$applicant->experiences['professionals'][1]['position'] ?? '')}}" >
 				</div>
 				<div class="form-group group-column">
 					<label>Duration</label>
 					<select name="experiences[professionals][1][duration]">
 						<option value="">Select Duration</option>
 						@foreach($experiences as $experience)
-							<option value="{{$experience->id}}" {{isset($applicant) && isset($applicant->experiences['professionals'][1]) && $applicant->experiences['professionals'][1]['duration'] == $experience->experience ? 'selected' : '' }}>{{$experience->experience}}</option>
+							<option value="{{$experience->experience}}" {{isset($applicant) && isset($applicant->experiences['professionals'][1]) && $applicant->experiences['professionals'][1]['duration'] == $experience->experience ? 'selected' : '' }}>{{$experience->experience}}</option>
 						@endforeach
 					</select>
 				</div>
@@ -92,16 +82,16 @@
 		<div class="form-wrapper" style="padding:0px 15px;padding-bottom:20px">
 			<div class="grid-row template-repeat-3 col-gap-20">
 				<div class="form-group group-column">
-					<label>Job Position <span class="text-red">*</span></label>
-					<input type="text" name="experiences[others][0][position]" class="validation-control" data-validation="required"  value="{{old('experiences[others][0][position]',$applicant->experiences['others'][0]['position'] ?? '')}}">
+					<label>Job Position</label>
+					<input type="text" name="experiences[others][0][position]"  value="{{old('experiences[others][0][position]',$applicant->experiences['others'][0]['position'] ?? '')}}">
 				</div>
 				<div class="form-group group-column">
-					<label>Country <span class="text-red">*</span></label>
-					<input type="text" name="experiences[others][0][country]" class="validation-control" data-validation="required" value="{{old('experiences[others][0][country]',$applicant->experiences['others'][0]['country'] ?? '')}}">
+					<label>Country</label>
+					<input type="text" name="experiences[others][0][country]"  value="{{old('experiences[others][0][country]',$applicant->experiences['others'][0]['country'] ?? '')}}">
 				</div>
 				<div class="form-group group-column">
-					<label>Period <span class="text-red">*</span></label>
-					<select name="experiences[others][0][duration]" class="validation-control" data-validation="required">
+					<label>Period</label>
+					<select name="experiences[others][0][duration]">
 						<option value="">Select Period</option>
 						@foreach($experiences as $experience)
 							<option value="{{$experience->experience}}"  {{isset($applicant) && isset($applicant->experiences['professionals'][0]) && $applicant->experiences['others'][0]['duration'] == $experience->experience ? 'selected' : '' }}>{{$experience->experience}}</option>

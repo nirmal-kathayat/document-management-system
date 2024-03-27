@@ -29,7 +29,7 @@ Route::group(['prefix' => 'admin',], function () {
         Route::put('edit/{id}',[ApplicantController::class,'update'])->name('admin.applicant.update');
         Route::get('delete/{id}',[ApplicantController::class,'delete'])->name('admin.applicant.delete');
         Route::post('export',[ApplicantController::class,'export'])->name('admin.applicant.export');
-        Route::get('/move',[ApplicantController::class,'move'])->name("admin.applicant.move");
+        Route::post('/move',[ApplicantController::class,'move'])->name("admin.applicant.move");
         Route::get('/info/{id}',[ApplicantController::class,'info'])->name("admin.applicant.info");
     });
 
@@ -72,7 +72,8 @@ Route::group(['prefix' => 'admin',], function () {
         Route::put('edit/{id}',[DemandController::class,'update'])->name('admin.demand.update');
         Route::get('delete/{id}',[DemandController::class,'delete'])->name('admin.demand.delete');
         Route::post('export',[DemandController::class,'export'])->name('admin.demand.export');
-        
+        Route::get('applicants/{id}',[DemandController::class,'applicant'])->name('admin.demand.applicant');
+        Route::get('removeApplicant/{id}',[DemandController::class,'removeApplicantFromDemand'])->name('admin.demand.applicantRemove');        
     });
 
     Route::group(['prefix' => 'leadershipBoard'],function(){

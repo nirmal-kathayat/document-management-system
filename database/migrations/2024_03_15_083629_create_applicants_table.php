@@ -26,6 +26,7 @@ return new class extends Migration
             $table->json('attachments')->nullable();
             $table->json('on_job_checklist')->nullable();
             $table->json('personal_checklist')->nullable();
+            $table->string('step')->default('one');
             $table->timestamps();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();

@@ -14,7 +14,7 @@
 	</li>
 	@if(!empty($experience['comment']))
 	<li style="display:flex;color:#000;font-size:14px;margin-bottom:15px;">
-		<span style="width:20%;font-weight: 600;">Description:</span><span style="font-weight: 600;">{{$experience['comment']}}</span>
+		<span style="width:20%;font-weight: 600;">Description:</span><span style="font-weight: 600;width:75%;line-height: 20px;">{{$experience['comment']}}</span>
 	</li>
 	@endif
 </ul>

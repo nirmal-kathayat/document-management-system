@@ -85,7 +85,7 @@ route('admin.applicant.create'));
 
 			this.previewFileListener = function(files,target){
 				const file = files[0]
-	
+
 				const reader = new FileReader();
 				target.find('.default-img').hide()
 				reader.onload = function(event) {
@@ -182,6 +182,7 @@ route('admin.applicant.create'));
 
 			this.attachmentListener = function(){
 				const target = $('.attach-upload-input')
+				const otherDocs = $('.other-docs-input');
 				target.on('change',function(event){
 					const current = $(this)
 					const file = event.target.files[0]
@@ -193,7 +194,7 @@ route('admin.applicant.create'));
 
 						const img = $('<img />',{
 							src:event.target.result,
-							style:target.hasClass('full_body') ? 'height:700px;aspect-ratio:3/5;object-fit:contain;' : ''
+							style: 'height:300px;aspect-ratio:3/5;object-fit:contain;'
 						})
 						current.parent().prev().html('')
 						imgWrapper.append(img)
@@ -201,6 +202,28 @@ route('admin.applicant.create'));
 					};
 
 					reader.readAsDataURL(file);
+				})
+
+				otherDocs.on('change',function(event){
+					const files = event.target.files;
+					$('.other-docs-list').html()
+					Object.entries(files)?.forEach(([index,file]) =>{
+						const reader = new FileReader();
+						console.log(file,'files')
+						reader.onload =  function(event){
+							const list = $('<li/>')
+							const fileLink = $('<a />',{
+								href:'#',
+								target:"_blank",
+								text:file?.name
+							})
+							list.append(fileLink);
+							$('.other-docs-list').append(list)
+						}
+						reader.readAsDataURL(file);
+
+					})
+					
 				})
 			}
 

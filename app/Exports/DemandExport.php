@@ -21,11 +21,11 @@ class DemandExport implements FromCollection, WithHeadings
         foreach ($this->data as $key=>$demand) {
             $rowData = [
                 $key + 1,
-                $applicant['date'],
-                $applicant['position_name'],
-                $applicant['country_name'],
-                $applicant['salary'],
-                $applicant['experience'],
+                $demand['date'],
+                $demand['position_name'],
+                $demand['country_name'],
+                $demand['salary'],
+                $demand['experience'],
             ];
             $rows[] = $rowData;
         }
