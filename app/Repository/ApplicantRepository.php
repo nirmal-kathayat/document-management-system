@@ -97,6 +97,10 @@ class ApplicantRepository{
 		if($query->step =='four'){
 			unset($data['step']);
 		}
+		if(isset($data['redirect_path'])){
+			unset($data['redirect_path']);
+			
+		}
 		if(isset($data['attachments'])){
 			$attachments = $data['attachments'];
 			$data['attachments'] = $query->attachments ?? [];

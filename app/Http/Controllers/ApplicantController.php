@@ -14,7 +14,7 @@ use Carbon\Carbon;
 use App\Exports\ApplicantExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\ApplicantRequest;
 class ApplicantController extends Controller
 {
 	private $repo,$passportRepo,$continentRepo,$positionRepo,$experienceRepo,$countryRepo,$demandRepo;
@@ -137,7 +137,11 @@ class ApplicantController extends Controller
                 return redirect()->route('admin.applicant.edit',['id' => $data->id,'step' => 'four'])->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
             }
             else{
-                return redirect()->route('admin.applicant')->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
+              if(isset($request->redirect_path) && !empty($request->redirect_path)){
+                return redirect()->back()->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
+              }else{
+                  return redirect()->route('admin.applicant')->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
+              }
             }
         } catch (Exception $e) {
             return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
