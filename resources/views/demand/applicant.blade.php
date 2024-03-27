@@ -208,13 +208,13 @@
         var deleteButton =
         `<button type="button" class="danger-btn confirm-modal-open" href=${deleteUrl}><i class="fa fa-trash"></i></button>`;
         var checkbox =full?.step == 'four' ? `<input value="${full.id}"  type='checkbox' class="applicant-selected-checkbox"  />` : ''
-        var cvUrl =
-        `{{ route('admin.applicant.info', ['id' => ':id']) }}?type=cv&demand_id=${full?.id}`
-        .replace(':id', full.applicant_id);
-        var cvButton =
-        '<a title="Info" class="primary-btn" href="' + cvUrl + '">CV</a>';
+        // var cvUrl =
+        // `{{ route('admin.applicant.info', ['id' => ':id']) }}?type=cv&demand_id=${full?.id}`
+        // .replace(':id', full.applicant_id);
+        // var cvButton =
+        // '<a title="Info" class="primary-btn" href="' + cvUrl + '">CV</a>';
         var actionButtons =
-        `<div style='display:flex;column-gap:10px;align-items:center;justify-content:flex-end;'>${checkbox} ${editButton} ${viewButton} ${deleteButton} ${cvButton}</div>`;
+        `<div style='display:flex;column-gap:10px;align-items:center;justify-content:flex-end;'>${checkbox} ${editButton} ${viewButton} ${deleteButton}</div>`;
         return actionButtons
       }
     }
