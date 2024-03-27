@@ -2,9 +2,16 @@
 @section('title',$passport->first_name.' '.$passport->last_name)
 @php 
 	$type = isset($_GET['type']) && $_GET['type'] == 'cv' ? 'cv' : null;
+	$demand_id = isset($_GET['demand_id']) ? $_GET['demand_id'] : null;
 @endphp
 @section('content')
 <div class="inner-section-wrapper applicant-block">
+	@if($type!=='cv' && !empty($demand_id))
+	<div class="flex-row justify-center" style="margin-bottom:20px;column-gap:20px">
+		<a href="{{ route('admin.applicant.info', ['id' => $applicant->id]) }}?type=cv&demand_id={{$demand_id}}" class="primary-btn">Convert to CV</a>
+		<a href="" class="primary-btn">Download</a>
+	</div>
+	@endif
 	@if(empty($type))
 		@include('applicant.components.step-one')
 		@include('applicant.components.step-two')
@@ -13,7 +20,7 @@
 	@else
 		@include('applicant.components.cv')
 		<div class="flex-row flex-end" style="margin-top:30px;">
-			<a href="{{route('admin.applicant.info',['id' => $applicant->id])}}?type=download" class="primary-btn">Download</a>
+			<a href="{{route('admin.applicant.info',['id' => $applicant->id])}}?type=download&demand_id={{$demand_id}}" class="primary-btn">Download</a>
 		</div>
 	@endif
 

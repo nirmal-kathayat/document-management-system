@@ -25,7 +25,7 @@
         <select name="job_position_id" class="validation-control" data-validation="required">
           <option value="">Select</option>
           @foreach($positions as $position)
-          <option value="{{$position->id}}">{{$position->title}}</option>
+          <option value="{{$position->id}}" {{isset($demand) && $demand->job_position_id == $position->id ? 'selected' : ''}}>{{$position->title}}</option>
           @endforeach
         </select>
       </div>
