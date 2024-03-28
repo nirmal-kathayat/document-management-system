@@ -55,7 +55,7 @@
   <div id="emailModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <form action="{{route('admin.user.forgotPassword')}}" id="forgotPasswordForm" method="post">
+      <form action="{{route('forgotPassword')}}" id="forgotPasswordForm" method="post">
         @csrf         
         <div class="form-group email-input">
           <label for="email">Email:</label>

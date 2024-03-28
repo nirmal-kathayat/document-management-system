@@ -4,12 +4,15 @@ return[
 	"without" =>[
 		'/',
 		'logout',
-		'admin/users/forgotPassword'
+		'forgotPassword',
+		'password/reset/{token}'
 	],
 	"allow" =>[
 		"login",
 		"logout",
-		'admin.dashboard'
+		'admin.dashboard',
+		// 'password.reset',
+		'forgotPassword'
 	],
 	'guard' => 'admin',
 	"guest_redirect" =>'login',

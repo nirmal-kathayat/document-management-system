@@ -2,7 +2,7 @@
 @section('title','Change Password')
 @section('content')
 <div class="inner-section-wrapper grey-bg country-form">
-  <form action="{{route('admin.user.resetPassword')}}" method="post" class="form-data">
+  <form action="{{route('admin.changePassword.passwordChange')}}" method="post" class="form-data">
     @csrf
     <div class="form-wrapper">
       <div class="form-group group-column">

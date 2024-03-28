@@ -13,6 +13,8 @@ use DataTables;
 use Str;
 use IAnanta\UserManagement\Repository\RoleRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -138,14 +140,29 @@ class UserController extends Controller
         $user = \DB::table('admins')->where('email', $email)->select('name', 'email')->first();
 
         // Generate the password reset link
-        $link = route('password.reset', ['token' => $token, 'email' => $email]);
-        // dd($link);
+        $link = url('/') . '/password/reset/' . $token;
+        dd($link);
+        // try {
+        //     Mail::to($user->email)->send(new ForgotPasswordEmail($link));
+        //     return true;
+        // } catch (Exception $e) {
+        //     return false;
+        // }
+    }
 
-        try {
-            Mail::to($user->email)->send(new ForgotPasswordEmail($link));
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
+    public function passwordReset($token)
+    {
+        $email = \DB::table('password_reset_tokens')->where('token', $token)->first();
+        return view('auth.forgotpassword', ['email' => $email->email]);
+    }
+    public function changePasswordPost(Request $request)
+    {
+        $request->validate([
+            'password' => 'required',
+        ]);
+        Admin::where('id', Auth::id())->update([
+            'password' => Hash::make($request->password),
+        ]);
+        return redirect()->route('login')->with(['message' => 'Password has been changed successfully!.', 'type' => 'success']);
     }
 }

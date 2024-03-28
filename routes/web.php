@@ -19,6 +19,9 @@ Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/', [AuthController::class, 'loginProcess'])->name('loginProcess');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::post('forgotPassword', [UserController::class, 'validatePasswordRequest'])->name('forgotPassword');
+Route::get('password/reset/{token}', [UserController::class, 'passwordReset']) ->name('password.reset');
+Route::post('password/reset',[UserController::class,'changePasswordPost'])->name('password.resetPassword');
 
 Route::group(['prefix' => 'admin',], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -114,13 +117,5 @@ Route::group(['prefix' => 'admin',], function () {
         Route::get('edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
         Route::put('edit/{id}', [UserController::class, 'update'])->name('admin.user.update');
         Route::get('delete/{id}', [UserController::class, 'delete'])->name('admin.user.delete');
-
-        Route::post('/forgotPassword', [UserController::class, 'validatePasswordRequest'])->name('admin.user.forgotPassword');
-        Route::get('/password/reset/{token}/{email}', [UserController::class, 'passwordReset']) ->name('password.reset');
-
-        Route::group(['prefix' => 'profile'], function () {
-            Route::get('/', [ProfileController::class, 'index'])->name('admin.profile');
-            Route::put('edit', [ProfileController::class, 'update'])->name('admin.profile.update');
-        });
     });
 });
