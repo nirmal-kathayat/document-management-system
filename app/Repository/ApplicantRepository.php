@@ -198,5 +198,13 @@ class ApplicantRepository{
 
 
 
+	public function statusUpdate($status,$id){
+		return \DB::table('demand_applicants')->where('id',$id)->update([
+			'status' => $status
+		]);
+	}
+
+
+
 	
 }

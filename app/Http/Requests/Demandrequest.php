@@ -23,7 +23,7 @@ class DemandRequest extends FormRequest
     {
         return [
             'date'=>'required',
-            'job_position_id'=>'required',
+            'title'=>'required',
             'salary'=>'required',
             'experience_id'=>'required',
             'country_id'=>'required',
