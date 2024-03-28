@@ -8,6 +8,6 @@ class ExperienceRepository{
 	}
 
 	public function get(){
-		return $this->query->orderBy('created_at','asc')->get();
+		return $this->query->orderBy('id','asc')->get();
 	}
 }

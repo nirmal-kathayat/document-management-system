@@ -1,7 +1,7 @@
 @extends('layouts.default')
 @section('title','Demands')
 @section('content')
-<div class="inner-section-wrappe">
+<div class="inner-section-wrapper">
   <div class="filter-wrapper">
     <div class="flex-row justify-space-between align-center">
       <div class="search-wrapper">
@@ -157,12 +157,16 @@
                 .replace(':id', full.id);
                 var deleteUrl =
                 "{{ route('admin.demand.delete', ['id' => ':id']) }}".replace(':id', full.id);
+                 var applicantsUrl =
+                "{{ route('admin.demand.applicant', ['id' => ':id']) }}".replace(':id', full.id);
+                 var applicantButton =
+                '<a class="primary-btn" href="' + applicantsUrl + '"><i class="fa fa-users"></i></a>';
               var editButton =
                 '<a class="primary-btn" href="' + editUrl + '"><i class="fa fa-pencil"></i></a>';
               var deleteButton =
                   `<button type="button" class="danger-btn confirm-modal-open" href=${deleteUrl}><i class="fa fa-trash"></i></button>`;
               var actionButtons =
-                 `<div style='display:flex;column-gap:10px'> ${editButton} ${deleteButton}</div>`;
+                 `<div style='display:flex;column-gap:10px'>${applicantButton} ${editButton} ${deleteButton}</div>`;
               return actionButtons
             }
           }

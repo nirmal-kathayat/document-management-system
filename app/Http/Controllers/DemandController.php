@@ -106,20 +106,62 @@ class DemandController extends Controller
     }
   }
 
-  public function export(Request $request)
-  {
+  public function export(Request $request){
     try {
       return Excel::download(new DemandExport(
-        $this->repo->dataTable([
-          'country' => $request->country ?? null,
-          'position' => $request->position ?? null,
-          'experience' => $request->experience ?? null,
-          'from_date' => $request->from_date ?? null,
-          'to_date' => $request->to_date ?? null,
-        ])->get()->toArray()
-      ), 'demands.xlsx');
+       $this->repo->dataTable([
+        'country' =>$request->country ?? null,
+        'position' => $request->position ?? null,
+        'experience' => $request->experience ?? null,
+        'from_date' => $request->from_date ?? null,
+        'to_date' => $request->to_date ?? null,
+      ])->get()->toArray()
+     ), 'demands.xlsx');
     } catch (Exception $e) {
-      return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
+      return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
+
     }
   }
+
+  public function applicant($id){
+    try {
+      $data['demand'] =$this->repo->find($id);
+       $data['positions'] = $this->positionRepo->get();
+            $data['experiences'] = $this->experienceRepo->get();
+            $data['countries'] = $this->countryRepo->get();
+      if(request()->ajax()){
+        $data = $this->repo->applicants([
+          'search' => $_GET['search'] ?? null,
+          'gender' => $_GET['gender'] ?? null,
+          'country' => $_GET['country'] ?? null,
+          'position' => $_GET['position'] ?? null,
+          'experience' => $_GET['experience'] ?? null,
+          'age' => $_GET['age'] ?? null,
+          'from_date' => $_GET['from_date'] ?? null,
+          'to_date' => $_GET['to_date'] ?? null,
+        ],$id);
+        return DataTables::of($data)
+        ->addIndexColumn()
+        ->rawColumns([])
+        ->make(true);
+      }
+
+      return view('demand.applicant')->with($data);
+    } catch (Exception $e) {
+      return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
+
+    }
+  }
+
+  public function removeApplicantFromDemand($id){
+    try{
+      $this->repo->removeApplicantFromDemand($id);
+      return redirect()->back()->with(['message'=>'Demand deleted successfully','type'=>'success']);
+    }catch(\Exception $e)
+    {
+      return redirect()->back()->with(['message' =>$e->getMessage(),'type'=>'error']);
+      
+    }
+  }
+
 }

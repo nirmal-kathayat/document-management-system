@@ -13,8 +13,8 @@ use DataTables;
 use Str;
 use IAnanta\UserManagement\Repository\RoleRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
 
 class UserController extends Controller
 {
@@ -152,17 +152,38 @@ class UserController extends Controller
 
     public function passwordReset($token)
     {
-        $email = \DB::table('password_reset_tokens')->where('token', $token)->first();
-        return view('auth.forgotpassword', ['email' => $email->email]);
+        try {
+            $email = $this->repo->getPasswordResetEmail($token);
+            if ($email) {
+                return view('auth.forgotpassword', ['email' => $email]);
+            } else {
+                return redirect()->back()->with(['message' => 'Email not found!', 'type' => 'error']);
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
+        }
     }
     public function changePasswordPost(Request $request)
     {
-        $request->validate([
-            'password' => 'required',
-        ]);
-        Admin::where('id', Auth::id())->update([
-            'password' => Hash::make($request->password),
-        ]);
-        return redirect()->route('login')->with(['message' => 'Password has been changed successfully!.', 'type' => 'success']);
+        // dd($request);
+        try {
+            $request->validate([
+                'password' => 'required|min:4',
+                'confirm_password' => 'required|same:password',
+                'email' => 'required|email'
+            ]);
+
+            $email = $request->input('email');
+            $result = $this->repo->resetPassword($email, $request->password);
+
+            // dd($result);
+            if ($result) {
+                return redirect()->route('login')->with(['message' => 'Password has been changed successfully!.', 'type' => 'success']);
+            } else {
+                return redirect()->back()->with(['message' => 'Failed to change the password!', 'type' => 'error']);
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage(), 'type' => 'error']);
+        }
     }
 }

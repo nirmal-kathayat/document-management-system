@@ -20,17 +20,13 @@ class ApplicantExport implements FromCollection, WithHeadings
         $rows = [];
         foreach ($this->data as $key=>$applicant) {
         	$dateOfBirth = Carbon::createFromFormat('Y-m-d',  $applicant['dob']); 
-        	$exp = null;
-        	if(is_array($applicant['experiences'])){
-        		$exp=$applicant['experiences']['professionals'][0]['duration'];
-        	}
             $rowData = [
                 $key + 1,
                 $applicant['first_name'],
                 $applicant['last_name'],
                 $applicant['position_name'],
                 $applicant['country_name'],
-                $exp,
+                $applicant['experience'],
                 $applicant['gender'],
               	$dateOfBirth->age,
             ];

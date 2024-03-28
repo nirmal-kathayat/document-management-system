@@ -16,7 +16,7 @@
     <div class="container">
       <div class="login-wrapper">
         <div class="logo">
-          <img src="{{ asset('images/logo.svg') }}" style="width: 300px; height: 120px;" alt="logo">
+          <img src="{{ asset('images/logo.png') }}" style="width: 300px; height: 120px;" alt="logo">
           <h1>Document Management System</h1>
         </div>
         <div class="login-form-wrapper">
@@ -47,7 +47,7 @@
             </div>
           </form>
         </div>
-      </div>
+ 
     </div>
   </section>
 

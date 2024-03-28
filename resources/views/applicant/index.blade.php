@@ -12,14 +12,13 @@
 				<a href="{{route('admin.applicant.create')}}" title="Create Applicant"><i class="fa fa-user-plus"></i></a>
 				<form method="post" class="excel-export-form"action="{{route('admin.applicant.export')}}">
 					@csrf
-					 <input type="hidden" name="from_date">
-					 <input type="hidden" name="to_date">
-					 <input type="hidden" name="age">
-					 <input type="hidden" name="position">
-					 <input type="hidden" name="country">
-					 <input type="hidden" name="experience">
-					 <input type="hidden" name="gender">
-					 <input type="hidden" name="isSelected" value="false">
+					<input type="hidden" name="from_date">
+					<input type="hidden" name="to_date">
+					<input type="hidden" name="age">
+					<input type="hidden" name="position">
+					<input type="hidden" name="country">
+					<input type="hidden" name="experience">
+					<input type="hidden" name="gender">
 					<button title="Download Excel"><i class="fa fa-file-excel-o"></i></button>
 				</form>
 				<button type="button" class="filter-btn"><i class="fa fa-filter"></i></button>
@@ -37,7 +36,7 @@
 						<select name="country">
 							<option value="">Select</option>
 							@foreach($countries as $country)
-								<option value="{{$country->id}}">{{$country->title}}</option>
+							<option value="{{$country->id}}">{{$country->title}}</option>
 							@endforeach
 						</select>
 					</div>
@@ -46,7 +45,7 @@
 						<select name="experience">
 							<option value="">Select</option>
 							@foreach($experiences as $experience)
-								<option value="{{$experience->experience}}">{{$experience->experience}}</option>
+							<option value="{{$experience->experience}}">{{$experience->experience}}</option>
 							@endforeach
 						</select>
 					</div>
@@ -59,7 +58,7 @@
 						<select name="position">
 							<option value="">Select</option>
 							@foreach($positions as $position)
-								<option value="{{$position->id}}">{{$position->title}}</option>
+							<option value="{{$position->id}}">{{$position->title}}</option>
 							@endforeach
 						</select>
 					</div>
@@ -74,18 +73,12 @@
 								<select name="gender">
 									<option value="">Select</option>
 									@foreach(getGender() as $gender)
-										<option value="{{$gender}}">{{$gender}}</option>
+									<option value="{{$gender}}">{{$gender}}</option>
 									@endforeach
 								</select>
 							</div>
 						</div>
 					</div>
-
-					<div class="form-group group-row">
-						<label style="display: flex;align-items: center;width:50%">Selected&nbsp;&nbsp;<input style="width:20px;height:20px" type="checkbox" name="isSelected" class="filter-is-select"></label>
-						
-					</div>
-
 				</div>
 				<div class="form-group group-column filter-submit-wrapper">
 					<button class="primary-btn">Filter</button>
@@ -110,7 +103,38 @@
 		</table>
 	</div>
 	<div class="flex-row flex-end move-btn-wrapper" style="margin-top:20px">
-		<a href="" class="primary-btn">Move to Selected</a>
+		<button type="button" class="move-select-btn primary-btn">Move to Selected</button>
+	</div>
+</div>
+<div class="move-modal-wrapper">
+	<div class="move-modal">
+		<div class="move-modal-bg">
+			<div class="move-modal-header">
+				<h4>Add To Demand</h4>
+				<button type="button" class="cancel-btn"><i class="fa fa-times"></i></button>
+			</div>
+			<div class="move-modal-body">
+				<p>Are you sure you want ot move the selected applicants to Demand ? </p>
+				<form action="{{route('admin.applicant.move')}}" method="post" class="form-data">
+					@csrf
+					<input type="hidden" name="applicant_ids" id="applicant_ids">
+					<div class="form-group group-column">
+						<select name="demand_id" class="validation-control" data-validation="required">
+							<option value="">Select</option>
+							@foreach($demands as $demand)
+								<option value="{{$demand->id}}">{{$demand->position_name}}</option>
+
+							@endforeach
+						</select>
+					</div>
+					<div class="form-group group-row" style="justify-content:center;margin-top:30px;column-gap: 40px;">
+						<button class="primary-btn">Yes</button>
+						<button class="primary-btn cancel-btn" type="button">No</button>
+
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>
 @endsection
@@ -120,6 +144,8 @@
 rel="stylesheet">
 @endpush
 @push('js')
+@include('scripts.validation')
+
 <script type="text/javascript" src="{{asset('vendor/datatable/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('vendor/datatable/dataTables.bootstrap.min.js')}}"></script>
 <script type="text/javascript">
@@ -150,7 +176,8 @@ rel="stylesheet">
 			render:function(data,type,full,meta){
 				const date = new Date(full.created_at); 
 				const options = { day: 'numeric', month: 'short', year: 'numeric' };
-				return  `${date.toLocaleDateString('en-GB', options)}`;
+				const status = full?.step == 'four' ? 'Completed' : `Not Completed`
+				return  `${date.toLocaleDateString('en-GB', options)} <br><span style="margin-top:5px;" class="${full?.step =='four' ? 'status-text green' : 'text-red'}">${status}</span>`;
 			}
 		},
 		{
@@ -195,18 +222,14 @@ rel="stylesheet">
 				.replace(':id', full.id);
 				var viewButton =
 				'<a title="Info" class="primary-btn" href="' + viewUrl + '"><i class="fa fa-eye"></i></a>';
-				var cvUrl =
-				"{{ route('admin.applicant.info', ['id' => ':id']) }}?type=cv"
-				.replace(':id', full.id);
-				var cvButton =
-				'<a title="Info" class="primary-btn" href="' + cvUrl + '">CV</a>';
-				   var deleteUrl =
-                "{{ route('admin.applicant.delete', ['id' => ':id']) }}".replace(':id', full.id);
-                var deleteButton =
-                  `<button type="button" class="danger-btn confirm-modal-open" href=${deleteUrl}><i class="fa fa-trash"></i></button>`;
-				var checkbox =!!parseInt(full?.is_selected) ? '' :  `<input value="${full.id}"  type='checkbox' class="applicant-selected-checkbox"  />`
+				
+				var deleteUrl =
+				"{{ route('admin.applicant.delete', ['id' => ':id']) }}".replace(':id', full.id);
+				var deleteButton =
+				`<button type="button" class="danger-btn confirm-modal-open" href=${deleteUrl}><i class="fa fa-trash"></i></button>`;
+				var checkbox =full?.step == 'four' ? `<input value="${full.id}"  type='checkbox' class="applicant-selected-checkbox"  />` : ''
 				var actionButtons =
-				`<div style='display:flex;column-gap:10px;align-items:center;justify-content:flex-end;'>${checkbox} ${editButton} ${viewButton} ${cvButton} ${deleteButton}</div>`;
+				`<div style='display:flex;column-gap:10px;align-items:center;justify-content:flex-end;'>${checkbox} ${editButton} ${viewButton} ${deleteButton}</div>`;
 				return actionButtons
 			}
 		}
@@ -253,15 +276,26 @@ rel="stylesheet">
 		}else{
 			selected = selected?.filter(item => val!=item)
 		}
-		
 
 		if(!!selected?.length){
-			let url = "{{route('admin.applicant.move')}}?ids="+selected.toString()
-			$('.move-btn-wrapper a').attr('href',url)
 			$('.move-btn-wrapper').show()
 		}else{
 			$('.move-btn-wrapper').hide()
-			$('.move-btn-wrapper a').attr('href','')
+		}
+		$('#applicant_ids').val(selected.toString())
+
+	})
+	$('.cancel-btn').on('click',function(){
+		$('.move-select-btn').removeClass('active')
+			$('.move-modal-wrapper').fadeOut()
+	})
+	$('.move-select-btn').on('click',function(){
+		if($(this).hasClass('active')){
+			$(this).removeClass('active')
+			$('.move-modal-wrapper').fadeOut()
+		}else{
+			$(this).addClass('active')
+			$('.move-modal-wrapper').fadeIn()
 		}
 	})
 </script>

@@ -7,24 +7,25 @@ use App\Repository\ContinentRepository;
 use App\Repository\JobPositionRepository;
 use App\Repository\ExperienceRepository;
 use App\Repository\CountryRepository;
-use App\Http\Requests\ApplicantRequest;
+use App\Repository\DemandRepository;
 use DataTables;
 use PDF;
 use Carbon\Carbon;
 use App\Exports\ApplicantExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\ApplicantRequest;
 class ApplicantController extends Controller
 {
-	private $repo,$passportRepo,$continentRepo,$positionRepo,$experienceRepo,$countryRepo;
-	public function __construct(ApplicantRepository $repo,Passportrepository $passportRepo,ContinentRepository $continentRepo,JobPositionRepository $positionRepo,ExperienceRepository $experienceRepo,CountryRepository $countryRepo){
+	private $repo,$passportRepo,$continentRepo,$positionRepo,$experienceRepo,$countryRepo,$demandRepo;
+	public function __construct(ApplicantRepository $repo,Passportrepository $passportRepo,ContinentRepository $continentRepo,JobPositionRepository $positionRepo,ExperienceRepository $experienceRepo,CountryRepository $countryRepo,DemandRepository $demandRepo){
 		$this->repo = $repo;
 		$this->passportRepo=$passportRepo;
 		$this->continentRepo=$continentRepo;
         $this->positionRepo = $positionRepo;
         $this->experienceRepo = $experienceRepo;
         $this->countryRepo = $countryRepo;
+        $this->demandRepo= $demandRepo;
 
     }
     public function index(){
@@ -39,8 +40,6 @@ class ApplicantController extends Controller
                     'age' => $_GET['age'] ?? null,
                     'from_date' => $_GET['from_date'] ?? null,
                     'to_date' => $_GET['to_date'] ?? null,
-                    'isSelected' => isset($_GET['isSelected']) ? true : false
-
                 ]);
                 return DataTables::of($data)
                 ->addIndexColumn()
@@ -50,6 +49,9 @@ class ApplicantController extends Controller
             $data['positions'] = $this->positionRepo->get();
             $data['experiences'] = $this->experienceRepo->get();
             $data['countries'] = $this->countryRepo->get();
+            $data['demands'] = $this->demandRepo->get([
+                'not_expired' => true
+            ]);
             return view('applicant.index')->with($data);
         } catch (Exception $e) {
             return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
@@ -135,7 +137,11 @@ class ApplicantController extends Controller
                 return redirect()->route('admin.applicant.edit',['id' => $data->id,'step' => 'four'])->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
             }
             else{
-                return redirect()->route('admin.applicant')->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
+              if(isset($request->redirect_path) && !empty($request->redirect_path)){
+                return redirect()->back()->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
+              }else{
+                  return redirect()->route('admin.applicant')->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
+              }
             }
         } catch (Exception $e) {
             return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
@@ -154,8 +160,7 @@ class ApplicantController extends Controller
 
     public function export(Request $request){
         try {
-            return Excel::download(new ApplicantExport(
-                 $this->repo->dataTable([
+            $requestedData = [
                     'gender' => $request->gender ?? null,
                     'country' =>$request->country ?? null,
                     'position' => $request->position ?? null,
@@ -163,8 +168,16 @@ class ApplicantController extends Controller
                     'age' =>$request->age ?? null,
                     'from_date' => $request->from_date ?? null,
                     'to_date' => $request->to_date ?? null,
-                    'isSelected' => $request->isSelected == 'on' ? true : false
-                ])->get()->toArray()
+                   
+                ];
+            $data = [];
+            if(isset($request->demand_id)){
+                $data = $this->demandRepo->applicants($requestedData,$request->demand_id)->get()->toArray();
+            }else{
+                $data =$this->repo->dataTable($requestedDataq)->get()->toArray();
+            }
+            return Excel::download(new ApplicantExport(
+                 $data
             ), 'applicants.xlsx');
         } catch (Exception $e) {
             return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
@@ -173,14 +186,10 @@ class ApplicantController extends Controller
     }
 
 
-    public function move(){
+    public function move(Request $request){
         try {
-           $ids = $_GET['ids'];
-           $idArr =  array_map('intval',explode(',',$ids));
-           $this->repo->multiUpdate([
-                'is_selected' => true,
-               
-           ], $idArr);
+        
+           $this->repo->moveSelected($request->all());
            return redirect()->back()->with(['message' =>'Move to selected successfully','type' =>'success']);
 
         } catch (Exception $e) {
@@ -199,9 +208,17 @@ class ApplicantController extends Controller
                 $data['experiences'] = $this->experienceRepo->get();
             }
             if(isset($_GET['type'])&& $_GET['type'] == 'download'){
+
                  $pdf = PDF::loadView('applicant.cv', $data);
                  $pdf->getDomPDF()->getOptions()->set('defaultFont', 'Arial');
+                 if(isset($_GET['demand_id'])){
+                    \DB::table('demand_applicants')->where('id',(int)$_GET['demand_id'])->update([
+                        'status' => 'Approved'
+                    ]);
+                 }
                 return $pdf->download($data['passport']->first_name.'-'.$data['passport']->last_name.'.pdf');
+
+
             }else{
                 return view('applicant.info')->with($data);
             }

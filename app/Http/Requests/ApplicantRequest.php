@@ -52,6 +52,7 @@ class ApplicantRequest extends FormRequest
                 return [
                     'step' => 'nullable',
                     'attachments' => 'nullable|array',
+                    'redirect_path' =>'nullable'
                 ];
             }
        

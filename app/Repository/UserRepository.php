@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use IAnanta\UserManagement\Models\Admin;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\UploadedFile;
 
 class UserRepository
@@ -18,13 +20,12 @@ class UserRepository
   {
     $query = $this->query->query();
     if (isset($params['isLeadershipBoard']) && !empty($params['isLeadershipBoard'])) {
-       $query =$query->leftJoin('applicants', 'applicants.created_by', '=', 'admins.id')
-              ->groupBy('admins.id')
-              ->select('admins.*', \DB::raw('COUNT(applicants.id) as applicants_count'))
-              ->orderBy('applicants_count', 'DESC');
+      $query = $query->leftJoin('applicants', 'applicants.created_by', '=', 'admins.id')
+        ->groupBy('admins.id')
+        ->select('admins.*', \DB::raw('COUNT(applicants.id) as applicants_count'))
+        ->orderBy('applicants_count', 'DESC');
     }
     return $query;
-
   }
 
   public function store(array $data)
@@ -38,7 +39,7 @@ class UserRepository
     }
 
     $admin =  $this->query->create($data);
-    if(isset($data['roles']) && !empty($data['roles'])){
+    if (isset($data['roles']) && !empty($data['roles'])) {
       $admin->roles()->attach($data['roles']);
     }
     return $admin;
@@ -63,10 +64,10 @@ class UserRepository
     $updatedData = $data;
     unset($updatedData['roles']);
     $query->update($updatedData);
-    if(isset($data['roles']) && !empty($data['roles'])){
+    if (isset($data['roles']) && !empty($data['roles'])) {
       $query->roles()->detach();
       $query->roles()->attach($data['roles']);
-    } 
+    }
     return $query;
   }
 
@@ -84,5 +85,19 @@ class UserRepository
     }
 
     return $params['destination'] . '/' . $imageName;
+  }
+
+  public function getPasswordResetEmail($token)
+  {
+    $email = DB::table('password_reset_tokens')->where('token', $token)->first();
+    return $email ? $email->email : null;
+  }
+
+  public function resetPassword($email, $password)
+  {
+    $result = Admin::where('email', $email)->update([
+      'password' => Hash::make($password),
+    ]);
+    return $result;
   }
 }

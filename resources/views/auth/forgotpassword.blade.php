@@ -25,7 +25,7 @@
             @csrf
             <div class="form-group group-row align-center">
               <label style="width:35%;color:var(--textPrimary);font-weight:400">Email</label>
-              <input type="text" name="email" class="grey-bg" value="{{$email}}" disabled>
+              <input type="email" name="email" class="grey-bg" value="{{$email}}" >
             </div>
             <div class="form-group group-row align-center">
               <label style="width:35%;color:var(--textPrimary);font-weight:400">New Password</label>
@@ -65,7 +65,7 @@
       const errorMessages = document.querySelectorAll('.validation-error');
       errorMessages.forEach(message => message.remove());
 
-  
+
       if (password === '' || confirmPassword === '') {
         const message = document.createElement('span');
         message.classList.add('validation-error');
@@ -77,7 +77,7 @@
           confirmPasswordInput.classList.add('error');
           confirmPasswordInput.parentNode.appendChild(message);
         }
-        event.preventDefault(); 
+        event.preventDefault();
         return;
       }
 
