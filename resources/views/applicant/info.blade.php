@@ -9,7 +9,6 @@ $demand_id = isset($_GET['demand_id']) ? $_GET['demand_id'] : null;
 	@if($type!=='cv' && !empty($demand_id))
 	<div class="flex-row justify-center" style="margin-bottom:20px;column-gap:20px">
 		<a href="{{ route('admin.applicant.info', ['id' => $applicant->id]) }}?type=cv&demand_id={{$demand_id}}" class="primary-btn">Convert to CV</a>
-		<a href="" class="primary-btn">Download</a>
 	</div>
 	@endif
 	@if(empty($type))
@@ -32,8 +31,17 @@ $demand_id = isset($_GET['demand_id']) ? $_GET['demand_id'] : null;
 			</div>
 		</form>
 	</div>
-	<div class="flex-row flex-end" style="margin-top:30px;">
-		<a href="{{route('admin.applicant.info',['id' => $applicant->id])}}?type=download&demand_id={{$demand_id}}" class="primary-btn">Download</a>
+	<div class="flex-row flex-end" style="margin-top:30px;column-gap:30px;">
+		@if(isset($demandApplicant) && $demandApplicant->status!=='Approved')
+			<form method="post" action="{{route('admin.applicant.status',['id' => $demand_id])}}">
+				@csrf
+				@method('PUT')
+				<input type="hidden" name="status" value="Approved">
+				<button class="primary-btn">Approved</button>
+			</form>
+		@endif
+		
+		<a href="{{route('admin.applicant.info',['id' => $applicant->id])}}?type=download&demand_id={{$demand_id}}" class="primary-btn" style="display:flex;align-items: center;justify-content: center;">Download</a>
 	</div>
 	@endif
 
@@ -44,12 +52,12 @@ $demand_id = isset($_GET['demand_id']) ? $_GET['demand_id'] : null;
 
 <script type="text/javascript">
 	@if(empty($type))
-		$('select').prop('disabled',true)
-		$('textarea').prop('disabled',true)
-		$('input[type=checkbox]').prop('disabled',true)
-		$('input[type=radio]').prop('disabled',true)
-		$('input[type=file]').prop('disabled',true)
-		$('input').attr('readonly',true)
+	$('select').prop('disabled',true)
+	$('textarea').prop('disabled',true)
+	$('input[type=checkbox]').prop('disabled',true)
+	$('input[type=radio]').prop('disabled',true)
+	$('input[type=file]').prop('disabled',true)
+	$('input').attr('readonly',true)
 	@endif
 	$('.text-red').remove()
 

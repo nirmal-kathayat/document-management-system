@@ -15,6 +15,7 @@ use App\Exports\ApplicantExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use App\Http\Requests\ApplicantRequest;
+use ZipArchive;
 class ApplicantController extends Controller
 {
 	private $repo,$passportRepo,$continentRepo,$positionRepo,$experienceRepo,$countryRepo,$demandRepo;
@@ -126,24 +127,24 @@ class ApplicantController extends Controller
 
     public function update(ApplicantRequest $request,$id){
         try {
-            $step =$request->step;
-            $data= $this->repo->update($request->validated(),$id);
-            if($step == 'one'){
-                return redirect()->route('admin.applicant.edit',['id' => $data->id,'step' => 'two'])->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
+                    $step =$request->step;
+                    $data= $this->repo->update($request->validated(),$id);
+                    if($step == 'one'){
+                        return redirect()->route('admin.applicant.edit',['id' => $data->id,'step' => 'two'])->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
 
-            }else if($step =='two'){
-                return redirect()->route('admin.applicant.edit',['id' => $data->id,'step' => 'three'])->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
-            }else if($step =='three'){
-                return redirect()->route('admin.applicant.edit',['id' => $data->id,'step' => 'four'])->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
-            }
-            else{
-              if(isset($request->redirect_path) && !empty($request->redirect_path)){
-                return redirect()->back()->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
-              }else{
-                  return redirect()->route('admin.applicant')->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
+                    }else if($step =='two'){
+                        return redirect()->route('admin.applicant.edit',['id' => $data->id,'step' => 'three'])->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
+                    }else if($step =='three'){
+                        return redirect()->route('admin.applicant.edit',['id' => $data->id,'step' => 'four'])->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
+                    }
+                    else{
+                      if(isset($request->redirect_path) && !empty($request->redirect_path)){
+                        return redirect()->back()->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
+                    }else{
+                      return redirect()->route('admin.applicant')->with(['message'=> 'Applicant Updated Successfully','type' => 'success']);
+                  }
               }
-            }
-        } catch (Exception $e) {
+          } catch (Exception $e) {
             return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
         }
     }
@@ -154,22 +155,22 @@ class ApplicantController extends Controller
             return redirect()->back()->with(['message' => 'Applicant deleted successfully','type' => 'success']);
         } catch (Exception $e) {
             return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
-            
+
         }
     }
 
     public function export(Request $request){
         try {
             $requestedData = [
-                    'gender' => $request->gender ?? null,
-                    'country' =>$request->country ?? null,
-                    'position' => $request->position ?? null,
-                    'experience' => $request->experience ?? null,
-                    'age' =>$request->age ?? null,
-                    'from_date' => $request->from_date ?? null,
-                    'to_date' => $request->to_date ?? null,
-                   
-                ];
+                'gender' => $request->gender ?? null,
+                'country' =>$request->country ?? null,
+                'position' => $request->position ?? null,
+                'experience' => $request->experience ?? null,
+                'age' =>$request->age ?? null,
+                'from_date' => $request->from_date ?? null,
+                'to_date' => $request->to_date ?? null,
+                'search' => $request->search ?? null
+            ];
             $data = [];
             if(isset($request->demand_id)){
                 $data = $this->demandRepo->applicants($requestedData,$request->demand_id)->get()->toArray();
@@ -177,22 +178,22 @@ class ApplicantController extends Controller
                 $data =$this->repo->dataTable($requestedDataq)->get()->toArray();
             }
             return Excel::download(new ApplicantExport(
-                 $data
-            ), 'applicants.xlsx');
+               $data
+           ), 'applicants.xlsx');
         } catch (Exception $e) {
             return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
-            
+
         }
     }
 
 
     public function move(Request $request){
         try {
-        
-           $this->repo->moveSelected($request->all());
-           return redirect()->back()->with(['message' =>'Move to selected successfully','type' =>'success']);
 
-        } catch (Exception $e) {
+             $this->repo->moveSelected($request->all());
+             return redirect()->back()->with(['message' =>'Move to selected successfully','type' =>'success']);
+
+         } catch (Exception $e) {
             return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']); 
         }
     }
@@ -202,29 +203,62 @@ class ApplicantController extends Controller
         try {
             $data['applicant'] = $this->repo->find($id);
             $data['passport'] = $this->passportRepo->find($data['applicant']->passport_id);
+
             if(!isset($_GET['type'])){
                 $data['continents'] = $this->continentRepo->get();
                 $data['positions'] = $this->positionRepo->get();
                 $data['experiences'] = $this->experienceRepo->get();
+                if(isset($_GET['demand_id'])){
+                   $data['demandApplicant'] =  \DB::table('demand_applicants')->where('id',$_GET['demand_id'])->first();
+                }
             }
-            if(isset($_GET['type'])&& $_GET['type'] == 'download'){
-
-                 $pdf = PDF::loadView('applicant.cv', $data);
-                 $pdf->getDomPDF()->getOptions()->set('defaultFont', 'Arial');
-                 if(isset($_GET['demand_id'])){
-                    \DB::table('demand_applicants')->where('id',(int)$_GET['demand_id'])->update([
-                        'status' => 'Approved'
-                    ]);
-                 }
-                return $pdf->download($data['passport']->first_name.'-'.$data['passport']->last_name.'.pdf');
-
-
-            }else{
+            if(isset($_GET['type']) && $_GET['type'] == 'download'){
+               $pdf = PDF::loadView('applicant.cv', $data);
+               $pdf->getDomPDF()->getOptions()->set('defaultFont', 'Arial');
+               return $pdf->download($data['passport']->first_name.'-'.$data['passport']->last_name.'.pdf');
+           }else{
                 return view('applicant.info')->with($data);
             }
-            
+
         } catch (Exception $e) {
             return redirect()->back()->with(['message' =>$e->getMessage(),'type' =>'error']);
+
+        }
+    }
+
+
+    public function download(Request $request){
+       try {
+            $applicants = $this->demandRepo->applicants([
+             'gender' => $request->gender ?? null,
+             'country' =>$request->country ?? null,
+             'position' => $request->position ?? null,
+             'experience' => $request->experience ?? null,
+             'age' =>$request->age ?? null,
+             'from_date' => $request->from_date ?? null,
+             'to_date' => $request->to_date ?? null,
+             'status' => 'Approved',
+            'search' => $request->search ?? null
+
+         ],$request->demand_id)->get();
+            $zip = new ZipArchive();
+            $zipFileName = public_path('applicants'.auth()->guard('admin')->user()->id.'.zip');
+            if ($zip->open($zipFileName, ZipArchive::CREATE) === TRUE) {
+                $zip->close();
+            }
+            
+       } catch (Exception $e) {
+            return redirect()->back()->with(['message' =>$e->getMessage(),'type'=>'error']);
+       }
+    
+    }
+
+    public function status(Request $request,$id){
+        try {
+            $this->repo->statusUpdate($request->status,$id);
+            return redirect()->route('admin.demand.applicant',['id' => $id])->with(['message' => $request->status.' Succssfully','type'=>'success']);
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' =>$e->getMessage(),'type'=>'error']);
             
         }
     }

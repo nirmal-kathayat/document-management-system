@@ -21,7 +21,9 @@
           <input type="hidden" name="experience">
           <input type="hidden" name="gender">
           <input type="hidden" name="demand_id" value="{{$demand->id}}">
-          <button title="Download Excel"><i class="fa fa-file-excel-o"></i></button>
+          <input type="hidden" name="search">
+
+          <button title="Download Excel" class="excel-btn"><i class="fa fa-file-excel-o"></i></button>
         </form>
         <button type="button" class="filter-btn"><i class="fa fa-filter"></i></button>
       </div>
@@ -105,9 +107,22 @@
       </thead>
     </table>
   </div>
-  <div class="flex-row flex-end move-btn-wrapper" style="margin-top:20px">
-    <button type="button" class="move-select-btn primary-btn">Move to Selected</button>
-  </div>
+  <!-- <div class="flex-row flex-end" style="margin-top:20px">
+    <form method="post" class="excel-export-form" action="{{route('admin.applicant.download')}}">
+          @csrf
+          <input type="hidden" name="from_date">
+          <input type="hidden" name="to_date">
+          <input type="hidden" name="age">
+          <input type="hidden" name="position">
+          <input type="hidden" name="country">
+          <input type="hidden" name="experience">
+          <input type="hidden" name="gender">
+          <input type="hidden" name="demand_id" value="{{$demand->id}}">
+          <input type="hidden" name="search">
+          
+          <button title="Download CV" class="primary-btn">Download All Approved CV</button>
+        </form>
+  </div> -->
 </div>
 </div>
 
@@ -223,6 +238,7 @@
   var timeout;
   $('.search-wrapper input').on('change',function(){
     const val = $(this).val()
+    $('.excel-export-form input[name=search]').val(val)
     dataTable.ajax.url("{{route('admin.demand.applicant',['id' => $demand->id]) }}?search=" + val).load();
   })
   $('.filter-btn').on('click',function(){
@@ -251,37 +267,7 @@
     $(`.excel-export-form input[name=isSelected]`).val(val)
   })
 
-  const checkbox = $('.applicant-selected-checkbox')
-  let selected = []
-  $(document).on('change','.applicant-selected-checkbox',function(){
-    const isChecked = $(this).prop('checked')
-    const val = parseInt($(this).val())
-    if(!!isChecked){
-      selected.push(val)
-    }else{
-      selected = selected?.filter(item => val!=item)
-    }
 
-    if(!!selected?.length){
-      $('.move-btn-wrapper').show()
-    }else{
-      $('.move-btn-wrapper').hide()
-    }
-    $('#applicant_ids').val(selected.toString())
 
-  })
-  $('.cancel-btn').on('click',function(){
-    $('.move-select-btn').removeClass('active')
-      $('.move-modal-wrapper').fadeOut()
-  })
-  $('.move-select-btn').on('click',function(){
-    if($(this).hasClass('active')){
-      $(this).removeClass('active')
-      $('.move-modal-wrapper').fadeOut()
-    }else{
-      $(this).addClass('active')
-      $('.move-modal-wrapper').fadeIn()
-    }
-  })
 </script>
 @endpush

@@ -583,7 +583,7 @@ ul.pagination li:hover a,ul.pagination li.active a{
   margin-left:auto;
 }
 
-.excel-export-form button{
+.excel-export-form .excel-btn{
   background:none;
   border:0px;
 } 

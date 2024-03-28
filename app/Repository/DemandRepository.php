@@ -18,9 +18,6 @@ class DemandRepository
     if(isset($params['country']) && !empty($params['country'])){
       $query = $query->where('demands.country_id',$params['country']);
     }
-    if(isset($params['position']) && !empty($params['position'])){
-      $query = $query->where('demands.job_position_id',$params['position']);
-    }
     if(isset($params['experience']) && !empty($params['experience'])){
       $query = $query->where('demands.experience_id', $params['experience']);
 
@@ -30,42 +27,34 @@ class DemandRepository
                          ->whereDate('demands.date', '<=', $params['to_date']);
     }
     return $query
-              ->leftJoin('job_positions','job_positions.id','demands.job_position_id')
               ->leftJoin('experiences','experiences.id','demands.experience_id')
               ->leftJoin('countries','countries.id','demands.country_id')
-              ->select('demands.*','job_positions.title as position_name','experiences.experience','countries.title as country_name')
+              ->select('demands.*','experiences.experience','countries.title as country_name')
               ->orderBy('demands.date','desc');
   }
 
   public function get($params=[]){
-    $query = $this->query
-                   ->leftJoin('job_positions','job_positions.id','demands.job_position_id');
+    $query = $this->query;
     if(isset($params['country_id'])){
       $query = $query->where('country_id',$params['country_id']);
     }
     if(isset($params['not_expired'])){
        $query = $query->where('date', '>', Carbon::now()->format('Y-m-d'));
-
     }
     return $query
-              ->select('demands.*','job_positions.title as position_name')
               ->orderBy('date','desc')->get();
   }
 
 
   public function store(array $data)
   {
-
     return $this->query->create($data);
   }
 
   public function find($id)
   {
       return $this->query
-                ->where('demands.id',$id)
-                ->leftJoin('job_positions','job_positions.id','demands.job_position_id')
-                ->select('demands.*','job_positions.title as position_name')
-                ->firstorFail($id);
+                ->findorFail($id);
   }
 
   public function update(array $data,int $id)
@@ -82,6 +71,9 @@ class DemandRepository
   public function applicants($params = [],$id){
     $query = DemandApplicant::query()
                 ->where('demand_applicants.demand_id',$id);
+    if(isset($params['status']) && !empty($params['status'])){
+      $query = $query->where('demand_applicants.status',$params['status']);
+    }
     if(isset($params['search']) && !empty($params['search'])){
       $query = $query->where('passports.first_name','like','%' . strtoupper($params['search']) . '%')
               ->orWhere('passports.last_name','like','%' . strtoupper($params['search']) . '%');

@@ -21,13 +21,8 @@
       </div>
 
       <div class="form-group group-row align-center">
-        <label for="">Position</label>
-        <select name="job_position_id" class="validation-control" data-validation="required">
-          <option value="">Select</option>
-          @foreach($positions as $position)
-          <option value="{{$position->id}}" {{isset($demand) && $demand->job_position_id == $position->id ? 'selected' : ''}}>{{$position->title}}</option>
-          @endforeach
-        </select>
+        <label for="">Title</label>
+        <input type="text" name="title" class="validation-control" data-validation="required" value="{{old('title',$demand->title ?? '')}}">
       </div>
 
       <div class="form-group group-row align-center">

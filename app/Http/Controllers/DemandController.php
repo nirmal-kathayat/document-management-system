@@ -41,10 +41,9 @@ class DemandController extends Controller
         ->make(true);
       }
       $countries = $this->countryRepo->get();
-      $positions = $this->positionRepo->get();
       $experiences = $this->experienceRepo->get();
 
-      return view('demand.index')->with(['experiences'=>$experiences,'countries' =>$countries,'positions' => $positions]);
+      return view('demand.index')->with(['experiences'=>$experiences,'countries' =>$countries]);
     } catch (\Exception $e) {
       return redirect()->back()->with(['message' => 'An error occurred while fetching  data.','type' => 'error']);
     }
@@ -54,8 +53,7 @@ class DemandController extends Controller
     try {
       $experiences = $this->experienceRepo->get();
       $countries = $this->countryRepo->get();
-      $positions = $this->positionRepo->get();
-      return view('demand.form')->with(['experiences'=>$experiences,'countries' =>$countries,'positions' => $positions]);
+      return view('demand.form')->with(['experiences'=>$experiences,'countries' =>$countries]);
     } catch (\Exception $e) {
       return redirect()->back()->with(['message' =>$e->getMessage(),'type'=>'error']);
     }
@@ -76,10 +74,8 @@ class DemandController extends Controller
     try{
       $experiences = $this->experienceRepo->get();
       $countries = $this->countryRepo->get();
-      $positions = $this->positionRepo->get();
-
       $demand = $this->repo->find($id);
-      return view('demand.form')->with(['demand'=>$demand,'experiences'=>$experiences,'countries' =>$countries,'positions' => $positions]);
+      return view('demand.form')->with(['demand'=>$demand,'experiences'=>$experiences,'countries' =>$countries]);
 
     }catch(\Exception $e)
     {
@@ -120,6 +116,7 @@ class DemandController extends Controller
         'experience' => $request->experience ?? null,
         'from_date' => $request->from_date ?? null,
         'to_date' => $request->to_date ?? null,
+        'search' => $request->search ?? null
       ])->get()->toArray()
      ), 'demands.xlsx');
     } catch (Exception $e) {

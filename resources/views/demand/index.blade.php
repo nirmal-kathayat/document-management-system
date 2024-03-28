@@ -17,7 +17,8 @@
            <input type="hidden" name="position">
            <input type="hidden" name="country">
            <input type="hidden" name="experience">
-          <button title="Download Excel"><i class="fa fa-file-excel-o"></i></button>
+           <input type="hidden" name="search">
+          <button title="Download Excel" class="excel-btn"><i class="fa fa-file-excel-o"></i></button>
         </form>
         <button type="button" class="filter-btn"><i class="fa fa-filter"></i></button>
       </div>
@@ -51,16 +52,6 @@
             <label>To Date</label>
             <input type="date" name="to_date">
           </div>
-          <div class="form-group group-row">
-            <label>Position</label>
-            <select name="position">
-              <option value="">Select</option>
-              @foreach($positions as $position)
-                <option value="{{$position->id}}">{{$position->title}}</option>
-              @endforeach
-            </select>
-          </div>
-
         </div>
         <div class="form-group group-column filter-submit-wrapper">
           <button class="primary-btn">Filter</button>
@@ -75,7 +66,7 @@
             <tr>
                 <th>S.No</th>
                 <th>Date</th>
-                <th>Position</th>
+                <th>Title</th>
                 <th>Country</th>
                 <th>Salary</th>
                 <th>Experience</th>
@@ -123,7 +114,7 @@
             searchable:false,
           },
           {
-            data:'position_name',
+            data:'title',
             name:'title',
             orderable:false,
             searchable:false,
@@ -174,6 +165,8 @@
      })
      $('.search-wrapper input').on('change',function(){
         const val = $(this).val()
+        $('.excel-export-form input[name=search]').val(val)
+
         dataTable.ajax.url("{{ route('admin.demand') }}?search=" + val).load();
       })
      $('.filter-btn').on('click',function(){

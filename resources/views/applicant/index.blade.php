@@ -19,7 +19,9 @@
 					<input type="hidden" name="country">
 					<input type="hidden" name="experience">
 					<input type="hidden" name="gender">
-					<button title="Download Excel"><i class="fa fa-file-excel-o"></i></button>
+           			<input type="hidden" name="search">
+
+					<button title="Download Excel" class="excel-btn"><i class="fa fa-file-excel-o"></i></button>
 				</form>
 				<button type="button" class="filter-btn"><i class="fa fa-filter"></i></button>
 			</div>
@@ -238,6 +240,8 @@ rel="stylesheet">
 	var timeout;
 	$('.search-wrapper input').on('change',function(){
 		const val = $(this).val()
+    	$('.excel-export-form input[name=search]').val(val)
+
 		dataTable.ajax.url("{{ route('admin.applicant') }}?search=" + val).load();
 	})
 	$('.filter-btn').on('click',function(){

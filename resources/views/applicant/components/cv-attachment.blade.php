@@ -21,6 +21,15 @@ $isDownload = isset($_GET['type']) && $_GET['type'] == 'download' ? true : false
 	</div>
 	@endif
 </div>
+<div style="page-break-before: always;display: block;">
+	@if(isset($applicant->attachments['full_body_img']) && !empty($applicant->attachments['full_body_img']))
+	<div>
+		<div style="padding:10px;text-align:center;">
+			<img src="{{$isDownload == true ? public_path($applicant->attachments['full_body_img']) : asset($applicant->attachments['full_body_img'])}}" style="width:{{$isDownload ? '400px' : '100%'}};height:400px;object-fit: contain;aspect-ratio: 3 / 5;">
+		</div>
+	</div>
+	@endif
+</div>
 
 
 @if(isset($applicant->attachments['others']) && !empty($applicant->attachments['others']))
